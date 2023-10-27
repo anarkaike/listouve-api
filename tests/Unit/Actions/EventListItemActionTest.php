@@ -5,14 +5,20 @@ namespace Tests\Unit\Actions;
 use Tests\TestCase;
 use App\{Actions\EventListItemAction,
     Contracts\Repositories\EventListItemRepositoryInterface,
+    Enums\EventListItem\EventListItemPaymentStatusEnum,
     Models\Event,
+    Models\EventList,
     Models\EventListItem,
-    Models\SaasClient,
-};
+    Models\SaasClient};
 
+/**
+ * Testes para EventListItemAction
+ */
 class EventListItemActionTest extends TestCase
 {
     private ?SaasClient $saasClient = null;
+    private ?Event $event = null;
+    private ?EventList $eventList = null;
 
     public function __construct(string $name)
     {
@@ -24,11 +30,11 @@ class EventListItemActionTest extends TestCase
         parent::setUp();
         if (is_null($this->saasClient)) $this->saasClient = SaasClient::factory()->create();
         if (is_null($this->event)) $this->event = Event::factory()->create(attributes: [
-            'saas_client_id' => $this->event->id,
+            'saas_client_id' => $this->saasClient->id,
         ]);
-        if (is_null($this->eventList)) $this->eventList = Event::factory()->create(attributes: [
-            'saas_client_id' => $this->event->id,
-            'event_list_id' => $this->eventList->id,
+        if (is_null($this->eventList)) $this->eventList = EventList::factory()->create(attributes: [
+            'saas_client_id' => $this->saasClient->id,
+            'event_id' => $this->event->id,
         ]);
     }
 
@@ -63,8 +69,12 @@ class EventListItemActionTest extends TestCase
         // Testando se o resultado contém o eventListItemo que criamos
         $this->assertEquals(expected: $eventListItem->id, actual: $eventListItemFound->id);
         $this->assertEquals(expected: $eventListItem->name, actual: $eventListItemFound->name);
-        $this->assertEquals(expected: $eventListItem->description, actual: $eventListItemFound->description);
-        $this->assertEquals(expected: $eventListItem->url_photo, actual: $eventListItemFound->url_photo);
+        $this->assertEquals(expected: $eventListItem->email, actual: $eventListItemFound->email);
+        $this->assertEquals(expected: $eventListItem->phone, actual: $eventListItemFound->phone);
+        $this->assertEquals(expected: $eventListItem->event_id, actual: $eventListItemFound->event_id);
+        $this->assertEquals(expected: $eventListItem->event_list_id, actual: $eventListItemFound->event_list_id);
+        $this->assertEquals(expected: $eventListItem->payment_status, actual: $eventListItemFound->payment_status);
+        $this->assertEquals(expected: $eventListItem->saas_client_id, actual: $eventListItemFound->saas_client_id);
     }
 
     public function teste_create()
@@ -72,11 +82,13 @@ class EventListItemActionTest extends TestCase
         // Dados do eventListItemo que você vamos criar
         $eventListItemData = [
             'name' => fake()->name(),
-            'description' => fake()->text(maxNbChars: 500),
-            'url_photo' => fake()->imageUrl(),
-            'saas_client_id' => $this->saasClient->id,
+            'email' => fake()->email(),
+            'phone' => fake()->phoneNumber(),
             'event_id' => $this->event->id,
             'event_list_id' => $this->eventList->id,
+            'description' => fake()->text(maxNbChars: 500),
+            'payment_status' => EventListItemPaymentStatusEnum::PENDING->value,
+            'saas_client_id' => $this->saasClient->id,
         ];
 
         // Criando uma instância de EventListItemAction com um repositório real (não um mock)
@@ -88,8 +100,12 @@ class EventListItemActionTest extends TestCase
 
         // Testando se os dados do eventListItemo criado correspondem aos dados fornecidos
         $this->assertEquals(expected: $eventListItemData['name'], actual: $createdEventListItem->name);
-        $this->assertEquals(expected: $eventListItemData['description'], actual: $createdEventListItem->description);
-        $this->assertEquals(expected: $eventListItemData['url_photo'], actual: $createdEventListItem->url_photo);
+        $this->assertEquals(expected: $eventListItemData['email'], actual: $createdEventListItem->email);
+        $this->assertEquals(expected: $eventListItemData['phone'], actual: $createdEventListItem->phone);
+        $this->assertEquals(expected: $eventListItemData['event_id'], actual: $createdEventListItem->event_id);
+        $this->assertEquals(expected: $eventListItemData['event_list_id'], actual: $createdEventListItem->event_list_id);
+        $this->assertEquals(expected: $eventListItemData['payment_status'], actual: $createdEventListItem->payment_status);
+        $this->assertEquals(expected: $eventListItemData['saas_client_id'], actual: $createdEventListItem->saas_client_id);
     }
 
     public function teste_update()
@@ -101,11 +117,12 @@ class EventListItemActionTest extends TestCase
         $updatedData = [
             'name' => fake()->name(),
             'email' => fake()->email(),
-            'description' => fake()->text(maxNbChars: 500),
-            'url_photo' => fake()->imageUrl(),
-            'saas_client_id' => $this->saasClient->id,
+            'phone' => fake()->phoneNumber(),
             'event_id' => $this->event->id,
             'event_list_id' => $this->eventList->id,
+            'description' => fake()->text(maxNbChars: 500),
+            'payment_status' => EventListItemPaymentStatusEnum::PENDING->value,
+            'saas_client_id' => $this->saasClient->id,
         ];
 
         // Criando uma instância de EventListItemAction com um repositório real (não um mock)
@@ -116,7 +133,12 @@ class EventListItemActionTest extends TestCase
 
         // Testando se os dados do eventListItemo atualizado correspondem aos dados fornecidos
         $this->assertEquals(expected: $updatedData['name'], actual: $updatedEventListItem->name);
-        $this->assertEquals(expected: $updatedData['description'], actual: $updatedEventListItem->description);
+        $this->assertEquals(expected: $updatedData['email'], actual: $updatedEventListItem->email);
+        $this->assertEquals(expected: $updatedData['phone'], actual: $updatedEventListItem->phone);
+        $this->assertEquals(expected: $updatedData['event_id'], actual: $updatedEventListItem->event_id);
+        $this->assertEquals(expected: $updatedData['event_list_id'], actual: $updatedEventListItem->event_list_id);
+        $this->assertEquals(expected: $updatedData['payment_status'], actual: $updatedEventListItem->payment_status);
+        $this->assertEquals(expected: $updatedData['saas_client_id'], actual: $updatedEventListItem->saas_client_id);
     }
 
     public function test_delete()

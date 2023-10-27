@@ -28,7 +28,7 @@ class EventListItemFactory extends Factory
             'phone' => '00000000000',
             'event_id' => $eventList->event_id,
             'event_list_id' => $eventList->id,
-            'payment_status' => EventListItemPaymentStatusEnum::PENDING,
+            'payment_status' => EventListItemPaymentStatusEnum::PENDING->value,
             'created_by' => Auth::id(),
         ];
     }

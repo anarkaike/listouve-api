@@ -11,6 +11,9 @@ use App\{
     Models\SaasClient,
 };
 
+/**
+ * Testes para o EventListAction
+ */
 class EventListActionTest extends TestCase
 {
     private ?SaasClient $saasClient = null;
@@ -25,7 +28,7 @@ class EventListActionTest extends TestCase
     {
         parent::setUp();
         if (is_null($this->saasClient)) $this->saasClient = SaasClient::factory()->create();
-        if (is_null($this->event)) $this->event = Event::factory()->create(attributes: ['saas_client_id' => $this->event->id]);
+        if (is_null($this->event)) $this->event = Event::factory()->create(attributes: ['saas_client_id' => $this->saasClient->id]);
     }
 
     public function test_list_all()
@@ -68,10 +71,10 @@ class EventListActionTest extends TestCase
     {
         // Dados do eventListo que você vamos criar
         $eventListData = [
-            'event_id' => fake()->text(maxNbChars: 500),
+            'event_id' => $this->event->id,
             'name' => fake()->imageUrl(),
-            'description' => $this->saasClient->id,
-            'url_photo' => $this->saasClient->id,
+            'description' => fake()->text(500),
+            'url_photo' => fake()->imageUrl(),
             'saas_client_id' => $this->saasClient->id,
         ];
 
@@ -83,7 +86,6 @@ class EventListActionTest extends TestCase
         $createdEventList = $eventListAction->create(data: $eventListData);
 
         // Testando se os dados do eventListo criado correspondem aos dados fornecidos
-        $this->assertEquals(expected: $eventListData['id'], actual: $createdEventList->id);
         $this->assertEquals(expected: $eventListData['event_id'], actual: $createdEventList->event_id);
         $this->assertEquals(expected: $eventListData['name'], actual: $createdEventList->name);
         $this->assertEquals(expected: $eventListData['description'], actual: $createdEventList->description);
@@ -98,11 +100,10 @@ class EventListActionTest extends TestCase
 
         // Dados novos para atualizar o registro na base de dados
         $updatedData = [
-            'id' => fake()->name(),
-            'event_id' => fake()->email(),
-            'name' => fake()->text(maxNbChars: 500),
-            'description' => fake()->imageUrl(),
-            'url_photo' => $this->saasClient->id,
+            'event_id' => $this->event->id,
+            'name' => fake()->imageUrl(),
+            'description' => fake()->text(500),
+            'url_photo' => fake()->imageUrl(),
             'saas_client_id' => $this->saasClient->id,
         ];
 
@@ -113,7 +114,6 @@ class EventListActionTest extends TestCase
         $updatedEventList = $eventListAction->update(id: $eventList->id, data: $updatedData);
 
         // Testando se os dados do eventListo atualizado correspondem aos dados fornecidos
-        $this->assertEquals(expected: $updatedData['id'], actual: $updatedEventList->id);
         $this->assertEquals(expected: $updatedData['event_id'], actual: $updatedEventList->event_id);
         $this->assertEquals(expected: $updatedData['name'], actual: $updatedEventList->name);
         $this->assertEquals(expected: $updatedData['description'], actual: $updatedEventList->description);

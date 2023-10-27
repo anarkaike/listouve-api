@@ -22,7 +22,6 @@ class EventListFactory extends Factory
         return [
             'event_id' => EventFactory::new()->create()->id,
             'name' => fake()->name(),
-            'url_phone' => fake()->imageUrl(),
             'description' => fake()->text(maxNbChars: 500),
             'url_photo' => fake()->imageUrl(),
             'created_by' => Auth::id(),

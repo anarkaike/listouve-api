@@ -27,7 +27,7 @@ class SaasClientFactory extends Factory
             'phone_personal' => '00000000000',
             'phone_pofessional' => '00000000000',
             'observation' => fake()->text(),
-            'status' => SaasClientEnum::ACTIVE,
+            'status' => SaasClientEnum::ACTIVE->value,
             'created_by' => Auth::id(),
         ];
     }

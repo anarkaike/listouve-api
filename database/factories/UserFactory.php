@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'phone_personal' => '00000000000',
             'phone_professional' => '00000000000',
             'url_photo' => fake()->imageUrl(),
-            'status' => UserStatusEnum::ACTIVE,
+            'status' => UserStatusEnum::ACTIVE->value,
             'created_by' => 0,
         ];
     }

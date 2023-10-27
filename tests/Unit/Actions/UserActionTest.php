@@ -5,11 +5,18 @@ namespace Tests\Unit\Actions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
-use App\{Actions\UserAction, Enums\User\UserStatusEnum, Models\User, Repositories\UserRepository};
+use App\{
+    Actions\UserAction,
+    Enums\User\UserStatusEnum,
+    Models\User,
+    Repositories\UserRepository,
+};
 
+/**
+ * Testes para UserAction
+ */
 class UserActionTest extends TestCase
 {
-
     public function __construct(string $name)
     {
         parent::__construct(name: $name);
@@ -65,7 +72,7 @@ class UserActionTest extends TestCase
 //            'phone_personal' => fake()->phoneNumber(),
 //            'phone_professional' => fake()->phoneNumber(),
             'url_photo' => fake()->imageUrl(),
-            'status' => UserStatusEnum::ACTIVE,
+            'status' => UserStatusEnum::ACTIVE->value,
         ];
 
         // Criando uma instância de UserAction com um repositório real (não um mock)
@@ -110,7 +117,7 @@ class UserActionTest extends TestCase
 //            'phone_personal' => fake()->phoneNumber(),
 //            'phone_professional' => fake()->phoneNumber(),
             'url_photo' => fake()->imageUrl(),
-            'status' => UserStatusEnum::ACTIVE,
+            'status' => UserStatusEnum::ACTIVE->value,
         ];
 
         // Criando uma instância de UserAction com um repositório real (não um mock)

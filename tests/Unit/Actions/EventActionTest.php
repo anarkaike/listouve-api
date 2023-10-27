@@ -8,9 +8,11 @@ use App\{
     Contracts\Repositories\EventRepositoryInterface,
     Models\Event,
     Models\SaasClient,
-    Repositories\EventRepository,
 };
 
+/**
+ * Testes para o EventAction
+ */
 class EventActionTest extends TestCase
 {
     private ?SaasClient $saasClient = null;
@@ -94,14 +96,14 @@ class EventActionTest extends TestCase
         // Dados novos para atualizar o registro na base de dados
         $updatedData = [
             'name' => fake()->name(),
-            'description' => fake()->email(),
-            'url_photo' => fake()->text(maxNbChars: 500),
+            'description' => fake()->text(maxNbChars: 500),
+            'url_photo' => fake()->imageUrl(),
             'saas_client_id' => $this->saasClient->id,
         ];
 
         // Criando uma instância de EventAction com um repositório real (não um mock)
         $eventRepository = $this->app->make(abstract: EventRepositoryInterface::class);
-        $eventAction = new EventAction($eventRepository);
+        $eventAction = new EventAction(eventRepository: $eventRepository);
 
         $updatedEvent = $eventAction->update(id: $event->id, data: $updatedData);
 
