@@ -5,9 +5,10 @@ namespace Database\Factories;
 use App\Enums\SaasClient\SaasClientEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 /**
+ * Classe para gerar cliente do saas na saas_client com dados fake
+ *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventList>
  */
 class SaasClientFactory extends Factory

@@ -4,10 +4,11 @@ namespace Database\Factories;
 
 use App\Enums\User\UserStatusEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
+ * Classe para gerar um usuário com dados fake
+ *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
 class UserFactory extends Factory
@@ -25,10 +26,10 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(length:  10),
-
-            'status' => UserStatusEnum::ACTIVE,
             'phone_personal' => '00000000000',
             'phone_professional' => '00000000000',
+            'url_photo' => fake()->imageUrl(),
+            'status' => UserStatusEnum::ACTIVE,
             'created_by' => 0,
         ];
     }

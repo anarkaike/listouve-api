@@ -6,6 +6,9 @@ use Illuminate\{
     Support\Facades\Schema,
 };
 
+/**
+ * Migration para gerar a entidade saas_clients
+ */
 return new class extends Migration
 {
     /**
@@ -22,7 +25,8 @@ return new class extends Migration
             $table->string(column: 'phone_personal', length: 20);
             $table->string(column: 'phone_pofessional', length: 20);
             $table->longText(column: 'observation',);
-            $table->enum(column: 'status', allowed: ['active_testing', 'active', 'blocked', 'blocked_by_payment', 'pending_payment',])->default(value: 'active');
+            $table->enum(column: 'status', allowed: ['active', 'active_testing', 'active_pending_payment', 'blocked', 'blocked_pending_payment', 'archived',])->default(value: 'active');
+            $table->json(column: 'general_settings')->nullable();
 
             // Campos de Auditoria - "criado_em" e "criado_por"
             $table->timestamp(column: 'created_at')->useCurrent()->nullable();
@@ -36,6 +40,7 @@ return new class extends Migration
                 ->foreign('updated_by')
                 ->references('id') // Nome da coluna da tabela referenciada
                 ->on('users'); // Nome da tabela referenciada
+            $table->json(column: 'updated_values')->nullable(); // Guarda histórico de modificações. em formado json Users[]
             // Campos de Auditoria - "deletado_em" e "deletado_por"
             $table->softDeletes();
             $table->unsignedBigInteger(column: 'deleted_by')->nullable()->default(value: null)

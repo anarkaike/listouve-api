@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\Events\EventsListsSeeder;
-use Database\Seeders\Events\EventsSeeder;
-use Database\Seeders\EventsListsItems\EventsListsItemsSeeder;
 use Illuminate\Database\Seeder;
-use Database\Seeders\Users\UsersSeeder;
+use Database\Seeders\{
+    Events\EventsListsSeeder,
+    Events\EventsSeeder,
+    EventsListsItems\EventsListsItemsSeeder,
+    Users\UsersSeeder,
+};
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,5 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(class: UsersSeeder::class);
         $this->call(class: EventsSeeder::class);
+        $this->call(class: EventsListsSeeder::class);
+        $this->call(class: EventsListsItemsSeeder::class);
     }
 }

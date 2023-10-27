@@ -2,11 +2,16 @@
 
 namespace App\Http\Requests\EventListItem;
 
+use Illuminate\{
+    Foundation\Http\FormRequest,
+    Validation\Rule,
+    Validation\Rules\Enum,
+};
 use App\Enums\EventListItem\EventListItemPaymentStatusEnum;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 
+/**
+ * Classe com as validações do end point de atualização de items/nomes na lista de evento
+ */
 class EventListItemUpdateRequest extends FormRequest
 {
     /**

@@ -2,11 +2,13 @@
 
 namespace App\Http\Responses;
 
-use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\Response;
+use Illuminate\{
+    Contracts\Support\Responsable,
+    Http\Response,
+};
 
 /**
- * Junio: Classe para padronizar oo retornos da API exitosos
+ * Classe para padronizar oo retornos da API exitosos
  */
 class ApiSuccessResponse implements Responsable
 {

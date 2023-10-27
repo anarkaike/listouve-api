@@ -2,8 +2,12 @@
 
 namespace App\Contracts\Controllers;
 
-use App\Http\Requests\{Event\EventCreateRequest, Event\EventDeleteRequest, Event\EventUpdateRequest,};
 use Illuminate\Http\Request;
+use App\Http\Requests\{
+    Event\EventCreateRequest,
+    Event\EventDeleteRequest,
+    Event\EventUpdateRequest,
+};
 
 /**
  * Interface para padrinizar os metodos CRUD no controller

@@ -6,6 +6,9 @@ use Illuminate\{
     Support\Facades\Schema,
 };
 
+/**
+ * Migration para gerar a entidade users
+ */
 return new class extends Migration
 {
     /**
@@ -25,6 +28,7 @@ return new class extends Migration
             $table->string(column: 'phone_professional', length: 30)->nullable();
             $table->string(column: 'url_photo', length: 255)->nullable();
             $table->enum(column: 'status', allowed: ['active', 'blocked'])->default(value: 'active');
+            $table->json(column: 'general_settings')->nullable();
 
             // Campos de Auditoria - "criado_em" e "criado_por"
             $table->timestamp(column: 'created_at')->useCurrent()->nullable()->default(value: null);
@@ -38,6 +42,7 @@ return new class extends Migration
                 ->foreign('updated_by')
                 ->references('id') // Nome da coluna da tabela referenciada
                 ->on('users'); // Nome da tabela referenciada;
+            $table->json(column: 'updated_values')->nullable(); // Guarda histórico de modificações. em formado json Users[]
             // Campos de Auditoria - "deletado_em" e "deletado_por"
             $table->softDeletes()->default(value: null);
             $table->unsignedBigInteger(column: 'deleted_by')->nullable()->default(value: null)

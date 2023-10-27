@@ -3,9 +3,11 @@
 namespace App\Http\Requests\User;
 
 use App\Enums\User\UserStatusEnum;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\{
+    Foundation\Http\FormRequest,
+    Validation\Rule,
+    Validation\Rules\Enum,
+};
 
 class UserUpdateRequest extends FormRequest
 {

@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
     Model,
+    SoftDeletes,
 };
 
+/**
+ * Classe model do Eloquent que representa a entidade event_list
+ */
 class EventList extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'events_lists';
 
@@ -19,13 +23,14 @@ class EventList extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'event_id',
         'name',
         'description',
         'url_photo',
-        'event_id',
         'saas_client_id',
         'created_by',
         'updated_by',
+        'updated_values',
         'deleted_at',
         'deleted_by',
     ];
@@ -51,8 +56,13 @@ class EventList extends Model
         return $this->hasMany(related: EventListItem::class);
     }
 
-    public function saasClients()
+    public function event()
     {
-        return $this->belongsToMany(related: SaasClient::class, table: 'saas_client_event_list_rel');
+        return $this->belongsToMany(related: EventListItem::class);
+    }
+
+    public function saasClient()
+    {
+        return $this->belongsTo(related: SaasClient::class);
     }
 }

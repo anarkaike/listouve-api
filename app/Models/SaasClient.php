@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
     Model,
+    SoftDeletes,
 };
 
+/**
+ * Classe model do Eloquent que representa a entidade saas_client
+ */
 class SaasClient extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'saas_clients';
 
@@ -50,16 +54,21 @@ class SaasClient extends Model
 
     public function events()
     {
-        return $this->belongsToMany(related: Event::class, table: 'saas_client_event_rel');
+        return $this->belongsToMany(related: Event::class);
     }
 
     public function eventsLists()
     {
-        return $this->belongsToMany(related: EventList::class, table: 'saas_client_event_list_rel');
+        return $this->belongsToMany(related: EventList::class);
     }
 
     public function eventsListsItems()
     {
-        return $this->belongsToMany(related: EventListItem::class, table: 'saas_client_event_list_item_rel');
+        return $this->belongsToMany(related: EventListItem::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(related: User::class);
     }
 }

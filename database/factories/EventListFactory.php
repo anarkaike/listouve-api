@@ -4,9 +4,10 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 /**
+ * Classe para gerar listas de eventos com dados fake
+ *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventList>
  */
 class EventListFactory extends Factory
@@ -23,6 +24,7 @@ class EventListFactory extends Factory
             'name' => fake()->name(),
             'url_phone' => fake()->imageUrl(),
             'description' => fake()->text(maxNbChars: 500),
+            'url_photo' => fake()->imageUrl(),
             'created_by' => Auth::id(),
         ];
     }

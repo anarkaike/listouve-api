@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Contracts\Controllers\CrudEventListItemControllerInterface;
-use App\Exceptions\EventListItem\EventListItemDeleteException;
-use App\Exceptions\EventListItem\EventListItemNotFountException;
 use Illuminate\Http\Request;
+use App\Contracts\Controllers\CrudEventListItemControllerInterface;
 use App\Actions\EventListItemAction;
+use App\Exceptions\{
+    EventListItem\EventListItemDeleteException,
+    EventListItem\EventListItemNotFountException,
+};
 use App\Http\{Controllers\Controller,
     Requests\EventListItem\EventListItemCreateRequest,
     Requests\EventListItem\EventListItemDeleteRequest,

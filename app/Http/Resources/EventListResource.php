@@ -2,10 +2,15 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\{
+    Http\Request,
+    Http\Resources\Json\JsonResource,
+};
 use App\Models\EventList;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Classe para padronizar o retorno de dados nos end points da entidade EventList
+ */
 class EventListResource extends JsonResource
 {
     protected $eventList;

@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Exceptions\Event\EventNotFountException;
 use Illuminate\Http\Request;
 use App\Actions\EventAction;
-use App\Exceptions\Event\EventDeleteException;
 use App\Contracts\Controllers\CrudEventControllerInterface;
-use App\Http\{Controllers\Controller,
+use App\Http\{
+    Controllers\Controller,
     Requests\Event\EventCreateRequest,
     Requests\Event\EventDeleteRequest,
     Requests\Event\EventUpdateRequest,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse};
+    Responses\ApiSuccessResponse
+};
+use App\Exceptions\{
+    Event\EventNotFountException,
+    Event\EventDeleteException,
+};
 
 /**
  * Controllers para os end points relacionado a entidade usuário

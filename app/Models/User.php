@@ -2,14 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\{
+    Database\Eloquent\Factories\HasFactory,
+    Database\Eloquent\SoftDeletes,
+    Foundation\Auth\User as Authenticatable,
+    Notifications\Notifiable,
+};
 
+/**
+ * Classe model do Eloquent que representa a entidade saas
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $table = 'users';
 
@@ -51,4 +57,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function saasClient()
+    {
+        return $this->hasMany(related: SaasClient::class);
+    }
 }

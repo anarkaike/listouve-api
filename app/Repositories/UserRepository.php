@@ -85,11 +85,15 @@ class UserRepository implements UserRepositoryInterface
      * Deleta um registro
      *
      * @param $id
+     * @param null $deletedBy
      * @return bool
      */
-    public function delete($id): bool
+    public function delete($id, $deletedBy = null): bool
     {
         $user = $this->user->find($id);
+
+        $user->deleted_by = $deletedBy;
+        $user->update();
 
         if ($user) {
             $user->delete();

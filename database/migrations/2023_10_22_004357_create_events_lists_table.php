@@ -6,6 +6,9 @@ use Illuminate\{
     Support\Facades\Schema,
 };
 
+/**
+ * Migration para gerar a entidade listas de eventos
+ */
 return new class extends Migration
 {
     /**
@@ -40,6 +43,7 @@ return new class extends Migration
                 ->foreign('updated_by')
                 ->references('id') // Nome da coluna da tabela referenciada
                 ->on('users'); // Nome da tabela referenciada
+            $table->json(column: 'updated_values')->nullable(); // Guarda histórico de modificações. em formado json Users[]
             // Campos de Auditoria - "deletado_em" e "deletado_por"
             $table->softDeletes();
             $table->unsignedBigInteger(column: 'deleted_by')->nullable()->default(value: null)

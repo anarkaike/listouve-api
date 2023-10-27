@@ -156,9 +156,9 @@ class UsersController extends Controller
     public function delete(UserDeleteRequest $request)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            if(!$this->userAction->delete(id: $request->route('id'))) {
+            $userId = $request->route(param: 'id');
+
+            if(!$this->userAction->delete(id: $userId)) {
                 throw new UserDeleteException();
             }
 

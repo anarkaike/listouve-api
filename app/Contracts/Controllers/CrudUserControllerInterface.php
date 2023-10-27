@@ -2,8 +2,12 @@
 
 namespace App\Contracts\Controllers;
 
-use App\Http\Requests\{User\UserCreateRequest, User\UserDeleteRequest, User\UserUpdateRequest,};
 use Illuminate\Http\Request;
+use App\Http\Requests\{
+    User\UserCreateRequest,
+    User\UserDeleteRequest,
+    User\UserUpdateRequest,
+};
 
 /**
  * Interface para padrinizar os metodos CRUD no controller
@@ -29,24 +33,24 @@ interface CrudUserControllerInterface extends CrudControllerInterface
     /**
      * Cria um novo registro
      *
-     * @param Request $request
+     * @param UserCreateRequest $request
      * @return mixed
      */
-    public function create($request);
+    public function create(UserCreateRequest $request);
 
     /**
      * Atualiza um registro
      *
-     * @param Request $request
+     * @param UserUpdateRequest $request
      * @return mixed
      */
-    public function update($request);
+    public function update(UserUpdateRequest $request);
 
     /**
      * Deleta um registro
      *
-     * @param Request $request
+     * @param UserDeleteRequest $request
      * @return mixed
      */
-    public function delete($request);
+    public function delete(UserDeleteRequest $request);
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\SaasClient;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class SaasClientDeleteRequest extends FormRequest
 {

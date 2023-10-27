@@ -2,12 +2,13 @@
 
 namespace App\Http\Responses;
 
-use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\{
+    Contracts\Support\Responsable,
+    Http\Request,
+};
 
 /**
- * Junio: Classe para padronizar oo retornos da API contendo erros
+ * Classe para padronizar oo retornos da API contendo erros
  */
 class ApiErrorResponse implements Responsable
 {

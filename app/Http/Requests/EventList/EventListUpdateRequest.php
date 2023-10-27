@@ -2,9 +2,14 @@
 
 namespace App\Http\Requests\EventList;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\{
+    Foundation\Http\FormRequest,
+    Validation\Rule,
+};
 
+/**
+ * Classe com as validações do end point de atualização de listas de eventos
+ */
 class EventListUpdateRequest extends FormRequest
 {
     /**

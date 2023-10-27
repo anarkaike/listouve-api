@@ -4,6 +4,9 @@ namespace App\Http\Requests\Event;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Classe com as validações do end point de exclusão de eventos
+ */
 class EventDeleteRequest extends FormRequest
 {
     /**

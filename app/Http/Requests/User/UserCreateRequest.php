@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\User;
 
+use Illuminate\{
+    Foundation\Http\FormRequest,
+    Validation\Rule,
+    Validation\Rules\Enum,
+};
 use App\Enums\User\UserStatusEnum;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 
 class UserCreateRequest extends FormRequest
 {

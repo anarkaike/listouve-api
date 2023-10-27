@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\SaasClient;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\SaasClient\SaasClientEnum;
-use App\Rules\EnumRule;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\{
+    Foundation\Http\FormRequest,
+    Validation\Rules\Enum,
+};
 
 class SaasClientCreateRequest extends FormRequest
 {

@@ -81,9 +81,10 @@ class EventRepository implements EventRepositoryInterface
      * Deleta um registro
      *
      * @param $id
+     * @param null $deletedBy
      * @return bool
      */
-    public function delete($id): bool
+    public function delete($id, $deletedBy = null): bool
     {
         $event = $this->event->find($id);
 

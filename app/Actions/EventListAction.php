@@ -6,6 +6,9 @@ use App\Contracts\Actions\EventListActionInterface;
 use App\Contracts\Repositories\EventListRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Classe Action para camada de negócio para entidade Listas de Eventos (events|Event)
+ */
 class EventListAction implements EventListActionInterface {
 
     public function __construct(
@@ -39,7 +42,6 @@ class EventListAction implements EventListActionInterface {
 
     public function delete(int $id): bool
     {
-        $data['deleted_by'] = Auth::id();
-        return $this->eventListRepository->delete($id);
+        return $this->eventListRepository->delete(id: $id, deletedBy: Auth::id());
     }
 }

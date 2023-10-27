@@ -3,8 +3,10 @@
 namespace App\Http\Requests\EventList;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
+/**
+ * Classe com as validações do end point de exclusão de listas de eventos
+ */
 class EventListDeleteRequest extends FormRequest
 {
     /**

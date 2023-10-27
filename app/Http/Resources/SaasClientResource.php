@@ -2,10 +2,15 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\{
+    Request,
+    Resources\Json\JsonResource,
+};
 use App\Models\saasClient;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Classe para padronizar o retorno de dados nos end points da entidade SaasClient
+ */
 class SaasClientResource extends JsonResource
 {
     protected $saasClients;

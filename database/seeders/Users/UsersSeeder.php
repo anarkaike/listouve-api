@@ -5,6 +5,9 @@ namespace Database\Seeders\Users;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 
+/**
+ * Seeder para gerar usuários com dados aleatorios
+ */
 class UsersSeeder extends Seeder
 {
     /**

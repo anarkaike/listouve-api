@@ -2,12 +2,12 @@
 
 namespace App\Contracts\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\{
     SaasClient\SaasClientCreateRequest,
     SaasClient\SaasClientDeleteRequest,
     SaasClient\SaasClientUpdateRequest,
 };
-use Illuminate\Http\Request;
 
 /**
  * Interface para padrinizar os metodos CRUD no controller

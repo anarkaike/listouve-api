@@ -5,6 +5,9 @@ namespace Database\Seeders\Events;
 use Illuminate\Database\Seeder;
 use App\Models\EventList;
 
+/**
+ * Seeder para gerar listas de eventos com dados aleatorios
+ */
 class EventsListsSeeder extends Seeder
 {
     /**

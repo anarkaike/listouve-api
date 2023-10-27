@@ -2,17 +2,18 @@
 
 namespace Tests\Unit\Actions;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
-use App\{Actions\EventAction,
+use App\{
+    Actions\EventAction,
     Contracts\Repositories\EventRepositoryInterface,
     Models\Event,
     Models\SaasClient,
-    Repositories\EventRepository};
+    Repositories\EventRepository,
+};
 
 class EventActionTest extends TestCase
 {
-    private $saasClient = null;
+    private ?SaasClient $saasClient = null;
 
     public function __construct(string $name)
     {
@@ -22,7 +23,6 @@ class EventActionTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->app->bind(abstract: EventRepositoryInterface::class, concrete: EventRepository::class);
         if (is_null($this->saasClient)) $this->saasClient = SaasClient::factory()->create();
     }
 
@@ -59,11 +59,7 @@ class EventActionTest extends TestCase
         $this->assertEquals(expected: $event->name, actual: $eventFound->name);
         $this->assertEquals(expected: $event->description, actual: $eventFound->description);
         $this->assertEquals(expected: $event->url_photo, actual: $eventFound->url_photo);
-
-        // Tentando encontrar um evento com um ID inexistente
-        // e testando se lança ModelNotFoundException
-//        $this->expectException(exception: ModelNotFoundException::class);
-//        $eventAction->findById(id: 9999);
+        $this->assertEquals(expected: $event->saas_client_id, actual: $eventFound->saas_client_id);
     }
 
     public function teste_create()
@@ -83,32 +79,23 @@ class EventActionTest extends TestCase
         // Chamando o método create
         $createdEvent = $eventAction->create(data: $eventData);
 
-        // Testando se o evento foi criado corretamente no base de dados
-//        $this->assertDatabaseHas(table: 'events',
-//            data: [
-//                'name' => $eventData['name'],
-//                'description' => $eventData['description'],
-//                'url_photo' => $eventData['url_photo'],
-//            ]
-//        );
-
         // Testando se os dados do evento criado correspondem aos dados fornecidos
         $this->assertEquals(expected: $eventData['name'], actual: $createdEvent->name);
         $this->assertEquals(expected: $eventData['description'], actual: $createdEvent->description);
         $this->assertEquals(expected: $eventData['url_photo'], actual: $createdEvent->url_photo);
+        $this->assertEquals(expected: $eventData['saas_client_id'], actual: $createdEvent->saas_client_id);
     }
 
     public function teste_update()
     {
         // Criando um evento para usar nos testes
-        $event = Event::factory()->create(attributes: ['saas_client_id' => 0]);
+        $event = Event::factory()->create(attributes: ['saas_client_id' => $this->saasClient->id]);
 
         // Dados novos para atualizar o registro na base de dados
         $updatedData = [
             'name' => fake()->name(),
-            'email' => fake()->email(),
-            'description' => fake()->text(maxNbChars: 500),
-            'url_photo' => fake()->imageUrl(),
+            'description' => fake()->email(),
+            'url_photo' => fake()->text(maxNbChars: 500),
             'saas_client_id' => $this->saasClient->id,
         ];
 
@@ -118,17 +105,11 @@ class EventActionTest extends TestCase
 
         $updatedEvent = $eventAction->update(id: $event->id, data: $updatedData);
 
-        // testando se os dados do evento foram atualizados corretamente na base de dados
-//        $this->assertDatabaseHas(table: 'events', data: [
-//            'id' => $event->id,
-//            'name' => $updatedData['name'],
-//            'description' => $updatedData['description'],
-//            'url_photo' => $updatedData['url_photo'],
-//        ]);
-
         // Testando se os dados do evento atualizado correspondem aos dados fornecidos
         $this->assertEquals(expected: $updatedData['name'], actual: $updatedEvent->name);
         $this->assertEquals(expected: $updatedData['description'], actual: $updatedEvent->description);
+        $this->assertEquals(expected: $updatedData['url_photo'], actual: $updatedEvent->url_photo);
+        $this->assertEquals(expected: $updatedData['saas_client_id'], actual: $updatedEvent->saas_client_id);
     }
 
     public function test_delete()
@@ -145,10 +126,5 @@ class EventActionTest extends TestCase
 
         // testando se o método delete retornou true, indicando que a exclusão foi bem-sucedida
         $this->assertTrue(condition: $deleted);
-
-        // Tentando encontrar o evento excluído
-        // e testando se lança ModelNotFoundException
-//        $this->expectException(exception: ModelNotFoundException::class);
-//        Event::findOrFail($event->id); // Deve lançar uma exceção
     }
 }

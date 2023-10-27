@@ -5,9 +5,10 @@ namespace Database\Factories;
 use App\Enums\EventListItem\EventListItemPaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 /**
+ * Classe para gerar items/nomes na lista de evento com dados fake
+ *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventListItem>
  */
 class EventListItemFactory extends Factory
@@ -22,11 +23,11 @@ class EventListItemFactory extends Factory
         $eventList = EventListFactory::new()->create();
 
         return [
-            'event_id' => $eventList->event_id,
-            'event_list_id' => $eventList->id,
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'phone' => '00000000000',
+            'event_id' => $eventList->event_id,
+            'event_list_id' => $eventList->id,
             'payment_status' => EventListItemPaymentStatusEnum::PENDING,
             'created_by' => Auth::id(),
         ];
