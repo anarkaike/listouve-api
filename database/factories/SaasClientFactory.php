@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\SaasClient\SaasClientEnum;
+use App\Enums\SaasClient\SaasClientStatusEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +27,7 @@ class SaasClientFactory extends Factory
             'phone_personal' => '00000000000',
             'phone_pofessional' => '00000000000',
             'observation' => fake()->text(),
-            'status' => SaasClientEnum::ACTIVE->value,
+            'status' => SaasClientStatusEnum::ACTIVE->value,
             'created_by' => Auth::id(),
         ];
     }

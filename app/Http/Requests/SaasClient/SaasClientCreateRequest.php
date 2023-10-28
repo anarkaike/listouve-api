@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\SaasClient;
 
-use App\Enums\SaasClient\SaasClientEnum;
+use App\Enums\SaasClient\SaasClientStatusEnum;
 use Illuminate\{
     Foundation\Http\FormRequest,
     Validation\Rules\Enum,
@@ -32,7 +32,7 @@ class SaasClientCreateRequest extends FormRequest
             'phone_personal' => ['nullable', 'string', 'max:20',],
             'phone_pofessional' => ['nullable', 'string', 'max:20',],
             'observation' => ['nullable', 'string',],
-            'status' => ['nullable', new Enum(SaasClientEnum::class)],
+            'status' => ['nullable', new Enum(SaasClientStatusEnum::class)],
         ];
 
     }

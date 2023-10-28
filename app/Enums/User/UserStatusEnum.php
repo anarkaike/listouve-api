@@ -13,8 +13,8 @@ enum UserStatusEnum: string
     public static function getValues()
     {
         return [
-            self::ACTIVE,
-            self::BLOCKED,
+            self::ACTIVE->value,
+            self::BLOCKED->value,
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Enums\SaasClient;
 /**
  * Enum contendo as possibilidades da coluna status da entidade saas_clients
  */
-enum SaasClientEnum: string
+enum SaasClientStatusEnum: string
 {
     case ACTIVE = 'active'; // Sistema do cliente saas Ativo
     case ACTIVE_TESTING = 'active_testing'; // Sistema do client saas em periodo de teste
@@ -17,12 +17,12 @@ enum SaasClientEnum: string
     public static function getValues()
     {
         return [
-            self::ACTIVE,
-            self::ACTIVE_TESTING,
-            self::ACTIVE_PENDING_PAYMENT,
-            self::BLOCKED,
-            self::BLOCKED_PENDING_PAYMENT,
-            self::ARCHIVED,
+            self::ACTIVE->value,
+            self::ACTIVE_TESTING->value,
+            self::ACTIVE_PENDING_PAYMENT->value,
+            self::BLOCKED->value,
+            self::BLOCKED_PENDING_PAYMENT->value,
+            self::ARCHIVED->value,
         ];
     }
 }

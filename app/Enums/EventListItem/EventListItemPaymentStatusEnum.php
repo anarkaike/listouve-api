@@ -14,9 +14,9 @@ enum EventListItemPaymentStatusEnum: string
     public static function getValues()
     {
         return [
-            self::PENDING,
-            self::CANCELED,
-            self::PAID,
+            self::PENDING->value,
+            self::CANCELED->value,
+            self::PAID->value,
         ];
     }
 }

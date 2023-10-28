@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Actions;
 
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
-use App\{
-    Actions\EventAction,
+use App\{Actions\EventAction,
     Contracts\Repositories\EventRepositoryInterface,
     Models\Event,
     Models\SaasClient,
-};
+    Models\User};
 
 /**
  * Testes para o EventAction
@@ -16,6 +16,7 @@ use App\{
 class EventActionTest extends TestCase
 {
     private ?SaasClient $saasClient = null;
+    private ?User $user = null;
 
     public function __construct(string $name)
     {
@@ -26,6 +27,12 @@ class EventActionTest extends TestCase
     {
         parent::setUp();
         if (is_null($this->saasClient)) $this->saasClient = SaasClient::factory()->create();
+        if (is_null($this->user)) $this->user = User::factory()->create();
+
+//        $this->auth = $this->createMock(originalClassName: Auth::class);
+//        $this->auth->expects(invocationRule: $this->once())
+//            ->method(constraint: 'id')
+//            ->willReturn(value: $this->user->id);
     }
 
     public function test_list_all()

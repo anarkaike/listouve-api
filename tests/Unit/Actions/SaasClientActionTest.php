@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\{
     Actions\SaasClientAction,
     Contracts\Repositories\SaasClientRepositoryInterface,
-    Enums\SaasClient\SaasClientEnum,
+    Enums\SaasClient\SaasClientStatusEnum,
     Models\SaasClient,
 };
 
@@ -74,7 +74,7 @@ class SaasClientActionTest extends TestCase
             'phone_personal' => fake()->phoneNumber(),
             'phone_pofessional' => fake()->phoneNumber(),
             'observation' => fake()->text(500),
-            'status' => SaasClientEnum::ACTIVE->value,
+            'status' => SaasClientStatusEnum::ACTIVE->value,
         ];
 
         // Criando uma instância de SaasClientAction com um repositório real (não um mock)
@@ -107,7 +107,7 @@ class SaasClientActionTest extends TestCase
             'phone_personal' => fake()->phoneNumber(),
             'phone_pofessional' => fake()->phoneNumber(),
             'observation' => fake()->text(500),
-            'status' => SaasClientEnum::ACTIVE->value,
+            'status' => SaasClientStatusEnum::ACTIVE->value,
         ];
 
         // Criando uma instância de SaasClientAction com um repositório real (não um mock)
