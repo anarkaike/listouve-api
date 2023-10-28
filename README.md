@@ -141,6 +141,7 @@ Projeto desenvolvido para um amigo, seguindo seu escopo. Sua necessidade era ape
 
 
 Desenvolvido por: Junio de Almeida Vitorino (anarkaike@gmail.com)   
+https://www.linkedin.com/in/junioalmeida
 
 ## License
 
