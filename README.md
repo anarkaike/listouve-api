@@ -136,13 +136,6 @@ Foi gerada uma documentação usando a ferramenta postman.
 Acesse no link:   
 https://documenter.getpostman.com/view/9737921/2s9YRDzVuM
 
-## Desenvolvimento 
-Projeto desenvolvido para um amigo, seguindo seu escopo. Sua necessidade era apenas automatizar a tarefa de produtores com as listas vips na recepção de eventos. Foi concedido sua permissão para usa-lo como portfólio em meu github de forma pública. 
-
-
-Desenvolvido por: Junio de Almeida Vitorino (anarkaike@gmail.com)   
-https://www.linkedin.com/in/junioalmeida
-
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
