@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Api\v1\EventsController;
+use App\Http\Controllers\Api\v1\UsersController;
 use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
     Model,
     SoftDeletes,
 };
+use Illuminate\Support\Facades\Route;
 
 /**
  * Classe model do Eloquent que representa a entidade event
@@ -48,6 +51,9 @@ class Event extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function eventsLists()

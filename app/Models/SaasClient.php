@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Api\v1\SaasClientsController;
 use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
     Model,
     SoftDeletes,
 };
+use Illuminate\Support\Facades\Route;
 
 /**
  * Classe model do Eloquent que representa a entidade saas_client
@@ -50,6 +52,9 @@ class SaasClient extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function events()

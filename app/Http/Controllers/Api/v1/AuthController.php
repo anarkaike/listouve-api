@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Actions\UserAction;
+use App\Exceptions\Auth\IncorrectCredentialsException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\{
@@ -16,6 +18,13 @@ use App\Http\{
 class AuthController extends Controller
 {
 
+    public function __construct(
+        private UserAction $userAction
+    )
+    {
+
+    }
+
     /**
      * Action para end point /api/v1/login, para obter tokens de acesso
      *
@@ -24,13 +33,27 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        if (Auth::attempt($request->only('email', 'password'))) {
+        try {
+            if (!Auth::attempt($request->only('email', 'password'))) {
+                throw new IncorrectCredentialsException();
+            }
+
             return new ApiSuccessResponse(
-                data: ['token' => $request->user()->createToken('invoice')],
+                data: [
+                    'token' => $request->user()->createToken('invoice'),
+                    'user' => $request->user()->toArray()
+                ],
                 message: trans(key: 'app.logado_com_sucesso')
             );
+
+        } catch (\Exception $e) {
+            return new ApiErrorResponse(
+                exception: $e,
+                message: $e->getMessage(),
+                data: [],
+                request: $request
+            );
         }
-        return new ApiErrorResponse();
     }
 
     /**

@@ -25,6 +25,7 @@ Route::prefix('/v1')->group(function(){
     Route::post(uri: '/login', action: [AuthController::class, 'login']);
     Route::post(uri: '/logout', action: [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
 
+
     // Rotas para entidade usuário
     Route::prefix('users')->group(function(){
         Route::get(uri: '', action: [UsersController::class, 'listAll']);
@@ -74,4 +75,5 @@ Route::prefix('/v1')->group(function(){
         Route::patch(uri: '/{id}', action: [SaasClientsController::class, 'update']);
         Route::delete(uri: '/{id}', action: [SaasClientsController::class, 'delete']);
     })->middleware(['auth:sanctum']);
+
 });

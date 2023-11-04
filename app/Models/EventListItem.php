@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Api\v1\EventsListsItemsController;
 use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
     Model,
     SoftDeletes,
 };
+use Illuminate\Support\Facades\Route;
 
 /**
  * Classe model do Eloquent que representa a entidade event_list_item
@@ -16,6 +18,7 @@ class EventListItem extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'events_lists_items';
+    protected $touches = ['events', 'events_lists',];
 
     /**
      * The attributes that are mass assignable.
@@ -51,6 +54,9 @@ class EventListItem extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function saasClient()

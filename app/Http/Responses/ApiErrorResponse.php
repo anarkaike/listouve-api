@@ -19,7 +19,7 @@ class ApiErrorResponse implements Responsable
      * @param  array  $headers
      */
     public function __construct(
-        private \Exception $exception,
+        private \Exception $exception ,
         private string $message = 'Erro ao executar a end poiny da api.',
         private array $data = [],
         Request|null $request = null,
