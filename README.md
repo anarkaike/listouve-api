@@ -136,6 +136,11 @@ Foi gerada uma documentação usando a ferramenta postman.
 Acesse no link:   
 https://documenter.getpostman.com/view/9737921/2s9YRDzVuM
 
+Desenvolvido por:
+Junio de Almeida Vitorino
+Qualquer dúvida: anarkaike@gmail.com
+https://www.linkedin.com/in/junioalmeida/
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
