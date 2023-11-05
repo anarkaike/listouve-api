@@ -43,5 +43,5 @@ jobs:
         with:
           server: listouve-api.junio.cc
           username: listouve-api@listouve-api.junio.cc
-          password: ${{vars.FTP_PASS}}
+          password: ${{ env.FTP_PASS }}
           # server-dir: public_html/
