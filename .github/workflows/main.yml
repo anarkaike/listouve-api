@@ -33,10 +33,10 @@ jobs:
       
       # - name: npm run production
       #   run: npm run production
-      - name: npm install
+      - name: Teste Junio
         run: echo "$FTP_HOST"
         env:
-          FTP_HOST: 'AAAA'
+          FTP_HOST: ${{env.FTP_HOST}}
   
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
