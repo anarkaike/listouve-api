@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Actions\Bi\SaasClientBiAction;
 use Illuminate\Http\Request;
 use App\Contracts\Controllers\CrudSaasClientControllerInterface;
 use App\Actions\SaasClientAction;
@@ -9,12 +10,14 @@ use App\Exceptions\{
     SaasClient\SaasClientDeleteException,
     SaasClient\SaasClientNotFountException,
 };
-use App\Http\{Controllers\Controller,
+use App\Http\{
+    Controllers\Controller,
     Requests\SaasClient\SaasClientCreateRequest,
     Requests\SaasClient\SaasClientDeleteRequest,
     Requests\SaasClient\SaasClientUpdateRequest,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse};
+    Responses\ApiSuccessResponse,
+};
 
 /**
  * Controllers para os end points relacionado a entidade usuário
@@ -24,6 +27,7 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
     public function __construct(
         // Obtendo por injeção de dependencia o SaasClientAction e atribuindo ele como propriedade privada
         private SaasClientAction $saasClientAction,
+        private SaasClientBiAction $saasClientBiAction,
     )
     {
 
@@ -169,6 +173,30 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
             return new ApiErrorResponse(
                 exception: $e,
                 message: 'Erro ao tentar deletar cliente saas.',
+                data: [],
+                request: $request
+            );
+        }
+    }
+
+    /**
+     * Action para end point que retorna dados do BI
+     *
+     * @param Request $request
+     * @return ApiErrorResponse|ApiSuccessResponse
+     */
+    public function bi(Request $request)
+    {
+        try {
+            return new ApiSuccessResponse(
+                $this->saasClientBiAction->all(),
+                message: 'Dados do BI obtidos com sucesso!'
+            );
+
+        } catch (\Exception $e) {
+            return new ApiErrorResponse(
+                exception: $e,
+                message: 'Erro ao tentar obter os dados do BI.',
                 data: [],
                 request: $request
             );

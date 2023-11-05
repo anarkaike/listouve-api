@@ -57,9 +57,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
+        'created_at' => 'datetime:d/m/Y H:m',
+        'updated_at' => 'datetime:d/m/Y H:m',
+        'deleted_at' => 'datetime:d/m/Y H:m',
     ];
 
     public function saasClient()

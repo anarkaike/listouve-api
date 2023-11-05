@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Actions\Bi\UserBiAction;
 use Illuminate\Http\Request;
 use App\Actions\UserAction;
 use App\Http\{
@@ -26,6 +27,7 @@ class UsersController extends Controller
     public function __construct(
         // Obtendo por injeção de dependencia o UserAction e atribuindo ele como propriedade privada
         private UserAction $userAction,
+        private UserBiAction $userBiAction,
     )
     {
 
@@ -171,6 +173,30 @@ class UsersController extends Controller
             return new ApiErrorResponse(
                 exception: $e,
                 message: 'Erro ao tentar excluir um usuário.',
+                data: [],
+                request: $request
+            );
+        }
+    }
+
+    /**
+     * Action para end point que retorna dados do BI
+     *
+     * @param Request $request
+     * @return ApiErrorResponse|ApiSuccessResponse
+     */
+    public function bi(Request $request)
+    {
+        try {
+            return new ApiSuccessResponse(
+                $this->userBiAction->all(),
+                message: 'Dados do BI obtidos com sucesso!'
+            );
+
+        } catch (\Exception $e) {
+            return new ApiErrorResponse(
+                exception: $e,
+                message: 'Erro ao tentar obter os dados do BI.',
                 data: [],
                 request: $request
             );

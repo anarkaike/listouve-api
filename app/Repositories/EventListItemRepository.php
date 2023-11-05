@@ -14,16 +14,16 @@ use App\Models\EventListItem;
  */
 class EventListItemRepository implements EventListItemRepositoryInterface
 {
-    protected $eventListItem;
 
     /**
-     * Recebemos o model do eloquent para iteragir com banco de dados.
+     * Injetamos o model EventListItem
      *
      * @param EventListItem $eventListItem
      */
-    public function __construct(EventListItem $eventListItem)
+    public function __construct(
+        protected EventListItem $eventListItem
+    )
     {
-        $this->eventListItem = $eventListItem;
     }
 
     /**

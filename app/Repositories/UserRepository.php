@@ -14,16 +14,14 @@ use App\Models\User;
  */
 class UserRepository implements UserRepositoryInterface
 {
-    protected $user;
-
     /**
-     * Recebemos o user do eloquent para iteragir com banco de dados.
+     * Injetamos o model User
      *
      * @param User $user
      */
-    public function __construct(User $user)
-    {
-        $this->user = $user;
+    public function __construct(
+        protected User $user
+    ){
     }
 
     /**

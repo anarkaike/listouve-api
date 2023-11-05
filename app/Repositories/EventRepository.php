@@ -14,16 +14,15 @@ use App\Models\Event;
  */
 class EventRepository implements EventRepositoryInterface
 {
-    protected $event;
-
     /**
-     * Recebemos o model do eloquent para iteragir com banco de dados.
+     * Injtetamos o model Event
      *
      * @param Event $event
      */
-    public function __construct(Event $event)
+    public function __construct(
+        protected Event $event
+    )
     {
-        $this->event = $event;
     }
 
     /**

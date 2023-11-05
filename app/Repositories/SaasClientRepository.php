@@ -14,16 +14,15 @@ use App\Models\SaasClient;
  */
 class SaasClientRepository implements SaasClientRepositoryInterface
 {
-    protected $saasClient;
-
     /**
-     * Recebemos o model do eloquent para iteragir com banco de dados.
+     * Injetamos o model SaasClient
      *
      * @param SaasClient $saasClient
      */
-    public function __construct(SaasClient $saasClient)
+    public function __construct(
+        protected SaasClient $saasClient
+    )
     {
-        $this->saasClient = $saasClient;
     }
 
     /**

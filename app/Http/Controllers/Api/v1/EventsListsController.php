@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Actions\Bi\EventListBiAction;
 use Illuminate\Http\Request;
 use App\Contracts\Controllers\CrudEventListControllerInterface;
 use App\Actions\EventListAction;
@@ -9,12 +10,14 @@ use App\Exceptions\{
     EventList\EventListDeleteException,
     EventList\EventListNotFountException,
 };
-use App\Http\{Controllers\Controller,
+use App\Http\{
+    Controllers\Controller,
     Requests\EventList\EventListCreateRequest,
     Requests\EventList\EventListDeleteRequest,
     Requests\EventList\EventListUpdateRequest,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse};
+    Responses\ApiSuccessResponse,
+};
 
 /**
  * Controllers para os end points relacionado a entidade usuário
@@ -24,6 +27,7 @@ class EventsListsController extends Controller implements CrudEventListControlle
     public function __construct(
         // Obtendo por injeção de dependencia o EventListAction e atribuindo ele como propriedade privada
         private EventListAction $eventListAction,
+        private EventListBiAction $eventListBiAction,
     )
     {
 
@@ -170,6 +174,30 @@ class EventsListsController extends Controller implements CrudEventListControlle
             return new ApiErrorResponse(
                 exception: $e,
                 message: 'Erro ao tentar deletar uma lista de evento.',
+                data: [],
+                request: $request
+            );
+        }
+    }
+
+    /**
+     * Action para end point que retorna dados do BI
+     *
+     * @param Request $request
+     * @return ApiErrorResponse|ApiSuccessResponse
+     */
+    public function bi(Request $request)
+    {
+        try {
+            return new ApiSuccessResponse(
+                $this->eventListBiAction->all(),
+                message: 'Dados do BI obtidos com sucesso!'
+            );
+
+        } catch (\Exception $e) {
+            return new ApiErrorResponse(
+                exception: $e,
+                message: 'Erro ao tentar obter os dados do BI.',
                 data: [],
                 request: $request
             );

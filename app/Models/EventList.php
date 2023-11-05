@@ -52,9 +52,9 @@ class EventList extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
+        'created_at' => 'datetime:d/m/Y H:m',
+        'updated_at' => 'datetime:d/m/Y H:m',
+        'deleted_at' => 'datetime:d/m/Y H:m',
     ];
 
     public function eventsListsItems()

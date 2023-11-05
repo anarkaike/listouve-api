@@ -17,6 +17,7 @@ use App\Exceptions\{
     Event\EventNotFountException,
     Event\EventDeleteException,
 };
+use App\Actions\Bi\EventBiAction;
 
 /**
  * Controllers para os end points relacionado a entidade usuário
@@ -26,6 +27,7 @@ class EventsController extends Controller implements CrudEventControllerInterfac
     public function __construct(
         // Obtendo por injeção de dependencia o EventAction e atribuindo ele como propriedade privada
         private EventAction $eventAction,
+        private EventBiAction $eventBiAction,
     )
     {
 
@@ -171,6 +173,30 @@ class EventsController extends Controller implements CrudEventControllerInterfac
             return new ApiErrorResponse(
                 exception: $e,
                 message: 'Erro ao tentar deletar um evento.',
+                data: [],
+                request: $request
+            );
+        }
+    }
+
+    /**
+     * Action para end point que retorna dados do BI
+     *
+     * @param Request $request
+     * @return ApiErrorResponse|ApiSuccessResponse
+     */
+    public function bi(Request $request)
+    {
+        try {
+            return new ApiSuccessResponse(
+                $this->eventBiAction->all(),
+                message: 'Dados do BI obtidos com sucesso!'
+            );
+
+        } catch (\Exception $e) {
+            return new ApiErrorResponse(
+                exception: $e,
+                message: 'Erro ao tentar obter os dados do BI.',
                 data: [],
                 request: $request
             );

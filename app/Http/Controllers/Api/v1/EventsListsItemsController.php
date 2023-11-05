@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Actions\Bi\EventListItemBiAction;
 use Illuminate\Http\Request;
 use App\Contracts\Controllers\CrudEventListItemControllerInterface;
 use App\Actions\EventListItemAction;
@@ -9,12 +10,14 @@ use App\Exceptions\{
     EventListItem\EventListItemDeleteException,
     EventListItem\EventListItemNotFountException,
 };
-use App\Http\{Controllers\Controller,
+use App\Http\{
+    Controllers\Controller,
     Requests\EventListItem\EventListItemCreateRequest,
     Requests\EventListItem\EventListItemDeleteRequest,
     Requests\EventListItem\EventListItemUpdateRequest,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse};
+    Responses\ApiSuccessResponse,
+};
 
 /**
  * Controllers para os end points relacionado a entidade usuário
@@ -23,7 +26,8 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
 {
     public function __construct(
         // Obtendo por injeção de dependencia o EventListItemAction e atribuindo ele como propriedade privada
-        private EventListItemAction $eventListAction,
+        private EventListItemAction   $eventListItemAction,
+        private EventListItemBiAction $eventListItemBiAction,
     )
     {
 
@@ -40,7 +44,7 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventListAction->findById(id: $request->route('id'));
+            $event = $this->eventListItemAction->findById(id: $request->route('id'));
 
             if (!$event) {
                 throw new EventListItemNotFountException();
@@ -72,7 +76,7 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventListAction->listAll();
+            $event = $this->eventListItemAction->listAll();
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
@@ -100,7 +104,7 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventListAction->create(data: $request->validated());
+            $event = $this->eventListItemAction->create(data: $request->validated());
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
@@ -128,7 +132,7 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventListAction->update(id: $request->route('id'), data: $request->validated());
+            $event = $this->eventListItemAction->update(id: $request->route('id'), data: $request->validated());
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
@@ -156,7 +160,7 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            if(!$this->eventListAction->delete(id: $request->route('id'))) {
+            if(!$this->eventListItemAction->delete(id: $request->route('id'))) {
                 throw new EventListItemDeleteException();
             }
 
@@ -169,6 +173,30 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
             return new ApiErrorResponse(
                 exception: $e,
                 message: 'Erro ao tentar deletar um nome na lista de evento.',
+                data: [],
+                request: $request
+            );
+        }
+    }
+
+    /**
+     * Action para end point que retorna dados do BI
+     *
+     * @param Request $request
+     * @return ApiErrorResponse|ApiSuccessResponse
+     */
+    public function bi(Request $request)
+    {
+        try {
+            return new ApiSuccessResponse(
+                $this->eventListItemBiAction->all(),
+                message: 'Dados do BI obtidos com sucesso!'
+            );
+
+        } catch (\Exception $e) {
+            return new ApiErrorResponse(
+                exception: $e,
+                message: 'Erro ao tentar obter os dados do BI.',
                 data: [],
                 request: $request
             );

@@ -28,6 +28,7 @@ Route::prefix('/v1')->group(function(){
 
     // Rotas para entidade usuário
     Route::prefix('users')->group(function(){
+        Route::get(uri: '/bi', action: [UsersController::class, 'bi']);
         Route::get(uri: '', action: [UsersController::class, 'listAll']);
         Route::post(uri: '', action: [UsersController::class, 'create']);
         Route::get(uri: '/{id}', action: [UsersController::class, 'findById']);
@@ -38,6 +39,7 @@ Route::prefix('/v1')->group(function(){
 
     // Rotas para entidade eventos
     Route::prefix('events')->group(function(){
+        Route::get(uri: '/bi', action: [EventsController::class, 'bi']);
         Route::get(uri: '', action: [EventsController::class, 'listAll']);
         Route::post(uri: '', action: [EventsController::class, 'create']);
         Route::get(uri: '/{id}', action: [EventsController::class, 'findById']);
@@ -48,6 +50,7 @@ Route::prefix('/v1')->group(function(){
 
     // Rotas para entidade lista de eventos
     Route::prefix('events-lists')->group(function(){
+        Route::get(uri: '/bi', action: [EventsListsController::class, 'bi']);
         Route::get(uri: '', action: [EventsListsController::class, 'listAll']);
         Route::post(uri: '', action: [EventsListsController::class, 'create']);
         Route::get(uri: '/{id}', action: [EventsListsController::class, 'findById']);
@@ -58,6 +61,7 @@ Route::prefix('/v1')->group(function(){
 
     // Rotas para entidade itens/nomes da lista de eventos
     Route::prefix('events-lists-items')->group(function(){
+        Route::get(uri: '/bi', action: [EventsListsItemsController::class, 'bi']);
         Route::get(uri: '', action: [EventsListsItemsController::class, 'listAll']);
         Route::post(uri: '', action: [EventsListsItemsController::class, 'create']);
         Route::get(uri: '/{id}', action: [EventsListsItemsController::class, 'findById']);
@@ -68,6 +72,7 @@ Route::prefix('/v1')->group(function(){
 
     // Rotas para entidade clientes do saas
     Route::prefix('saas-clients')->group(function(){
+        Route::get(uri: '/bi', action: [SaasClientsController::class, 'bi']);
         Route::get(uri: '', action: [SaasClientsController::class, 'listAll']);
         Route::post(uri: '', action: [SaasClientsController::class, 'create']);
         Route::get(uri: '/{id}', action: [SaasClientsController::class, 'findById']);
