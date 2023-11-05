@@ -28,6 +28,12 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
+      - name: npm install
+        run: npm install
+      
+      - name: npm run production
+        run: npm run production
+
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
