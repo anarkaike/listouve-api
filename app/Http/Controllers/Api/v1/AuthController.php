@@ -26,7 +26,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Action para end point /api/v1/login, para obter tokens de acesso
+     * Action para end point /api/v1/login, para obter tokens de acessoo
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
