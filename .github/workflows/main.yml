@@ -34,7 +34,7 @@ jobs:
       # - name: npm run production
       # #   run: npm run production
       # - name: Teste Junio
-      #   run: echo "${{ FTP_HOST }}"
+      #   run: echo "${{ FTP_HOST }}" 
       #   env:
       #     FTP_HOST: ${{ env.FTP_HOST }}
   
@@ -43,5 +43,5 @@ jobs:
         with:
           server: listouve-api.junio.cc
           username: listouve-api@listouve-api.junio.cc
-          password: ${{ env.FTP_PASS }}
+          password: ${{ secrets.FTP_PASS }}
           # server-dir: public_html/
