@@ -42,7 +42,7 @@ jobs:
         with:
           ftp_host: listouve-api.junio.cc
           ftp_username: listouve-api@listouve-api.junio.cc
-          ftp_password: ${{ secrets.FTP_PASS }}
+          ftp_password: l1i2s3t4o5u6v7e8
           # local_source_dir: "dist"
           # dist_target_dir: "www/my-app"
           delete: "true"
