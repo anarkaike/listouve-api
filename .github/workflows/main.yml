@@ -41,7 +41,7 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: listouve-api.junio.cc
-          username: listouve-api@listouve-api.junio.cc
-          password: ${{ secrets.FTP_PASS }}
+          ftp-server: listouve-api.junio.cc
+          ftp-username: listouve-api@listouve-api.junio.cc
+          ftp-password: ${{ secrets.FTP_PASS }}
           # server-dir: public_html/
