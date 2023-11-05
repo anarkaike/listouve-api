@@ -35,6 +35,8 @@ jobs:
       #   run: npm run production
       - name: npm install
         run: echo "Valor1: ${{env.FTP_HOST}} - Valor2:[${{env.JAVA_VERSION}}]"
+        env:
+          FTP_HOST: 'AAAA'
   
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
