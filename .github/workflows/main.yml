@@ -34,7 +34,7 @@ jobs:
       # - name: npm run production
       #   run: npm run production
       - name: npm install
-        run: echo "Hello $NAME. $secrets.FTP_PASS  ${{ secrets.FTP_PASS }} Using Java Version $JAVA_VERSION. My API_KEY is ${{secrets.API_KEY}}"
+        run: echo "Valor1: [$env.FTP_HOST] - Valor2:[${{ env.FTP_HOST }}]"
   
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
