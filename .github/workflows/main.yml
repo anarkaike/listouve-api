@@ -37,15 +37,24 @@ jobs:
       #   run: echo "${{ FTP_HOST }}" 
       #   env:
       #     FTP_HOST: ${{ env.FTP_HOST }}
-  
       - name: 📂 Sync files
-        uses: locaweb/ftp-deploy@1.0.0
+        uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
         with:
-          # ftp-server: listouve-api.junio.cc
-          # ftp-username: listouve-api@listouve-api.junio.cc
-          # ftp-password: ${{ secrets.FTP_PASS }}
-          host: listouve-api.junio.cc
-          user: listouve-api@listouve-api.junio.cc
-          password: ${{ secrets.FTP_PASS }}
-          # localDir: "dist"
-          # server-dir: public_html/
+          ftp_host: ${{ secrets.FTP_HOST }}
+          ftp_username: ${{ secrets.FTP_USER }}
+          ftp_password: ${{ secrets.FTP_PASS }}
+          # local_source_dir: "dist"
+          # dist_target_dir: "www/my-app"
+          delete: "true"
+          # exclude: "'^logs/' '^README.md'"
+      # - name: 📂 Sync files
+      #   uses: locaweb/ftp-deploy@1.0.0
+      #   with:
+      #     # ftp-server: listouve-api.junio.cc
+      #     # ftp-username: listouve-api@listouve-api.junio.cc
+      #     # ftp-password: ${{ secrets.FTP_PASS }}
+      #     host: listouve-api.junio.cc
+      #     user: listouve-api@listouve-api.junio.cc
+      #     password: ${{ secrets.FTP_PASS }}
+      #     # localDir: "dist"
+      #     # server-dir: public_html/
