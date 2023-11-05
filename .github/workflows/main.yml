@@ -34,7 +34,7 @@ jobs:
       # - name: npm run production
       #   run: npm run production
       - name: npm install
-        run: echo "Valor1: ${{env.FTP_HOST}} - Valor2:[${{env.JAVA_VERSION}}]"
+        run: echo "Valor1: $FTP_HOST"
         env:
           FTP_HOST: 'AAAA'
   
