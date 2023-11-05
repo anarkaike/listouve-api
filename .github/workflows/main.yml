@@ -39,9 +39,13 @@ jobs:
       #     FTP_HOST: ${{ env.FTP_HOST }}
   
       - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: locaweb/ftp-deploy@1.0.0
         with:
-          ftp-server: listouve-api.junio.cc
-          ftp-username: listouve-api@listouve-api.junio.cc
-          ftp-password: ${{ secrets.FTP_PASS }}
+          # ftp-server: listouve-api.junio.cc
+          # ftp-username: listouve-api@listouve-api.junio.cc
+          # ftp-password: ${{ secrets.FTP_PASS }}
+          host: listouve-api.junio.cc
+          user: listouve-api@listouve-api.junio.cc
+          password: ${{ secrets.FTP_PASS }}
+          # localDir: "dist"
           # server-dir: public_html/
