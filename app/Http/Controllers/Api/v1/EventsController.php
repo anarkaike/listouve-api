@@ -18,6 +18,7 @@ use App\Exceptions\{
     Event\EventDeleteException,
 };
 use App\Actions\Bi\EventBiAction;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Controllers para os end points relacionado a entidade usuário
@@ -104,7 +105,9 @@ class EventsController extends Controller implements CrudEventControllerInterfac
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventAction->create(data: $request->validated());
+            $data = $request->validationData();
+            $data['updated_by'] = Auth::id();
+            $event = $this->eventAction->create(data: $data);
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
@@ -132,7 +135,9 @@ class EventsController extends Controller implements CrudEventControllerInterfac
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventAction->update(id: $request->route('id'), data: $request->validated());
+            $data = $request->validationData();
+            $data['updated_by'] = Auth::id();
+            $event = $this->eventAction->update(id: $request->route('id'), data: $data);
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),

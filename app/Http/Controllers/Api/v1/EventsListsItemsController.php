@@ -18,6 +18,7 @@ use App\Http\{
     Responses\ApiErrorResponse,
     Responses\ApiSuccessResponse,
 };
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Controllers para os end points relacionado a entidade usuário
@@ -104,7 +105,9 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventListItemAction->create(data: $request->validated());
+            $data = $request->validationData();
+            $data['created_by'] = Auth::id();
+            $event = $this->eventListItemAction->create(data: $data);
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
@@ -132,7 +135,9 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventListItemAction->update(id: $request->route('id'), data: $request->validated());
+            $data = $request->validationData();
+            $data['updated_by'] = Auth::id();
+            $event = $this->eventListItemAction->update(id: $request->route('id'), data: $data);
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),

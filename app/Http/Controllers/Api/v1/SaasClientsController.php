@@ -6,6 +6,7 @@ use App\Actions\Bi\SaasClientBiAction;
 use Illuminate\Http\Request;
 use App\Contracts\Controllers\CrudSaasClientControllerInterface;
 use App\Actions\SaasClientAction;
+use Illuminate\Support\Facades\Auth;
 use App\Exceptions\{
     SaasClient\SaasClientDeleteException,
     SaasClient\SaasClientNotFountException,
@@ -104,7 +105,9 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->saasClientAction->create(data: $request->validated());
+            $data = $request->validationData();
+            $data['created_by'] = Auth::id();
+            $event = $this->saasClientAction->create(data: $data);
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
@@ -132,7 +135,9 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->saasClientAction->update(id: $request->route('id'), data: $request->validated());
+            $data = $request->validationData();
+            $data['updated_by'] = Auth::id();
+            $event = $this->saasClientAction->update(id: $request->route('id'), data: $data);
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),

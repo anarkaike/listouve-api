@@ -13,6 +13,7 @@ use App\Http\{
     Responses\ApiErrorResponse,
     Responses\ApiSuccessResponse,
 };
+use Illuminate\Support\Facades\Auth;
 use App\Exceptions\User\{
     UserNotFountException,
     UserDeleteException,
@@ -104,7 +105,10 @@ class UsersController extends Controller
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $user = $this->userAction->create(data: $request->all());
+//            $data = $request->all();
+            $data = $request->validationData();
+            $data['created_by'] = Auth::id();
+            $user = $this->userAction->create(data: $data);
 
             return new ApiSuccessResponse(
                 data: $user->toArray(),
@@ -132,6 +136,8 @@ class UsersController extends Controller
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
+            $data = $request->validationData();
+            $data['updated_by'] = Auth::id();
             $user = $this->userAction->update(id: $request->route('id'), data: $request->validationData());
 
             return new ApiSuccessResponse(
