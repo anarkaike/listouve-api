@@ -3,6 +3,8 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Repositório de usuário, camada que chama o eloquent
@@ -55,6 +57,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function create(array $data)
     {
+        $data['created_by'] = Auth::id() ?? 0;
         return $this->user->create($data);
     }
 
