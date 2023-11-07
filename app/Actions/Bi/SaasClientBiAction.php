@@ -26,6 +26,7 @@ class SaasClientBiAction implements SaasClientBiActionInterface {
             'total_registered_today' => $this->getTotalRegisteredToday(),
             'total_registered_this_week' => $this->getTotalRegisteredThisWeek(),
             'total_registered_this_month' => $this->getTotalRegisteredThisMonth(),
+            'total_by_created' => $this->getTotalByCreated(),
         ];
     }
 
@@ -72,6 +73,15 @@ class SaasClientBiAction implements SaasClientBiActionInterface {
      */
     function getTotalDeleted() {
         return $this->saasClientBiRepository->getTotalDeleted();
+    }
+
+    /**
+     * Obtem o total de registros deletados até o momento
+     *
+     * @return int|mixed
+     */
+    function getTotalByCreated() {
+        return $this->saasClientBiRepository->getTotalByCreated();
     }
 
 }

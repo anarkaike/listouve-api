@@ -4,6 +4,7 @@ namespace App\Repositories\Bi;
 use App\Contracts\Repositories\Bi\EventListBiRepositoryInterface;
 use App\Models\EventList;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Repositorio de consultas com estatisticas para dasbboard / BI
@@ -92,5 +93,23 @@ class EventListBiRepository implements EventListBiRepositoryInterface
     function getTotalDeleted(): int
     {
         return $this->eventList->onlyTrashed()->count();
+    }
+
+    /**
+     * Total de registros deletados
+     *
+     * @return int
+     */
+    function getTotalByCreated(): array
+    {
+        return (array) $this->eventList
+            ->select(
+                DB::raw(value: 'DATE_FORMAT(created_at, "%d/%m") as date'),
+                DB::raw(value: 'COUNT(*) as total')
+            )
+            ->groupBy(DB::raw(value: 'DATE_FORMAT(created_at, "%d/%m")'))
+            ->orderBy(DB::raw(value: 'DATE_FORMAT(created_at, "%d/%m")'))
+            ->get()
+            ->toArray();
     }
 }

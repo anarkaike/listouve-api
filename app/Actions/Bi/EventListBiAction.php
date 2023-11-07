@@ -31,6 +31,7 @@ class EventListBiAction implements EventListBiActionInterface {
             'total_registered_today' => $this->getTotalRegisteredToday(),
             'total_registered_this_week' => $this->getTotalRegisteredThisWeek(),
             'total_registered_this_month' => $this->getTotalRegisteredThisMonth(),
+            'total_by_created' => $this->getTotalByCreated(),
         ];
     }
 
@@ -77,6 +78,15 @@ class EventListBiAction implements EventListBiActionInterface {
      */
     function getTotalDeleted() {
         return $this->eventListBiRepository->getTotalDeleted();
+    }
+
+    /**
+     * Obtem o total de registros deletados até o momento
+     *
+     * @return int|mixed
+     */
+    function getTotalByCreated() {
+        return $this->eventListBiRepository->getTotalByCreated();
     }
 
 }
