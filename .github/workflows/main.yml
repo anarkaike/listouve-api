@@ -46,7 +46,7 @@ jobs:
           only_newer: true
           # local_source_dir: "dist"
           # dist_target_dir: "www/my-app"
-          delete: "true"
+#          delete: "true"
           exclude: "'^logs/' '^README.md' '^node_modules'"
       # - name: 📂 Sync files
       #   uses: locaweb/ftp-deploy@1.0.0
