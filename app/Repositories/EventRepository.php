@@ -32,7 +32,7 @@ class EventRepository implements EventRepositoryInterface
      */
     public function listAll()
     {
-        return $this->event->all();
+        return $this->event->filter()->get();
     }
 
     /**

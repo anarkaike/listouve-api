@@ -33,7 +33,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function listAll()
     {
-        return $this->user->all();
+        return $this->user->filter()->get();
     }
 
 

@@ -32,7 +32,7 @@ class SaasClientRepository implements SaasClientRepositoryInterface
      */
     public function listAll()
     {
-        return $this->saasClient->all();
+        return $this->saasClient->filter()->get();
     }
 
     /**

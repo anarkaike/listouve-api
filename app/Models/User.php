@@ -2,21 +2,22 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\Api\v1\UsersController;
+use Abbasudo\Purity\Traits\Filterable;
+use Abbasudo\Purity\Traits\Sortable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\{Database\Eloquent\Factories\HasFactory,
+use Illuminate\{
+    Database\Eloquent\Factories\HasFactory,
     Database\Eloquent\SoftDeletes,
     Foundation\Auth\User as Authenticatable,
     Notifications\Notifiable,
-    Routing\Router,
-    Support\Facades\Route};
+};
 
 /**
  * Classe model do Eloquent que representa a entidade saas
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Filterable, Sortable;
 
     protected $table = 'users';
 

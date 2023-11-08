@@ -33,7 +33,7 @@ class EventListItemRepository implements EventListItemRepositoryInterface
      */
     public function listAll()
     {
-        return $this->eventListItem->all();
+        return $this->eventListItem->filter()->get();
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Abbasudo\Purity\Traits\Filterable;
+use Abbasudo\Purity\Traits\Sortable;
 use App\Http\Controllers\Api\v1\EventsController;
 use App\Http\Controllers\Api\v1\UsersController;
 use Illuminate\Database\Eloquent\{
@@ -16,7 +18,7 @@ use Illuminate\Support\Facades\Route;
  */
 class Event extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Filterable, Sortable;
 
     protected $table = 'events';
 

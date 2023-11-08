@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Abbasudo\Purity\Traits\Filterable;
+use Abbasudo\Purity\Traits\Sortable;
 use App\Http\Controllers\Api\v1\SaasClientsController;
 use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
@@ -15,7 +17,7 @@ use Illuminate\Support\Facades\Route;
  */
 class SaasClient extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Filterable, Sortable;
 
     protected $table = 'saas_clients';
 
