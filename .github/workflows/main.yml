@@ -37,17 +37,17 @@ jobs:
       #   run: echo "${{ FTP_HOST }}"
       #   env:
       #     FTP_HOST: ${{ env.FTP_HOST }}
-      - name: 📂 Sync files
-        uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
-        with:
-          ftp_host: listouve-api.junio.cc
-          ftp_username: listouve@listouve-api.junio.cc
-          ftp_password: ${{ secrets.FTP_PASS }}
-#          only_newer: true
-          # local_source_dir: "dist"
-          # dist_target_dir: "www/my-app"
-#          delete: "true"
-          exclude: "'^logs/' '^README.md' '^node_modules'"
+#      - name: 📂 Sync files
+#        uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
+#        with:
+#          ftp_host: listouve-api.junio.cc
+#          ftp_username: listouve@listouve-api.junio.cc
+#          ftp_password: ${{ secrets.FTP_PASS }}
+##          only_newer: true
+#          # local_source_dir: "dist"
+#          # dist_target_dir: "www/my-app"
+##          delete: "true"
+#          exclude: "'^logs/' '^README.md' '^node_modules'"
       # - name: 📂 Sync files
       #   uses: locaweb/ftp-deploy@1.0.0
       #   with:
@@ -59,3 +59,17 @@ jobs:
       #     password: ${{ secrets.FTP_PASS }}
       #     # localDir: "dist"
       #     # server-dir: public_html/
+      - name: FTP Deployer
+        uses: sand4rt/ftp-deployer@v1.7
+        with:
+          sftp: false # optional
+          host: listouve-api.junio.cc # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+          port: 21 # optional, default is: 21
+          username: listouve@listouve-api.junio.cc # FTP username
+          password: ${{ secrets.FTP_PASS }} # FTP password
+          remote_folder: ${{ secrets.FTP_REMOTE_FOLDER }} # optional, remote path of your FTP server
+          local_folder: dist # optional, local path, default is: dist
+          cleanup: false # optional, remove existing files inside FTP remote folder
+          include: '[]' # optional, e.g. '['dist']'
+          exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
+          passive: true # optional
