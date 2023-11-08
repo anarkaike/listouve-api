@@ -30,11 +30,11 @@ jobs:
 
       - name: npm install
         run: npm install
-      
+
       # - name: npm run production
       # #   run: npm run production
       # - name: Teste Junio
-      #   run: echo "${{ FTP_HOST }}" 
+      #   run: echo "${{ FTP_HOST }}"
       #   env:
       #     FTP_HOST: ${{ env.FTP_HOST }}
       - name: 📂 Sync files
@@ -46,7 +46,7 @@ jobs:
           # local_source_dir: "dist"
           # dist_target_dir: "www/my-app"
           delete: "true"
-          # exclude: "'^logs/' '^README.md'"
+          # exclude: "'^logs/' '^README.md' '^node_modules' '^vendor'"
       # - name: 📂 Sync files
       #   uses: locaweb/ftp-deploy@1.0.0
       #   with:
