@@ -32,13 +32,20 @@ jobs:
       - name: npm install
         run: npm install
 
-      - name: "Deploy"
-        uses: milanmk/actions-file-deployer@master
-        with:
-          remote-protocol: "sftp"
-          remote-host: "listouve-api.junio.cc"
-          remote-user: "listouve@listouve-api.junio.cc"
-          remote-password:  ${{ secrets.FTP_PASS }}
+      - name: Fast FTP Action
+          uses: anvil-solutions/Fast-FTP-Action@2.1.0
+          with:
+            server: listouve-api.junio.cc
+            port: 22
+            username: listouve@listouve-api.junio.cc
+            password: ${{ secrets.FTP_PASS }}
+#      - name: "Deploy"
+#        uses: milanmk/actions-file-deployer@master
+#        with:
+#          remote-protocol: "sftp"
+#          remote-host: "listouve-api.junio.cc"
+#          remote-user: "listouve@listouve-api.junio.cc"
+#          remote-password:  ${{ secrets.FTP_PASS }}
 #          ssh-private-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
 #          remote-path: "/var/www/example.com"
 
