@@ -43,10 +43,11 @@ jobs:
           ftp_host: listouve-api.junio.cc
           ftp_username: listouve@listouve-api.junio.cc
           ftp_password: ${{ secrets.FTP_PASS }}
+          only_newer: true
           # local_source_dir: "dist"
           # dist_target_dir: "www/my-app"
           delete: "true"
-           exclude: "'^logs/' '^README.md' '^node_modules' '^vendor'"
+          exclude: "'^logs/' '^README.md' '^node_modules' '^vendor'"
       # - name: 📂 Sync files
       #   uses: locaweb/ftp-deploy@1.0.0
       #   with:
