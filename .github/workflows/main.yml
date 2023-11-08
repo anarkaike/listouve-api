@@ -31,14 +31,24 @@ jobs:
 
       - name: npm install
         run: npm install
+       - name: Upload from output to a remote server via FTP
+       uses: modern-dev/ftp-mirror@v2
+       with:
+         server: listouve-api.junio.cc
+         user: listouve@listouve-api.junio.cc
+         password: {{ secrets.FTP_PASS }}
+#         local_dir: "./output"
+#         remote_dir: "./http"
+         delete: "false"
+         exlude: "data/ cache/ node_modules/"
 
-      - name: Fast FTP Action
-        uses: anvil-solutions/Fast-FTP-Action@2.1.3
-        with:
-          server: listouve-api.junio.cc
-          port: 22
-          username: listouve@listouve-api.junio.cc
-          password: ${{ secrets.FTP_PASS }}
+#      - name: Fast FTP Action
+#        uses: anvil-solutions/Fast-FTP-Action@2.1.3
+#        with:
+#          server: listouve-api.junio.cc
+#          port: 22
+#          username: listouve@listouve-api.junio.cc
+#          password: ${{ secrets.FTP_PASS }}
 #      - name: "Deploy"
 #        uses: milanmk/actions-file-deployer@master
 #        with:
