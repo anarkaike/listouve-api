@@ -33,12 +33,12 @@ jobs:
         run: npm install
 
       - name: Fast FTP Action
-          uses: anvil-solutions/Fast-FTP-Action@2.1.0
-          with:
-            server: listouve-api.junio.cc
-            port: 22
-            username: listouve@listouve-api.junio.cc
-            password: ${{ secrets.FTP_PASS }}
+        uses: anvil-solutions/Fast-FTP-Action@2.1.0
+        with:
+          server: listouve-api.junio.cc
+          port: 22
+          username: listouve@listouve-api.junio.cc
+          password: ${{ secrets.FTP_PASS }}
 #      - name: "Deploy"
 #        uses: milanmk/actions-file-deployer@master
 #        with:
