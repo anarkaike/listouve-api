@@ -43,7 +43,7 @@ class UserRepository implements UserRepositoryInterface
      * @param $id
      * @return mixed
      */
-    public function findbyId($id)
+    public function findById($id)
     {
         return $this->user->find($id);
     }
@@ -57,7 +57,6 @@ class UserRepository implements UserRepositoryInterface
      */
     public function create(array $data)
     {
-        $data['created_by'] = Auth::id() ?? 0;
         return $this->user->create($data);
     }
 

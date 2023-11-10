@@ -54,8 +54,6 @@ class EventListRepository implements EventListRepositoryInterface
      */
     public function create(array $data)
     {
-        $data['id'] = 1;
-        $data['created_by'] = $data['updated_by'] = $data['deleted_by'] = 1;
         return $this->eventList->create($data);
     }
 

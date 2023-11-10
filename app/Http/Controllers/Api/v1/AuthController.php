@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Actions\UserAction;
 use App\Exceptions\Auth\IncorrectCredentialsException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +17,7 @@ use App\Http\{
 class AuthController extends Controller
 {
 
-    public function __construct(
-        private UserAction $userAction
-    )
+    public function __construct()
     {
 
     }

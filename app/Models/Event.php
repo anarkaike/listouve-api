@@ -33,6 +33,7 @@ class Event extends Model
         'url_photo',
         'saas_client_id',
         'created_by',
+        'updated_at',
         'updated_by',
         'updated_values',
         'deleted_at',
@@ -44,8 +45,7 @@ class Event extends Model
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast.
