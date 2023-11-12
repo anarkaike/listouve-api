@@ -2,29 +2,29 @@
 
 namespace Tests\Unit\Actions;
 
-use App\Actions\UserAction;
-use App\Enums\User\UserStatusEnum;
-use App\Models\User;
-use App\Repositories\UserRepository;
+use App\Actions\SaasClientAction;
+use App\Enums\SaasClient\SaasClientStatusEnum;
+use App\Models\SaasClient;
+use App\Repositories\SaasClientRepository;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-class UserActionTest extends TestCase
+class SaasClientActionTest extends TestCase
 {
 
     /**
-     * Verifica se o metodo UserRepository->listAll() retorna o valor correto
+     * Verifica se o metodo SaasClientRepository->listAll() retorna o valor correto
      * @test
      */
     public function check_if_return_list_all_is_correct(): void
     {
         $expectedValue = ['1', '2', '3'];
 
-        $repositoryMocked = Mockery::mock(args: UserRepository::class)->makePartial();
+        $repositoryMocked = Mockery::mock(args: SaasClientRepository::class)->makePartial();
         $repositoryMocked->shouldReceive(methodNames: 'listAll')->andReturn(args: $expectedValue);
 
 
-        $actionToTest = new UserAction(repository: $repositoryMocked);
+        $actionToTest = new SaasClientAction(repository: $repositoryMocked);
         $actualValue = $actionToTest->listAll();
         $arrayDiff = array_diff($expectedValue, $actualValue);
 
@@ -32,7 +32,7 @@ class UserActionTest extends TestCase
     }
 
     /**
-     * Verifica se o metodo UserAction->findById(id: $id) retorna o valor correto
+     * Verifica se o metodo SaasClientAction->findById(id: $id) retorna o valor correto
      * @test
      * @throws \PHPUnit\Framework\MockObject\Exception
      */
@@ -40,27 +40,27 @@ class UserActionTest extends TestCase
     {
         $idToFind = fake()->randomNumber(1,9999);
 
-        $modelMockedExpected = $this->createPartialMock(originalClassName: User::class, methods: ['fill', 'setAttribute']);
+        $modelMockedExpected = $this->createPartialMock(originalClassName: SaasClient::class, methods: ['fill', 'setAttribute']);
         $modelMockedExpected->id = $idToFind;
         $modelMockedExpected->name = fake()->name();
-        $modelMockedExpected->email = fake()->email();
-        $modelMockedExpected->password = fake()->password();
+        $modelMockedExpected->email_personal = fake()->email();
+        $modelMockedExpected->email_pofessional = fake()->email();
         $modelMockedExpected->phone_personal = fake()->phoneNumber();
-        $modelMockedExpected->phone_professional = fake()->phoneNumber();
-        $modelMockedExpected->url_photo = fake()->imageUrl();
-        $modelMockedExpected->status = UserStatusEnum::ACTIVE->value;
+        $modelMockedExpected->phone_pofessional = fake()->phoneNumber();
+        $modelMockedExpected->observation = fake()->text();
+        $modelMockedExpected->status = SaasClientStatusEnum::ACTIVE->value;
 
-        $repositoryMocked = Mockery::mock(args: UserRepository::class)->makePartial();
+        $repositoryMocked = Mockery::mock(args: SaasClientRepository::class)->makePartial();
         $repositoryMocked->shouldReceive(methodNames: 'findById')->with($idToFind)->andReturn(args: $modelMockedExpected);
 
-        $actionToTest = new UserAction(repository: $repositoryMocked);
+        $actionToTest = new SaasClientAction(repository: $repositoryMocked);
         $actualValue = $actionToTest->findById(id: $idToFind);
 
         $this->assertEquals(expected: $modelMockedExpected->toArray(), actual: $actualValue->toArray(), message: 'O retorno do metodo findById do action não está correto.');
     }
 
     /**
-     * Verifica se o metodo UserAction->create(data: $data, createdBy: $createdBy) retorna o valor correto
+     * Verifica se o metodo SaasClientAction->create(data: $data, createdBy: $createdBy) retorna o valor correto
      * @test
      * @throws \PHPUnit\Framework\MockObject\Exception
      */
@@ -69,37 +69,36 @@ class UserActionTest extends TestCase
         $data = [
             'id' => fake()->randomNumber(1,9999),
             'name' => fake()->name(),
-            'email' => fake()->email(),
-            'password' => fake()->password(),
+            'email_personal' => fake()->email(),
+            'email_pofessional' => fake()->email(),
             'phone_personal' => fake()->phoneNumber(),
-            'phone_professional' => fake()->phoneNumber(),
-            'url_photo' => fake()->imageUrl(),
-            'status' => UserStatusEnum::ACTIVE->value,
+            'phone_pofessional' => fake()->phoneNumber(),
+            'observation' => fake()->text(),
+            'status' => SaasClientStatusEnum::ACTIVE->value,
             'created_by' => fake()->randomNumber(1,9999),
         ];
 
-        $modelMockedExpected = $this->createPartialMock(originalClassName: User::class, methods: ['fill', 'setAttribute']);
+        $modelMockedExpected = $this->createPartialMock(originalClassName: SaasClient::class, methods: ['fill', 'setAttribute']);
         $modelMockedExpected->id = $data['id'];
         $modelMockedExpected->name = $data['name'];
-        $modelMockedExpected->email = $data['email'];
-        $modelMockedExpected->password = $data['password'];
+        $modelMockedExpected->email_personal = $data['email_personal'];
+        $modelMockedExpected->email_pofessional = $data['email_pofessional'];
         $modelMockedExpected->phone_personal = $data['phone_personal'];
-        $modelMockedExpected->phone_professional = $data['phone_professional'];
-        $modelMockedExpected->url_photo = $data['url_photo'];
+        $modelMockedExpected->phone_pofessional = $data['phone_pofessional'];
+        $modelMockedExpected->observation = $data['observation'];
         $modelMockedExpected->status = $data['status'];
-        $modelMockedExpected->created_by = $data['created_by'];
 
-        $repositoryMocked = Mockery::mock(args: UserRepository::class)->makePartial();
+        $repositoryMocked = Mockery::mock(args: SaasClientRepository::class)->makePartial();
         $repositoryMocked->shouldReceive(methodNames: 'create')->with($data)->andReturn(args: $modelMockedExpected);
 
-        $actionToTest = new UserAction(repository: $repositoryMocked);
+        $actionToTest = new SaasClientAction(repository: $repositoryMocked);
         $actualValue = $actionToTest->create($data);
 
         $this->assertEquals(expected: $modelMockedExpected->toArray(), actual: $actualValue->toArray(), message: 'O retorno do metodo create do action não está correto.');
     }
 
     /**
-     * Verifica se o metodo UserAction->update(data: $data, updatedBy: $updatedBy) retorna o valor correto
+     * Verifica se o metodo SaasClientAction->update(data: $data, updatedBy: $updatedBy) retorna o valor correto
      * @test
      * @throws \PHPUnit\Framework\MockObject\Exception
      */
@@ -108,37 +107,36 @@ class UserActionTest extends TestCase
         $data = [
             'id' => fake()->randomNumber(1,9999),
             'name' => fake()->name(),
-            'email' => fake()->email(),
-            'password' => fake()->password(),
+            'email_personal' => fake()->email(),
+            'email_pofessional' => fake()->email(),
             'phone_personal' => fake()->phoneNumber(),
-            'phone_professional' => fake()->phoneNumber(),
-            'url_photo' => fake()->imageUrl(),
-            'status' => UserStatusEnum::ACTIVE->value,
+            'phone_pofessional' => fake()->phoneNumber(),
+            'observation' => fake()->text(),
+            'status' => SaasClientStatusEnum::ACTIVE->value,
             'updated_by' => fake()->randomNumber(1,9999),
         ];
 
-        $modelMockedExpected = $this->createPartialMock(originalClassName: User::class, methods: ['fill', 'setAttribute']);
+        $modelMockedExpected = $this->createPartialMock(originalClassName: SaasClient::class, methods: ['fill', 'setAttribute']);
         $modelMockedExpected->id = $data['id'];
         $modelMockedExpected->name = $data['name'];
-        $modelMockedExpected->email = $data['email'];
-        $modelMockedExpected->password = $data['password'];
+        $modelMockedExpected->email_personal = $data['email_personal'];
+        $modelMockedExpected->email_pofessional = $data['email_pofessional'];
         $modelMockedExpected->phone_personal = $data['phone_personal'];
-        $modelMockedExpected->phone_professional = $data['phone_professional'];
-        $modelMockedExpected->url_photo = $data['url_photo'];
+        $modelMockedExpected->phone_pofessional = $data['phone_pofessional'];
+        $modelMockedExpected->observation = $data['observation'];
         $modelMockedExpected->status = $data['status'];
-        $modelMockedExpected->updated_by = $data['updated_by'];
 
-        $repositoryMocked = Mockery::mock(args: UserRepository::class)->makePartial();
+        $repositoryMocked = Mockery::mock(args: SaasClientRepository::class)->makePartial();
         $repositoryMocked->shouldReceive(methodNames: 'update')->with((int) $data['id'], (array) $data)->andReturn(args: $modelMockedExpected);
 
-        $actionToTest = new UserAction(repository: $repositoryMocked);
+        $actionToTest = new SaasClientAction(repository: $repositoryMocked);
         $actualValue = $actionToTest->update((int) $data['id'], (array) $data);
 
         $this->assertEquals(expected: $modelMockedExpected->toArray(), actual: $actualValue->toArray(), message: 'O retorno do metodo update do action não está correto.');
     }
 
     /**
-     * Verifica se o metodo UserAction->delete(id: $id, deletedBy: $deletedBy) retorna o valor correto
+     * Verifica se o metodo SaasClientAction->delete(id: $id, deletedBy: $deletedBy) retorna o valor correto
      * @test
      * @throws \PHPUnit\Framework\MockObject\Exception
      */
@@ -147,10 +145,10 @@ class UserActionTest extends TestCase
         $idToDelete = fake()->randomNumber(1,9999);
         $deletedBy = fake()->randomNumber(1,9999);
 
-        $repositoryMocked = Mockery::mock(args: UserRepository::class)->makePartial();
+        $repositoryMocked = Mockery::mock(args: SaasClientRepository::class)->makePartial();
         $repositoryMocked->shouldReceive(methodNames: 'delete')->with($idToDelete, $deletedBy)->andReturnTrue();
 
-        $actionToTest = new UserAction(repository: $repositoryMocked);
+        $actionToTest = new SaasClientAction(repository: $repositoryMocked);
         $actualValue = $actionToTest->delete($idToDelete, $deletedBy);
 
         $this->assertTrue(condition: $actualValue, message: 'O retorno do metodo delete do action não está correto.');
