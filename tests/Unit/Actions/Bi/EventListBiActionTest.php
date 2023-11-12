@@ -2,12 +2,10 @@
 
 namespace Tests\Unit\Actions\Bi;
 
-use App\Actions\Bi\EventListBiAction;
-use App\Enums\EventList\EventListStatusEnum;
-use App\Models\EventList;
-use App\Repositories\Bi\EventListBiRepository;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Mockery;
+use App\Actions\Bi\EventListBiAction;
+use App\Repositories\Bi\EventListBiRepository;
 
 class EventListBiActionTest extends TestCase
 {

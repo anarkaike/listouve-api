@@ -30,7 +30,7 @@ class ApiSuccessResponse implements Responsable
      * @param  $request
      * @return \Symfony\Component\HttpFoundation\Response|void
      */
-    public function toResponse($request)
+    public function toResponse($request = null)
     {
         return response()->json(
             [

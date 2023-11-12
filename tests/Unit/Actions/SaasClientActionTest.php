@@ -2,12 +2,14 @@
 
 namespace Tests\Unit\Actions;
 
-use App\Actions\SaasClientAction;
-use App\Enums\SaasClient\SaasClientStatusEnum;
-use App\Models\SaasClient;
-use App\Repositories\SaasClientRepository;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Mockery;
+use App\{
+    Actions\SaasClientAction,
+    Enums\SaasClient\SaasClientStatusEnum,
+    Models\SaasClient,
+    Repositories\SaasClientRepository,
+};
 
 class SaasClientActionTest extends TestCase
 {

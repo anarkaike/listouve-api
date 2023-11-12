@@ -2,12 +2,10 @@
 
 namespace Tests\Unit\Actions\Bi;
 
-use App\Actions\Bi\UserBiAction;
-use App\Enums\User\UserStatusEnum;
-use App\Models\User;
-use App\Repositories\Bi\UserBiRepository;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Mockery;
+use App\Actions\Bi\UserBiAction;
+use App\Repositories\Bi\UserBiRepository;
 
 class UserBiActionTest extends TestCase
 {

@@ -106,7 +106,7 @@ class EventsListsController extends Controller implements CrudEventListControlle
 
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $data = $request->validationData();
+            $data = $request->all();
             $data['created_by'] = Auth::id();
             $event = $this->eventListAction->create(data: $data);
 

@@ -2,12 +2,14 @@
 
 namespace Tests\Unit\Actions;
 
-use App\Actions\UserAction;
-use App\Enums\User\UserStatusEnum;
-use App\Models\User;
-use App\Repositories\UserRepository;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Mockery;
+use App\{
+    Actions\UserAction,
+    Enums\User\UserStatusEnum,
+    Models\User,
+    Repositories\UserRepository,
+};
 
 class UserActionTest extends TestCase
 {

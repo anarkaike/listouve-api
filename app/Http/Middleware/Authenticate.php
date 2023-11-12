@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Responses\ApiErrorResponse;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,7 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route(name: 'login');
+        $msg = 'Token necessário para acssar end point.';
+        return $request->expectsJson() ? null : (new ApiErrorResponse(new \Exception($msg)))->toResponse();
     }
 }

@@ -2,11 +2,13 @@
 
 namespace Tests\Unit\Actions;
 
-use App\Actions\EventListAction;
-use App\Models\EventList;
-use App\Repositories\EventListRepository;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Mockery;
+use App\{
+    Actions\EventListAction,
+    Models\EventList,
+    Repositories\EventListRepository,
+};
 
 class EventListActionTest extends TestCase
 {

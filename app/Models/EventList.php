@@ -20,7 +20,7 @@ class EventList extends Model
     use HasFactory, SoftDeletes, Filterable, Sortable;
 
     protected $table = 'events_lists';
-    protected $touches = ['events',];
+//    protected $touches = ['events',];
 
     /**
      * The attributes that are mass assignable.

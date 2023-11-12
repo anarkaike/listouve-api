@@ -34,6 +34,7 @@ class User extends Authenticatable
         'phone_professional',
         'url_photo',
         'status',
+        'general_settings',
         'created_by',
         'updated_at',
         'updated_by',

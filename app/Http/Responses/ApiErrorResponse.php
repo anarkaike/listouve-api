@@ -20,7 +20,7 @@ class ApiErrorResponse implements Responsable
      */
     public function __construct(
         private \Exception $exception ,
-        private string $message = 'Erro ao executar a end poiny da api.',
+        private ?string $message = null,
         private array $data = [],
         Request|null $request = null,
     ) {}
@@ -29,7 +29,7 @@ class ApiErrorResponse implements Responsable
      * @param  $request
      * @return \Symfony\Component\HttpFoundation\Response|void
      */
-    public function toResponse($request)
+    public function toResponse($request = null)
     {
         return response()->json(
             [

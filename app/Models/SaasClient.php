@@ -34,6 +34,7 @@ class SaasClient extends Model
         'phone_pofessional',
         'observation',
         'status',
+        'general_settings',
         'created_by',
         'updated_by',
         'updated_at',

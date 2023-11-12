@@ -24,10 +24,10 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => fake()->password(),
             'remember_token' => Str::random(length:  10),
-            'phone_personal' => '00000000000',
-            'phone_professional' => '00000000000',
+            'phone_personal' => fake()->phoneNumber(),
+            'phone_professional' => fake()->phoneNumber(),
             'url_photo' => fake()->imageUrl(),
             'status' => UserStatusEnum::ACTIVE->value,
             'created_by' => 0,

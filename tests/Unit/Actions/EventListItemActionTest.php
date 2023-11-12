@@ -2,12 +2,14 @@
 
 namespace Tests\Unit\Actions;
 
-use App\Actions\EventListItemAction;
-use App\Enums\EventListItem\EventListItemPaymentStatusEnum;
-use App\Models\EventListItem;
-use App\Repositories\EventListItemRepository;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Mockery;
+use App\{
+    Actions\EventListItemAction,
+    Enums\EventListItem\EventListItemPaymentStatusEnum,
+    Models\EventListItem,
+    Repositories\EventListItemRepository,
+};
 
 class EventListItemActionTest extends TestCase
 {

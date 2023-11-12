@@ -2,12 +2,10 @@
 
 namespace Tests\Unit\Actions\Bi;
 
-use App\Actions\Bi\SaasClientBiAction;
-use App\Enums\SaasClient\SaasClientStatusEnum;
-use App\Models\SaasClient;
-use App\Repositories\Bi\SaasClientBiRepository;
-use Mockery;
 use PHPUnit\Framework\TestCase;
+use Mockery;
+use App\Actions\Bi\SaasClientBiAction;
+use App\Repositories\Bi\SaasClientBiRepository;
 
 class SaasClientBiActionTest extends TestCase
 {

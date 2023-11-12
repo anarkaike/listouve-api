@@ -10,6 +10,7 @@ use App\Http\{
     Responses\ApiErrorResponse,
     Responses\ApiSuccessResponse,
 };
+use Laravel\Sanctum\PersonalAccessToken;
 
 /**
  * Controller responsável pelos end points de login e logout.
@@ -57,12 +58,24 @@ class AuthController extends Controller
      * Action para end point /api/v1/logout
      *
      * @param Request $request
-     * @return ApiSuccessResponse
+     * @return ApiSuccessResponse|ApiErrorResponse
      */
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+//        $request->session()->invalidate();
+//        $request->session()->regenerateToken();
 
-        return new ApiSuccessResponse(data: [], message: trans(key: 'app.logout_realizado_com_sucesso'));
+        // Get bearer token from the request
+        $accessToken = $request->bearerToken();
+
+        // Get access token from database
+        $token = PersonalAccessToken::findToken($accessToken);
+
+        // Revoke token
+        if ($token->delete()) {
+            return new ApiSuccessResponse(data: [], message: 'Deslogado com sucesso!');
+        } else {
+            return new ApiErrorResponse(new \Exception(message: 'Erro ao tentar deslogar.'), message: 'Erro ao tentar deslogar.');
+        }
     }
 }
