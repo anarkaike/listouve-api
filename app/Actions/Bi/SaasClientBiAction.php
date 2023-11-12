@@ -13,7 +13,7 @@ use App\Contracts\{
 class SaasClientBiAction implements SaasClientBiActionInterface {
 
     public function __construct(
-        private SaasClientBiRepositoryInterface $saasClientBiRepository
+        private SaasClientBiRepositoryInterface $repository
     )
     {
     }
@@ -36,7 +36,7 @@ class SaasClientBiAction implements SaasClientBiActionInterface {
      * @return int|mixed
      */
     function getTotal() {
-        return $this->saasClientBiRepository->getTotal();
+        return $this->repository->getTotal();
     }
 
     /**
@@ -45,7 +45,7 @@ class SaasClientBiAction implements SaasClientBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredToday() {
-        return $this->saasClientBiRepository->getTotalRegisteredToday();
+        return $this->repository->getTotalRegisteredToday();
     }
 
     /**
@@ -54,7 +54,7 @@ class SaasClientBiAction implements SaasClientBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredThisWeek() {
-        return $this->saasClientBiRepository->getTotalRegisteredThisWeek();
+        return $this->repository->getTotalRegisteredThisWeek();
     }
 
     /**
@@ -63,7 +63,7 @@ class SaasClientBiAction implements SaasClientBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredThisMonth() {
-        return $this->saasClientBiRepository->getTotalRegisteredThisMonth();
+        return $this->repository->getTotalRegisteredThisMonth();
     }
 
     /**
@@ -72,7 +72,7 @@ class SaasClientBiAction implements SaasClientBiActionInterface {
      * @return int|mixed
      */
     function getTotalDeleted() {
-        return $this->saasClientBiRepository->getTotalDeleted();
+        return $this->repository->getTotalDeleted();
     }
 
     /**
@@ -81,7 +81,7 @@ class SaasClientBiAction implements SaasClientBiActionInterface {
      * @return int|mixed
      */
     function getTotalByCreated() {
-        return $this->saasClientBiRepository->getTotalByCreated();
+        return $this->repository->getTotalByCreated();
     }
 
 }

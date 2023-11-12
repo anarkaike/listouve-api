@@ -13,7 +13,7 @@ use App\Contracts\{
 class EventListItemBiAction implements EventListItemBiActionInterface {
 
     public function __construct(
-        private EventListItemBiRepositoryInterface $eventListItemBiRepository
+        private EventListItemBiRepositoryInterface $repository
     )
     {
     }
@@ -41,7 +41,7 @@ class EventListItemBiAction implements EventListItemBiActionInterface {
      * @return int|mixed
      */
     function getTotal() {
-        return $this->eventListItemBiRepository->getTotal();
+        return $this->repository->getTotal();
     }
 
     /**
@@ -50,7 +50,7 @@ class EventListItemBiAction implements EventListItemBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredToday() {
-        return $this->eventListItemBiRepository->getTotalRegisteredToday();
+        return $this->repository->getTotalRegisteredToday();
     }
 
     /**
@@ -59,7 +59,7 @@ class EventListItemBiAction implements EventListItemBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredThisWeek() {
-        return $this->eventListItemBiRepository->getTotalRegisteredThisWeek();
+        return $this->repository->getTotalRegisteredThisWeek();
     }
 
     /**
@@ -68,7 +68,7 @@ class EventListItemBiAction implements EventListItemBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredThisMonth() {
-        return $this->eventListItemBiRepository->getTotalRegisteredThisMonth();
+        return $this->repository->getTotalRegisteredThisMonth();
     }
 
     /**
@@ -77,7 +77,7 @@ class EventListItemBiAction implements EventListItemBiActionInterface {
      * @return int|mixed
      */
     function getTotalDeleted() {
-        return $this->eventListItemBiRepository->getTotalDeleted();
+        return $this->repository->getTotalDeleted();
     }
 
     /**
@@ -86,6 +86,6 @@ class EventListItemBiAction implements EventListItemBiActionInterface {
      * @return int|mixed
      */
     function getTotalByCreated() {
-        return $this->eventListItemBiRepository->getTotalByCreated();
+        return $this->repository->getTotalByCreated();
     }
 }

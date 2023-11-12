@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class EventListAction implements EventListActionInterface {
 
     public function __construct(
-        private EventListRepositoryInterface $eventListRepository
+        private EventListRepositoryInterface $repository
     )
     {
 
@@ -20,28 +20,28 @@ class EventListAction implements EventListActionInterface {
 
     public function listAll()
     {
-        return $this->eventListRepository->listAll();
+        return $this->repository->listAll();
     }
 
     public function findById(int $id)
     {
-        return $this->eventListRepository->findById($id);
+        return $this->repository->findById($id);
     }
 
     public function create(array $data)
     {
-        $data['created_by'] = Auth::id();
-        return $this->eventListRepository->create($data);
+        $data['created_by'] = $data['created_by'] ?? Auth::id();
+        return $this->repository->create($data);
     }
 
     public function update(int $id, array $data)
     {
-        $data['updated_by'] = Auth::id();
-        return $this->eventListRepository->update($id, $data);
+        $data['updated_by'] = $data['updated_by'] ?? Auth::id();
+        return $this->repository->update($id, $data);
     }
 
-    public function delete(int $id): bool
+    public function delete(int $id, int $deletedBy = null): bool
     {
-        return $this->eventListRepository->delete(id: $id, deletedBy: Auth::id());
+        return $this->repository->delete(id: $id, deletedBy: $deletedBy ?? Auth::id());
     }
 }

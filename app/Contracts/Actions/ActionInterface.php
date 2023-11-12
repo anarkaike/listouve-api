@@ -45,5 +45,5 @@ interface ActionInterface
      * @param $id
      * @return mixed
      */
-    public function delete(int $id);
+    public function delete(int $id, int $deletedBy = null);
 }

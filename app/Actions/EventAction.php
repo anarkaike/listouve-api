@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class EventAction implements EventActionInterface {
 
     public function __construct(
-        private EventRepositoryInterface $eventRepository
+        private EventRepositoryInterface $repository
     )
     {
 
@@ -25,7 +25,7 @@ class EventAction implements EventActionInterface {
      */
     public function listAll()
     {
-        return $this->eventRepository->listAll();
+        return $this->repository->listAll();
     }
 
     /**
@@ -36,7 +36,7 @@ class EventAction implements EventActionInterface {
      */
     public function findById(int $id)
     {
-        return $this->eventRepository->findById($id);
+        return $this->repository->findById($id);
     }
 
     /**
@@ -47,8 +47,8 @@ class EventAction implements EventActionInterface {
      */
     public function create(array $data)
     {
-        $data['created_by'] = Auth::id();
-        return $this->eventRepository->create($data);
+        $data['created_by'] = $data['created_by'] ?? Auth::id();
+        return $this->repository->create($data);
     }
 
     /**
@@ -60,8 +60,8 @@ class EventAction implements EventActionInterface {
      */
     public function update(int $id, array $data)
     {
-        $data['updated_by'] = Auth::id();
-        return $this->eventRepository->update($id, $data);
+        $data['updated_by'] = $data['updated_by'] ?? Auth::id();
+        return $this->repository->update($id, $data);
     }
 
     /**
@@ -70,8 +70,8 @@ class EventAction implements EventActionInterface {
      * @param int $id
      * @return bool
      */
-    public function delete(int $id): bool
+    public function delete(int $id, int $deletedBy = null): bool
     {
-        return $this->eventRepository->delete(id: $id, deletedBy: Auth::id());
+        return $this->repository->delete(id: $id, deletedBy: $deletedBy ?? Auth::id());
     }
 }

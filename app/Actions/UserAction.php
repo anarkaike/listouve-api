@@ -15,7 +15,7 @@ use App\Contracts\{
 class UserAction implements UserActionInterface {
 
     public function __construct(
-        private UserRepositoryInterface $userRepository
+        private UserRepositoryInterface $repository
     )
     {
 
@@ -23,28 +23,28 @@ class UserAction implements UserActionInterface {
 
     public function listAll()
     {
-        return $this->userRepository->listAll();
+        return $this->repository->listAll();
     }
 
     public function findById(int $id): User|null
     {
-        return $this->userRepository->findById($id);
+        return $this->repository->findById($id);
     }
 
     public function create(array $data): User
     {
-        $data['created_by'] = Auth::id();
-        return $this->userRepository->create($data);
+        $data['created_by'] = $data['created_by'] ?? Auth::id();
+        return $this->repository->create($data);
     }
 
     public function update(int $id, array $data): User
     {
-        $data['updated_by'] = Auth::id();
-        return $this->userRepository->update($id, $data);
+        $data['updated_by'] = $data['updated_by'] ?? Auth::id();
+        return $this->repository->update($id, $data);
     }
 
-    public function delete(int $id): bool
+    public function delete(int $id, int $deletedBy = null): bool
     {
-        return $this->userRepository->delete(id: $id, deletedBy: Auth::id());
+        return $this->repository->delete(id: $id, deletedBy: $deletedBy ?? Auth::id());
     }
 }

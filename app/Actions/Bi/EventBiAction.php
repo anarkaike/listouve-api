@@ -13,7 +13,7 @@ use App\Contracts\{
 class EventBiAction implements EventBiActionInterface {
 
     public function __construct(
-        private EventBiRepositoryInterface $eventBiRepository
+        private EventBiRepositoryInterface $repository
     )
     {
     }
@@ -41,7 +41,7 @@ class EventBiAction implements EventBiActionInterface {
      * @return int|mixed
      */
     function getTotal() {
-        return $this->eventBiRepository->getTotal();
+        return $this->repository->getTotal();
     }
 
     /**
@@ -50,7 +50,7 @@ class EventBiAction implements EventBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredToday() {
-        return $this->eventBiRepository->getTotalRegisteredToday();
+        return $this->repository->getTotalRegisteredToday();
     }
 
     /**
@@ -59,7 +59,7 @@ class EventBiAction implements EventBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredThisWeek() {
-        return $this->eventBiRepository->getTotalRegisteredThisWeek();
+        return $this->repository->getTotalRegisteredThisWeek();
     }
 
     /**
@@ -68,7 +68,7 @@ class EventBiAction implements EventBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredThisMonth() {
-        return $this->eventBiRepository->getTotalRegisteredThisMonth();
+        return $this->repository->getTotalRegisteredThisMonth();
     }
 
     /**
@@ -77,7 +77,7 @@ class EventBiAction implements EventBiActionInterface {
      * @return int|mixed
      */
     function getTotalDeleted() {
-        return $this->eventBiRepository->getTotalDeleted();
+        return $this->repository->getTotalDeleted();
     }
 
     /**
@@ -86,7 +86,7 @@ class EventBiAction implements EventBiActionInterface {
      * @return int|mixed
      */
     function getTotalByCreated() {
-        return $this->eventBiRepository->getTotalByCreated();
+        return $this->repository->getTotalByCreated();
     }
 
 }

@@ -14,7 +14,7 @@ class UserModelTest extends TestCase
      */
     public function check_if_fillable_fields_is_corect(): void
     {
-        $expectedValues = [
+        $expectedValue = [
             'name',
             'email',
             'password',
@@ -32,7 +32,7 @@ class UserModelTest extends TestCase
 
         $modelToTest    = new User;
         $actualValues   = $modelToTest->getFillable();
-        $arrayDiff      = array_diff($expectedValues, $actualValues);
+        $arrayDiff      = array_diff($expectedValue, $actualValues);
 
         $this->assertEquals(expected: 0, actual: count($arrayDiff), message: 'Campos preenchiveis não estão corretos no model.');
     }
@@ -44,14 +44,14 @@ class UserModelTest extends TestCase
      */
     public function check_if_hidden_fields_is_corect(): void
     {
-        $expectedValues = [
+        $expectedValue = [
             'password',
             'remember_token',
         ];
 
         $modelToTest    = new User;
         $actualValues   = $modelToTest->getHidden();
-        $arrayDiff      = array_diff($expectedValues, $actualValues);
+        $arrayDiff      = array_diff($expectedValue, $actualValues);
 
         $this->assertEquals(expected: 0, actual: count($arrayDiff), message: 'Campos ocultos não estão corretos no model.');
     }

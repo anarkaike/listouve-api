@@ -14,7 +14,7 @@ class EventModelTest extends TestCase
      */
     public function check_if_fillable_fields_is_corect(): void
     {
-        $expectedValues = [
+        $expectedValue = [
             'name',
             'description',
             'url_photo',
@@ -29,7 +29,7 @@ class EventModelTest extends TestCase
 
         $modelToTest    = new Event;
         $actualValues   = $modelToTest->getFillable();
-        $arrayDiff      = array_diff($expectedValues, $actualValues);
+        $arrayDiff      = array_diff($expectedValue, $actualValues);
 
         $this->assertEquals(expected: 0, actual: count($arrayDiff), message: 'Campos preenchiveis não estão corretos no model.');
     }
@@ -41,11 +41,11 @@ class EventModelTest extends TestCase
      */
     public function check_if_hidden_fields_is_corect(): void
     {
-        $expectedValues = [];
+        $expectedValue = [];
 
         $modelToTest    = new Event;
         $actualValues   = $modelToTest->getHidden();
-        $arrayDiff      = array_diff($expectedValues, $actualValues);
+        $arrayDiff      = array_diff($expectedValue, $actualValues);
 
         $this->assertEquals(expected: 0, actual: count($arrayDiff), message: 'Campos ocultos não estão corretos no model.');
     }

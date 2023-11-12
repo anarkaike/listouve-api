@@ -14,7 +14,7 @@ class SaasClientModelTest extends TestCase
      */
     public function check_if_fillable_fields_is_corect(): void
     {
-        $expectedValues = [
+        $expectedValue = [
             'name',
             'email_personal',
             'email_pofessional',
@@ -32,7 +32,7 @@ class SaasClientModelTest extends TestCase
 
         $modelToTest    = new SaasClient;
         $actualValues   = $modelToTest->getFillable();
-        $arrayDiff      = array_diff($expectedValues, $actualValues);
+        $arrayDiff      = array_diff($expectedValue, $actualValues);
 
         $this->assertEquals(expected: 0, actual: count($arrayDiff), message: 'Campos preenchiveis não estão corretos no model.');
     }
@@ -44,11 +44,11 @@ class SaasClientModelTest extends TestCase
      */
     public function check_if_hidden_fields_is_corect(): void
     {
-        $expectedValues = [];
+        $expectedValue = [];
 
         $modelToTest    = new SaasClient;
         $actualValues   = $modelToTest->getHidden();
-        $arrayDiff      = array_diff($expectedValues, $actualValues);
+        $arrayDiff      = array_diff($expectedValue, $actualValues);
 
         $this->assertEquals(expected: 0, actual: count($arrayDiff), message: 'Campos ocultos não estão corretos no model.');
     }

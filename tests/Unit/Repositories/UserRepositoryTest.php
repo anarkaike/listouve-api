@@ -18,22 +18,22 @@ class UserRepositoryTest extends TestCase
      */
     public function check_if_return_list_all_is_correct(): void
     {
-        $listAllExpected = ['1', '2', '3'];
+        $expectedValue = ['1', '2', '3'];
 
         $modelMocked = Mockery::mock(args: User::class)->makePartial();
         $modelMocked->shouldReceive(methodNames: 'filter')->andReturnSelf();
-        $modelMocked->shouldReceive(methodNames: 'get')->andReturn(args: ['1', '2', '3',]);
+        $modelMocked->shouldReceive(methodNames: 'get')->andReturn(args: $expectedValue);
 
 
         $repositoryToTest = new UserRepository(user: $modelMocked);
-        $listAllActual = $repositoryToTest->listAll();
-        $arrayDiff = array_diff($listAllExpected, $listAllActual);
+        $actualValue = $repositoryToTest->listAll();
+        $arrayDiff = array_diff($expectedValue, $actualValue);
 
         $this->assertEquals(expected: 0, actual: count($arrayDiff), message: 'O retorno do metodo listAll do repository não está correto.');
     }
 
     /**
-     * Verifica se o metodo UserRepository->findById() retorna o valor correto
+     * Verifica se o metodo UserRepository->findById(id: $id) retorna o valor correto
      * @test
      */
     public function check_if_return_find_by_id_is_correct(): void
@@ -75,7 +75,7 @@ class UserRepositoryTest extends TestCase
         $actualValue = $repositoryToTest->create(data: $expectedValue);
         $arrayDiff = array_diff($expectedValue, $actualValue);
 
-        $this->assertEquals(expected: 0, actual: count(value: $arrayDiff), message: 'O retorno do metodo findById do repository não está correto.');
+        $this->assertEquals(expected: 0, actual: count(value: $arrayDiff), message: 'O retorno do metodo create do repository não está correto.');
     }
 
     /**
@@ -102,7 +102,7 @@ class UserRepositoryTest extends TestCase
         $repositoryToTest = new UserRepository(user: $modelMocked);
 
         $actualValue = $repositoryToTest->update(id: $expectedValue['id'], data: $expectedValue);
-        $this->assertEquals(expected: $modelMocked, actual: $actualValue, message: 'Retorno do update errdo.');
+        $this->assertEquals(expected: $modelMocked, actual: $actualValue, message: 'Retorno do metodo update do repository não está correto.');
     }
 
     /**
@@ -122,6 +122,6 @@ class UserRepositoryTest extends TestCase
         $repositoryToTest = new UserRepository(user: $modelMocked);
 
         $actualValue = $repositoryToTest->delete(id: $id, deletedBy: $deletedBy);
-        $this->assertTrue(condition: $actualValue, message: 'Retorno do update errdo.');
+        $this->assertTrue(condition: $actualValue, message: 'O retorno do metodo delete do repository não está correto.');
     }
 }

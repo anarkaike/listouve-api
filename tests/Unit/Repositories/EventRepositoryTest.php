@@ -17,22 +17,22 @@ class EventRepositoryTest extends TestCase
      */
     public function check_if_return_list_all_is_correct(): void
     {
-        $listAllExpected = ['1', '2', '3'];
+        $expectedValue = ['1', '2', '3'];
 
         $modelMocked = Mockery::mock(args: Event::class)->makePartial();
         $modelMocked->shouldReceive(methodNames: 'filter')->andReturnSelf();
-        $modelMocked->shouldReceive(methodNames: 'get')->andReturn(args: ['1', '2', '3',]);
+        $modelMocked->shouldReceive(methodNames: 'get')->andReturn(args: $expectedValue);
 
 
         $repositoryToTest = new EventRepository(event: $modelMocked);
-        $listAllActual = $repositoryToTest->listAll();
-        $arrayDiff = array_diff($listAllExpected, $listAllActual);
+        $actualValue = $repositoryToTest->listAll();
+        $arrayDiff = array_diff($expectedValue, $actualValue);
 
         $this->assertEquals(expected: 0, actual: count($arrayDiff), message: 'O retorno do metodo listAll do repository não está correto.');
     }
 
     /**
-     * Verifica se o metodo EventRepository->findById() retorna o valor correto
+     * Verifica se o metodo EventRepository->findById(id: $id) retorna o valor correto
      * @test
      */
     public function check_if_return_find_by_id_is_correct(): void
@@ -51,7 +51,7 @@ class EventRepositoryTest extends TestCase
     }
 
     /**
-     * Verifica se o metodo EventRepository->create() retorna o valor correto
+     * Verifica se o metodo EventRepository->create(data: $data, createdBy: $createdBy) retorna o valor correto
      * @test
      */
     public function check_if_return_create_is_correct(): void
@@ -75,7 +75,7 @@ class EventRepositoryTest extends TestCase
     }
 
     /**
-     * Verifica se o metodo EventRepository->update() retorna o valor correto
+     * Verifica se o metodo EventRepository->update(data: $data, updatedBy: $updatedBy) retorna o valor correto
      * @test
      */
     public function check_if_return_update_is_correct(): void
@@ -99,7 +99,7 @@ class EventRepositoryTest extends TestCase
     }
 
     /**
-     * Verifica se o metodo EventRepository->delete() retorna o valor correto
+     * Verifica se o metodo EventRepository->delete(id: $id, deletedBy: $deletedBy) retorna o valor correto
      * @test
      */
     public function check_if_return_delete_is_correct(): void

@@ -13,7 +13,7 @@ use App\Contracts\{
 class EventListBiAction implements EventListBiActionInterface {
 
     public function __construct(
-        private EventListBiRepositoryInterface $eventListBiRepository
+        private EventListBiRepositoryInterface $repository
     )
     {
     }
@@ -41,7 +41,7 @@ class EventListBiAction implements EventListBiActionInterface {
      * @return int|mixed
      */
     function getTotal() {
-        return $this->eventListBiRepository->getTotal();
+        return $this->repository->getTotal();
     }
 
     /**
@@ -50,7 +50,7 @@ class EventListBiAction implements EventListBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredToday() {
-        return $this->eventListBiRepository->getTotalRegisteredToday();
+        return $this->repository->getTotalRegisteredToday();
     }
 
     /**
@@ -59,7 +59,7 @@ class EventListBiAction implements EventListBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredThisWeek() {
-        return $this->eventListBiRepository->getTotalRegisteredThisWeek();
+        return $this->repository->getTotalRegisteredThisWeek();
     }
 
     /**
@@ -68,7 +68,7 @@ class EventListBiAction implements EventListBiActionInterface {
      * @return int|mixed
      */
     function getTotalRegisteredThisMonth() {
-        return $this->eventListBiRepository->getTotalRegisteredThisMonth();
+        return $this->repository->getTotalRegisteredThisMonth();
     }
 
     /**
@@ -77,7 +77,7 @@ class EventListBiAction implements EventListBiActionInterface {
      * @return int|mixed
      */
     function getTotalDeleted() {
-        return $this->eventListBiRepository->getTotalDeleted();
+        return $this->repository->getTotalDeleted();
     }
 
     /**
@@ -86,7 +86,7 @@ class EventListBiAction implements EventListBiActionInterface {
      * @return int|mixed
      */
     function getTotalByCreated() {
-        return $this->eventListBiRepository->getTotalByCreated();
+        return $this->repository->getTotalByCreated();
     }
 
 }
