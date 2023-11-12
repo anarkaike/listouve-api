@@ -11,6 +11,7 @@ use App\{
 
 class EventListBiRepositoryTest extends TestCase
 {
+
     /**
      * Verifica se o metodo EventListBiRepository->getTotal() retorna o valor correto
      * @test
