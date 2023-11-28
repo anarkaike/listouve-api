@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api\v1;
 use Illuminate\Http\Request;
 use App\Actions\EventAction;
 use App\Contracts\Controllers\CrudEventControllerInterface;
-use App\Http\{
-    Controllers\Controller,
+use App\Http\{Controllers\Controller,
     Requests\Event\EventCreateRequest,
     Requests\Event\EventDeleteRequest,
     Requests\Event\EventUpdateRequest,
+    Resources\EventCollection,
+    Resources\EventResource,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse
-};
+    Responses\ApiSuccessResponse};
 use App\Exceptions\{
     Event\EventNotFountException,
     Event\EventDeleteException,
@@ -52,7 +52,7 @@ class EventsController extends Controller implements CrudEventControllerInterfac
             }
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: new EventResource($event),
                 message: trans(key: 'messages.events.find_by_id_success')
             );
 
@@ -72,10 +72,10 @@ class EventsController extends Controller implements CrudEventControllerInterfac
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventAction->listAll();
+            $events = $this->eventAction->listAll();
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: EventCollection::make($events),
                 message: trans(key: 'messages.events.list_all_success')
             );
 
@@ -100,7 +100,7 @@ class EventsController extends Controller implements CrudEventControllerInterfac
             $event = $this->eventAction->create(data: $data);
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: new EventResource($event),
                 message: trans(key: 'messages.events.create_success')
             );
 
@@ -125,7 +125,7 @@ class EventsController extends Controller implements CrudEventControllerInterfac
             $event = $this->eventAction->update(id: $request->route('id'), data: $data);
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: new EventResource($event),
                 message: trans(key: 'messages.events.update_success')
             );
 

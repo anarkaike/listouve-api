@@ -10,14 +10,14 @@ use App\Exceptions\{
     EventListItem\EventListItemDeleteException,
     EventListItem\EventListItemNotFountException,
 };
-use App\Http\{
-    Controllers\Controller,
+use App\Http\{Controllers\Controller,
     Requests\EventListItem\EventListItemCreateRequest,
     Requests\EventListItem\EventListItemDeleteRequest,
     Requests\EventListItem\EventListItemUpdateRequest,
+    Resources\EventListItemCollection,
+    Resources\EventListItemResource,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse,
-};
+    Responses\ApiSuccessResponse};
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -45,14 +45,14 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventListItemAction->findById(id: $request->route('id'));
+            $eventListItem = $this->eventListItemAction->findById(id: $request->route('id'));
 
-            if (!$event) {
+            if (!$eventListItem) {
                 throw new EventListItemNotFountException();
             }
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: new EventListItemResource($eventListItem),
                 message: trans(key: 'messages.events_lists_items.find_by_id_success')
             );
 
@@ -72,10 +72,10 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventListItemAction->listAll();
+            $eventsListsItems = $this->eventListItemAction->listAll();
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: EventListItemCollection::make($eventsListsItems),
                 message: trans(key: 'messages.events_lists_items.list_all_success')
             );
 
@@ -97,10 +97,10 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $data = $request->validationData();
             $data['created_by'] = Auth::id();
-            $event = $this->eventListItemAction->create(data: $data);
+            $eventListItem = $this->eventListItemAction->create(data: $data);
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: new EventListItemResource($eventListItem),
                 message: trans(key: 'messages.events_lists_items.create_success')
             );
 
@@ -122,10 +122,10 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $data = $request->validationData();
             $data['updated_by'] = Auth::id();
-            $event = $this->eventListItemAction->update(id: $request->route('id'), data: $data);
+            $eventListItem = $this->eventListItemAction->update(id: $request->route('id'), data: $data);
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: new EventListItemResource($eventListItem),
                 message: trans(key: 'messages.events_lists_items.update_success')
             );
 

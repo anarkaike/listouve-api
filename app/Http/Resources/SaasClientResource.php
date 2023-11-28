@@ -13,14 +13,6 @@ use App\Models\saasClient;
  */
 class SaasClientResource extends JsonResource
 {
-    protected $saasClients;
-
-    public function __construct($resource, saasClient $saasClients)
-    {
-        parent::__construct($resource);
-        $this->saasClients = $saasClients;
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -29,17 +21,22 @@ class SaasClientResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->saasClients->id,
-            'event_id' => $this->saasClients->event_id,
-            'name' => $this->saasClients->name,
-            'description' => $this->saasClients->description,
-            'url_photo' => $this->saasClients->url_photo,
-            'created_at' => $this->saasClients->created_at,
-            'updated_at' => $this->saasClients->updated_at,
-            'created_by' => $this->saasClients->created_by,
-            'updated_by' => $this->saasClients->updated_by,
-            'deleted_by' => $this->saasClients->deleted_by,
-            'deleted_at' => $this->saasClients->deleted_at,
+            'id' => $this->id,
+            'name' => $this->name,
+            'email_personal' => $this->email_personal,
+            'email_professional' => $this->email_professional,
+            'phone_personal' => $this->phone_personal,
+            'phone_professional' => $this->phone_professional,
+            'observation' => $this->observation,
+            'status' => $this->status,
+            'general_settings' => $this->general_settings,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
+            'updated_values' => $this->updated_values,
+            'deleted_at' => $this->deleted_at,
+            'deleted_by' => $this->deleted_by,
         ];
     }
 }

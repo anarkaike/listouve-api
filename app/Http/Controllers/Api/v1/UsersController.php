@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api\v1;
 use App\Actions\Bi\UserBiAction;
 use Illuminate\Http\Request;
 use App\Actions\UserAction;
-use App\Http\{
-    Controllers\Controller,
+use App\Http\{Controllers\Controller,
     Requests\User\UserCreateRequest,
     Requests\User\UserDeleteRequest,
     Requests\User\UserUpdateRequest,
+    Resources\UserCollection,
+    Resources\UserResource,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse,
-};
+    Responses\ApiSuccessResponse};
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\User\{
     UserNotFountException,
@@ -52,7 +52,7 @@ class UsersController extends Controller
             }
 
             return new ApiSuccessResponse(
-                data: $user->toArray(),
+                data: new UserResource($user),
                 message: trans(key: 'messages.users.find_by_id_success')
             );
 
@@ -72,10 +72,10 @@ class UsersController extends Controller
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $user = $this->userAction->listAll();
+            $users = $this->userAction->listAll();
 
             return new ApiSuccessResponse(
-                data: $user->toArray(),
+                data: UserCollection::make($users),
                 message: trans(key: 'messages.users.list_all_success')
             );
 
@@ -101,7 +101,7 @@ class UsersController extends Controller
             $user = $this->userAction->create(data: $data);
 
             return new ApiSuccessResponse(
-                data: $user->toArray(),
+                data: new UserResource($user),
                 message: trans(key: 'messages.users.create_success')
             );
 
@@ -126,7 +126,7 @@ class UsersController extends Controller
             $user = $this->userAction->update(id: $request->route('id'), data: $request->validationData());
 
             return new ApiSuccessResponse(
-                data: $user->toArray(),
+                data: new UserResource($user),
                 message: trans(key: 'messages.users.update_success')
             );
 

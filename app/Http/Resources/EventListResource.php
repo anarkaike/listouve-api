@@ -13,14 +13,6 @@ use App\Models\EventList;
  */
 class EventListResource extends JsonResource
 {
-    protected $eventList;
-
-    public function __construct($resource, EventList $eventList)
-    {
-        parent::__construct($resource);
-        $this->eventList = $eventList;
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -29,17 +21,19 @@ class EventListResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->eventList->id,
-            'event_id' => $this->eventList->event_id,
-            'name' => $this->eventList->name,
-            'description' => $this->eventList->description,
-            'url_photo' => $this->eventList->url_photo,
-            'created_at' => $this->eventList->created_at,
-            'updated_at' => $this->eventList->updated_at,
-            'created_by' => $this->eventList->created_by,
-            'updated_by' => $this->eventList->updated_by,
-            'deleted_by' => $this->eventList->deleted_by,
-            'deleted_at' => $this->eventList->deleted_at,
+            'saas_client_id' => $this->saas_client_id,
+            'id' => $this->id,
+            'event_id' => $this->event_id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'url_photo' => $this->url_photo,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
+            'updated_values' => $this->updated_values,
+            'deleted_at' => $this->deleted_at,
+            'deleted_by' => $this->deleted_by,
         ];
     }
 }

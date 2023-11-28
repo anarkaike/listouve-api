@@ -11,14 +11,14 @@ use App\Exceptions\{
     SaasClient\SaasClientDeleteException,
     SaasClient\SaasClientNotFountException,
 };
-use App\Http\{
-    Controllers\Controller,
+use App\Http\{Controllers\Controller,
     Requests\SaasClient\SaasClientCreateRequest,
     Requests\SaasClient\SaasClientDeleteRequest,
     Requests\SaasClient\SaasClientUpdateRequest,
+    Resources\SaasClientCollection,
+    Resources\SaasClientResource,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse,
-};
+    Responses\ApiSuccessResponse};
 
 /**
  * Controllers para os en points relacionado a entidade usuário
@@ -45,14 +45,14 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->saasClientAction->findById(id: $request->route('id'));
+            $saasClient = $this->saasClientAction->findById(id: $request->route('id'));
 
-            if (!$event) {
+            if (!$saasClient) {
                 throw new SaasClientNotFountException();
             }
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: new SaasClientResource($saasClient),
                 message: trans(key: 'messages.saas_clients.find_by_id_success')
             );
 
@@ -72,10 +72,10 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         try {
             // Aqui eu chamo o Action
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->saasClientAction->listAll();
+            $saasClients = $this->saasClientAction->listAll();
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: SaasClientCollection::make($saasClients),
                 message: trans(key: 'messages.saas_clients.list_all_success')
             );
 
@@ -97,10 +97,10 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $data = $request->validationData();
             $data['created_by'] = Auth::id();
-            $event = $this->saasClientAction->create(data: $data);
+            $saasClient = $this->saasClientAction->create(data: $data);
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: new SaasClientResource($saasClient),
                 message: trans(key: 'messages.saas_clients.create_success')
             );
 
@@ -122,10 +122,10 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
             // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $data = $request->validationData();
             $data['updated_by'] = Auth::id();
-            $event = $this->saasClientAction->update(id: $request->route('id'), data: $data);
+            $saasClient = $this->saasClientAction->update(id: $request->route('id'), data: $data);
 
             return new ApiSuccessResponse(
-                data: $event->toArray(),
+                data: new SaasClientResource($saasClient),
                 message: trans(key: 'messages.saas_clients.update_success')
             );
 

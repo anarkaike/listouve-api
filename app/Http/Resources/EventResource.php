@@ -13,14 +13,6 @@ use App\Models\Event;
  */
 class EventResource extends JsonResource
 {
-    protected $event;
-
-    public function __construct($resource, Event $event)
-    {
-        parent::__construct($resource);
-        $this->event = $event;
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -29,16 +21,18 @@ class EventResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->event->id,
-            'name' => $this->event->name,
-            'description' => $this->event->description,
-            'url_photo' => $this->event->url_photo,
-            'created_at' => $this->event->created_at,
-            'updated_at' => $this->event->updated_at,
-            'created_by' => $this->event->created_by,
-            'updated_by' => $this->event->updated_by,
-            'deleted_by' => $this->event->deleted_by,
-            'deleted_at' => $this->event->deleted_at,
+            'saas_client_id' => $this->saas_client_id,
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'url_photo' => $this->url_photo,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
+            'updated_values' => $this->updated_by,
+            'deleted_by' => $this->deleted_by,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }

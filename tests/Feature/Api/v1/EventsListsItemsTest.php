@@ -76,7 +76,7 @@ class EventsListsItemsTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o en point findById
+     * Verifica um retorno de id não encontrado para o en point findById
      *
      * @test
      */

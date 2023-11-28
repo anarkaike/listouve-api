@@ -6,21 +6,12 @@ use Illuminate\Http\{
     Request,
     Resources\Json\JsonResource,
 };
-use App\Models\User;
 
 /**
  * Classe para padronizar o retorno de dados nos en points da entidade User
  */
 class UserResource extends JsonResource
 {
-    protected $user;
-
-    public function __construct($resource, User $user)
-    {
-        parent::__construct($resource);
-        $this->user = $user;
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -29,17 +20,22 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->user->id,
-            'name' => $this->user->name,
-            'email' => $this->user->email,
-            'created_at' => $this->user->created_at,
-            'updated_at' => $this->user->updated_at,
-            'phone_personal' => $this->user->phone_personal,
-            'phone_professional' => $this->user->phone_professional,
-            'created_by' => $this->user->created_by,
-            'updated_by' => $this->user->updated_by,
-            'deleted_by' => $this->user->deleted_by,
-            'deleted_at' => $this->user->deleted_at,
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'email_verified_at' => $this->email_verified_at,
+            'phone_personal' => $this->phone_personal,
+            'phone_professional' => $this->phone_professional,
+            'url_photo' => $this->url_photo,
+            'status' => $this->status,
+            'general_settings' => $this->general_settings,
+            'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
+            'updated_values' => $this->updated_values,
+            'deleted_at' => $this->deleted_at,
+            'deleted_by' => $this->deleted_by,
         ];
     }
 }
