@@ -51,6 +51,6 @@ class EventListNotFountException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Nenhuma lista de evento encontrada.';
+        return trans(key: 'messages.events_lists.no_records_found');
     }
 }

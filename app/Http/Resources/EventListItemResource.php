@@ -8,7 +8,7 @@ use Illuminate\Http\{
 };
 
 /**
- * Classe para padronizar o retorno de dados nos end points da entidade EventListItem
+ * Classe para padronizar o retorno de dados nos en points da entidade EventListItem
  */
 class EventListItemResource extends JsonResource
 {

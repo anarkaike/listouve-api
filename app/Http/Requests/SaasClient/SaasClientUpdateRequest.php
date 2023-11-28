@@ -28,9 +28,9 @@ class SaasClientUpdateRequest extends FormRequest
         return [
             'name' => ['nullable', 'string', 'max:255',],
             'email_personal' => ['nullable', 'string', 'email',],
-            'email_pofessional' => ['nullable', 'string', 'email',],
+            'email_professional' => ['nullable', 'string', 'email',],
             'phone_personal' => ['nullable', 'string', 'max:20',],
-            'phone_pofessional' => ['nullable', 'string', 'max:20',],
+            'phone_professional' => ['nullable', 'string', 'max:20',],
             'observation' => ['nullable', 'string',],
             'status' => ['nullable', new Enum(SaasClientStatusEnum::class)],
         ];

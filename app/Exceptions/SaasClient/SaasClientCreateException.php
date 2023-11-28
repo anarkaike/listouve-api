@@ -51,6 +51,6 @@ class SaasClientCreateException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar criar um clinte do SaaS.';
+        return trans(key: 'messages.saas_clients.create_error');
     }
 }

@@ -17,9 +17,9 @@ class SaasClientModelTest extends TestCase
         $expectedValue = [
             'name',
             'email_personal',
-            'email_pofessional',
+            'email_professional',
             'phone_personal',
-            'phone_pofessional',
+            'phone_professional',
             'observation',
             'status',
             'created_by',

@@ -9,7 +9,7 @@ use Illuminate\Http\{
 use App\Models\saasClient;
 
 /**
- * Classe para padronizar o retorno de dados nos end points da entidade SaasClient
+ * Classe para padronizar o retorno de dados nos en points da entidade SaasClient
  */
 class SaasClientResource extends JsonResource
 {

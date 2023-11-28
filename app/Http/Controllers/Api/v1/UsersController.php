@@ -21,7 +21,7 @@ use App\Exceptions\User\{
 
 
 /**
- * Controllers para os end points relacionado a entidade usuário
+ * Controllers para os en points relacionado a entidade usuário
  */
 class UsersController extends Controller
 {
@@ -35,7 +35,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Action para end point de CRUD - GET /api/v1/users/{id}
+     * Action para en point de CRUD - GET /api/v1/users/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -53,21 +53,16 @@ class UsersController extends Controller
 
             return new ApiSuccessResponse(
                 data: $user->toArray(),
-                message: 'Usuário obtido pelo ID com sucesso.'
+                message: trans(key: 'messages.users.find_by_id_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar buscar um usuário pelo ID.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point de CRUD - GET /api/v1/users
+     * Action para en point de CRUD - GET /api/v1/users
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -81,21 +76,16 @@ class UsersController extends Controller
 
             return new ApiSuccessResponse(
                 data: $user->toArray(),
-                message: 'Usuários listados com sucesso!'
+                message: trans(key: 'messages.users.list_all_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar lsitar os usuários.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - POST /api/v1/users
+     * Action para en point CRUD - POST /api/v1/users
      *
      * @param UserCreateRequest $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -112,21 +102,16 @@ class UsersController extends Controller
 
             return new ApiSuccessResponse(
                 data: $user->toArray(),
-                message: 'Usuário criado com sucesso!'
+                message: trans(key: 'messages.users.create_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar criar um usuário.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - PUT /api/v1/users/{id}
+     * Action para en point CRUD - PUT /api/v1/users/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -142,21 +127,16 @@ class UsersController extends Controller
 
             return new ApiSuccessResponse(
                 data: $user->toArray(),
-                message: 'Usuário atualizado com sucesso!'
+                message: trans(key: 'messages.users.update_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar atualizar um usuário.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - DELETE /api/v1/users/{id}
+     * Action para en point CRUD - DELETE /api/v1/users/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -172,21 +152,16 @@ class UsersController extends Controller
 
             return new ApiSuccessResponse(
                 [],
-                message: 'Usuário deletado com sucesso!'
+                message: trans(key: 'messages.users.delete_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar excluir um usuário.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point que retorna dados do BI
+     * Action para en point que retorna dados do BI
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -196,16 +171,11 @@ class UsersController extends Controller
         try {
             return new ApiSuccessResponse(
                 $this->userBiAction->all(),
-                message: 'Dados do BI obtidos com sucesso!'
+                message: trans(key: 'messages.users.get_bi_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar obter os dados do BI.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 }

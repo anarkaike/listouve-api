@@ -21,7 +21,7 @@ use App\Http\{
 };
 
 /**
- * Controllers para os end points relacionado a entidade usuário
+ * Controllers para os en points relacionado a entidade usuário
  */
 class SaasClientsController extends Controller implements CrudSaasClientControllerInterface
 {
@@ -35,7 +35,7 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
     }
 
     /**
-     * Action para end point de CRUD - GET /api/v1/events/{id}
+     * Action para en point de CRUD - GET /api/v1/events/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -53,21 +53,16 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Cliente saas obtido pelo ID com sucesso!'
+                message: trans(key: 'messages.saas_clients.find_by_id_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar obter o cliente saas pelo ID.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point de CRUD - GET /api/v1/events
+     * Action para en point de CRUD - GET /api/v1/events
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -81,21 +76,16 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Cliente saas listados com sucesso!'
+                message: trans(key: 'messages.saas_clients.list_all_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar listar clientes saas.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - POST /api/v1/events
+     * Action para en point CRUD - POST /api/v1/events
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -111,21 +101,16 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Cliente saas criado com sucesso!'
+                message: trans(key: 'messages.saas_clients.create_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar criar cliente saas.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - PUT /api/v1/events/{id}
+     * Action para en point CRUD - PUT /api/v1/events/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -141,21 +126,16 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Cliente saas atualizado com sucesso!'
+                message: trans(key: 'messages.saas_clients.update_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar atualizar cliente saas.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - DELETE /api/v1/events/{id}
+     * Action para en point CRUD - DELETE /api/v1/events/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -171,21 +151,16 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
 
             return new ApiSuccessResponse(
                 [],
-                message: 'Cliente saas deletado com sucesso!'
+                message: trans(key: 'messages.saas_clients.delete_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar deletar cliente saas.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point que retorna dados do BI
+     * Action para en point que retorna dados do BI
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -195,16 +170,11 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         try {
             return new ApiSuccessResponse(
                 $this->saasClientBiAction->all(),
-                message: 'Dados do BI obtidos com sucesso!'
+                message: trans(key: 'messages.saas_clients.get_bi_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar obter os dados do BI.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 }

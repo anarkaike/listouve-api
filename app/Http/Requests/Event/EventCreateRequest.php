@@ -5,7 +5,7 @@ namespace App\Http\Requests\Event;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Classe com as validações do end point de criação de eventos
+ * Classe com as validações do en point de criação de eventos
  */
 class EventCreateRequest extends FormRequest
 {

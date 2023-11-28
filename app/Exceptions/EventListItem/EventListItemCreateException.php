@@ -51,6 +51,6 @@ class EventListItemCreateException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar criar um nome na lista de evento.';
+        return trans(key: 'messages.events_lists_items.create_error');
     }
 }

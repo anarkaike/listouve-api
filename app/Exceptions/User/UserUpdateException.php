@@ -48,6 +48,6 @@ class UserUpdateException extends BaseException
      * @return string
      */
     public function getDefaultMessage() {
-        return 'Erro ao tentar atualizar um usuário.';
+        return trans(key: 'messages.users.update_error');
     }
 }

@@ -39,6 +39,7 @@ class ApiErrorResponse implements Responsable
                 'exception' => $this->exception->getTrace()
             ],
             400,
+            []
         );
     }
 }

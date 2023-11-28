@@ -68,6 +68,7 @@ class AuthTest extends AppTestCase
 
         unset($data['password']);
         $response->assertJsonPath(path: "success", expect: true);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'auth.user_authenticated_successfully'));
         $response->assertJsonPath(path: "data.user.id", expect: $user->id);
         foreach ($data as $key => $val) {
             $response->assertJsonPath(path: "data.user.$key", expect: $val);
@@ -81,11 +82,13 @@ class AuthTest extends AppTestCase
      */
     public function check_login_with_return_error(): void
     {
-        $data = ['name' => fake()->name(),'email' => fake()->email(),'password' => fake()->password(),];
+        $data = ['name' => fake()->name(), 'email' => fake()->email(), 'password' => fake()->password(),];
         User::create($data);
 
         $response = $this->post(uri: '/api/v1/login', data: ['email' => $data['email'], 'password' => 'senha-errada',]);
         $response->assertStatus(status: 400);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'auth.failed'));
+        $response->assertJsonPath(path: "success", expect: false);
         $response->assertJsonStructure([
             'success',
             'message',
@@ -102,6 +105,8 @@ class AuthTest extends AppTestCase
     {
         $response = $this->token()->post(uri: '/api/v1/logout');
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'auth.logged_out_user_with_success'));
+        $response->assertJsonPath(path: "success", expect: true);
         $response->assertJsonStructure([
             'success',
             'message',

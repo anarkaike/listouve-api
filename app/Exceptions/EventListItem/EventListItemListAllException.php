@@ -51,6 +51,6 @@ class EventListItemListAllException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar listar todos os nomes das listas de eventos.';
+        return trans(key: 'messages.events_lists_items.list_all_error');
     }
 }

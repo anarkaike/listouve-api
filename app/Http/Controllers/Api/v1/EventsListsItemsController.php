@@ -21,7 +21,7 @@ use App\Http\{
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Controllers para os end points relacionado a entidade usuário
+ * Controllers para os en points relacionado a entidade usuário
  */
 class EventsListsItemsController extends Controller implements CrudEventListItemControllerInterface
 {
@@ -35,7 +35,7 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
     }
 
     /**
-     * Action para end point de CRUD - GET /api/v1/events/{id}
+     * Action para en point de CRUD - GET /api/v1/events/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -53,21 +53,16 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Nome na lista de evento obtida pelo ID com sucesso!'
+                message: trans(key: 'messages.events_lists_items.find_by_id_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar buscar um nome na lista de evento pelo ID.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point de CRUD - GET /api/v1/events
+     * Action para en point de CRUD - GET /api/v1/events
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -81,21 +76,16 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Listas de eventos listadas com sucesso!'
+                message: trans(key: 'messages.events_lists_items.list_all_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar listar nomes da lista de eventos.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - POST /api/v1/events
+     * Action para en point CRUD - POST /api/v1/events
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -111,21 +101,16 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Nome na lista de evento criada com sucesso!'
+                message: trans(key: 'messages.events_lists_items.create_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar criar um nome na lista de evento.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - PUT /api/v1/events/{id}
+     * Action para en point CRUD - PUT /api/v1/events/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -141,21 +126,16 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Nome na lista de evento atualizada com sucesso!'
+                message: trans(key: 'messages.events_lists_items.update_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar atualizar um nome na lista de evento.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - DELETE /api/v1/events/{id}
+     * Action para en point CRUD - DELETE /api/v1/events/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -171,21 +151,16 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
 
             return new ApiSuccessResponse(
                 [],
-                message: 'Nome na lista de evento deletada com sucesso!'
+                message: trans(key: 'messages.events_lists_items.delete_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar deletar um nome na lista de evento.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point que retorna dados do BI
+     * Action para en point que retorna dados do BI
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -195,16 +170,11 @@ class EventsListsItemsController extends Controller implements CrudEventListItem
         try {
             return new ApiSuccessResponse(
                 $this->eventListItemBiAction->all(),
-                message: 'Dados do BI obtidos com sucesso!'
+                message: trans(key: 'messages.events_lists_items.get_bi_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar obter os dados do BI.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 }

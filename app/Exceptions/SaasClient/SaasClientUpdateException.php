@@ -51,6 +51,6 @@ class SaasClientUpdateException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar atualizar um usuário do saas.';
+        return trans(key: 'messages.saas_clients.update_error');
     }
 }

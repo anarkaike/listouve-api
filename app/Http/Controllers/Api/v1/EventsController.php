@@ -21,7 +21,7 @@ use App\Actions\Bi\EventBiAction;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Controllers para os end points relacionado a entidade usuário
+ * Controllers para os en points relacionado a entidade usuário
  */
 class EventsController extends Controller implements CrudEventControllerInterface
 {
@@ -35,7 +35,7 @@ class EventsController extends Controller implements CrudEventControllerInterfac
     }
 
     /**
-     * Action para end point de CRUD - GET /api/v1/events/{id}
+     * Action para en point de CRUD - GET /api/v1/events/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -53,21 +53,16 @@ class EventsController extends Controller implements CrudEventControllerInterfac
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Evento obtido pelo ID com sucesso!'
+                message: trans(key: 'messages.events.find_by_id_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar buscar um evento pelo ID.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point de CRUD - GET /api/v1/events
+     * Action para en point de CRUD - GET /api/v1/events
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -81,21 +76,16 @@ class EventsController extends Controller implements CrudEventControllerInterfac
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Eventos listados com sucesso!'
+                message: trans(key: 'messages.events.list_all_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar listar os eventos.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - POST /api/v1/events
+     * Action para en point CRUD - POST /api/v1/events
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -111,21 +101,16 @@ class EventsController extends Controller implements CrudEventControllerInterfac
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Evento criado com sucesso!'
+                message: trans(key: 'messages.events.create_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar criar um evento.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - PUT /api/v1/events/{id}
+     * Action para en point CRUD - PUT /api/v1/events/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -141,21 +126,16 @@ class EventsController extends Controller implements CrudEventControllerInterfac
 
             return new ApiSuccessResponse(
                 data: $event->toArray(),
-                message: 'Evento atualizado com sucesso!'
+                message: trans(key: 'messages.events.update_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar atualizar um evento.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point CRUD - DELETE /api/v1/events/{id}
+     * Action para en point CRUD - DELETE /api/v1/events/{id}
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -171,21 +151,16 @@ class EventsController extends Controller implements CrudEventControllerInterfac
 
             return new ApiSuccessResponse(
                 [],
-                message: 'Evento deletado com sucesso!'
+                message: trans(key: 'messages.events.delete_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar deletar um evento.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 
     /**
-     * Action para end point que retorna dados do BI
+     * Action para en point que retorna dados do BI
      *
      * @param Request $request
      * @return ApiErrorResponse|ApiSuccessResponse
@@ -195,16 +170,11 @@ class EventsController extends Controller implements CrudEventControllerInterfac
         try {
             return new ApiSuccessResponse(
                 $this->eventBiAction->all(),
-                message: 'Dados do BI obtidos com sucesso!'
+                message: trans(key: 'messages.events.get_bi_success')
             );
 
         } catch (\Exception $e) {
-            return new ApiErrorResponse(
-                exception: $e,
-                message: 'Erro ao tentar obter os dados do BI.',
-                data: [],
-                request: $request
-            );
+            return new ApiErrorResponse(exception: $e);
         }
     }
 }

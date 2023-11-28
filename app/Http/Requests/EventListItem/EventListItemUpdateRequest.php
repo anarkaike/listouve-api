@@ -10,7 +10,7 @@ use Illuminate\{
 use App\Enums\EventListItem\EventListItemPaymentStatusEnum;
 
 /**
- * Classe com as validações do end point de atualização de items/nomes na lista de evento
+ * Classe com as validações do en point de atualização de items/nomes na lista de evento
  */
 class EventListItemUpdateRequest extends FormRequest
 {

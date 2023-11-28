@@ -48,6 +48,6 @@ class UserDeleteException extends BaseException
      * @return string
      */
     public function getDefaultMessage() {
-        return 'Erro ao tentar deletar um usuário.';
+        return trans(key: 'messages.users.delete_error');
     }
 }

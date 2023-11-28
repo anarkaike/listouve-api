@@ -51,6 +51,6 @@ class SaasClientFindByIdException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar recuperar um usuário do saas pelo ID.';
+        return trans(key: 'messages.saas_clients.find_by_id_error');
     }
 }

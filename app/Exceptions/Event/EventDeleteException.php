@@ -51,6 +51,6 @@ class EventDeleteException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar deletar um evento.';
+        return trans(key: 'messages.events.delete_error');
     }
 }

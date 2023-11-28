@@ -51,6 +51,6 @@ class EventListItemDeleteException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar deletar um nome da lista de evento.';
+        return trans(key: 'messages.events_lists_items.delete_error');
     }
 }

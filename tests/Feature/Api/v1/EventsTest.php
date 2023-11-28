@@ -5,11 +5,10 @@ namespace Tests\Feature\Api\v1;
 use App\Models\SaasClient;
 use Tests\AppTestCase;
 use Illuminate\Support\Facades\Artisan;
-use App\Enums\Event\EventStatusEnum;
 use App\Models\Event;
 
 /**
- * Testa os end points do recurso Eventos (events)
+ * Testa os en points do recurso Eventos (events)
  */
 class EventsTest extends AppTestCase
 {
@@ -23,7 +22,7 @@ class EventsTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point listAll
+     * Verifica um retorno com sucesso para o en point listAll
      *
      * @test
      */
@@ -32,6 +31,7 @@ class EventsTest extends AppTestCase
         $events = Event::factory(count: 5)->create();
         $response = $this->token()->get(uri: '/api/v1/events');
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events.list_all_success'));
         $response->assertJsonCount(count: 5, key: 'data'); // Um usuário é criado dentro de $this->token()
         $response->assertJsonStructure([
             'success',
@@ -49,7 +49,7 @@ class EventsTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point findById
+     * Verifica um retorno com sucesso para o en point findById
      *
      * @test
      */
@@ -58,6 +58,7 @@ class EventsTest extends AppTestCase
         $event = Event::factory()->create();
         $response = $this->token()->get(uri: '/api/v1/events/' . $event->id);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events.find_by_id_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -71,8 +72,21 @@ class EventsTest extends AppTestCase
         }
     }
 
+
     /**
-     * Verifica um retorno com sucesso para o end point create
+     * Verifica um retorno com sucesso para o en point findById
+     *
+     * @test
+     */
+    public function check_find_by_id_return_id_not_exists(): void
+    {
+        $response = $this->token()->get(uri: '/api/v1/events/99999');
+        $response->assertStatus(status: 400);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events.no_records_found'));
+    }
+
+    /**
+     * Verifica um retorno com sucesso para o en point create
      *
      * @test
      */
@@ -82,6 +96,7 @@ class EventsTest extends AppTestCase
 
         $response = $this->token()->post(uri: '/api/v1/events', data: $data);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events.create_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -96,7 +111,7 @@ class EventsTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point update
+     * Verifica um retorno com sucesso para o en point update
      *
      * @test
      */
@@ -110,6 +125,7 @@ class EventsTest extends AppTestCase
 
         $response = $this->token()->put(uri: '/api/v1/events/' . $event->id, data: $data);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events.update_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -124,7 +140,7 @@ class EventsTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point delete
+     * Verifica um retorno com sucesso para o en point delete
      *
      * @test
      */
@@ -134,6 +150,7 @@ class EventsTest extends AppTestCase
 
         $response = $this->token()->delete(uri: '/api/v1/events/' . $event->id);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events.delete_success'));
         $response->assertJsonStructure([
             'success',
             'message',

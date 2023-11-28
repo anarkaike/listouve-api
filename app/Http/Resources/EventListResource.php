@@ -9,7 +9,7 @@ use Illuminate\{
 use App\Models\EventList;
 
 /**
- * Classe para padronizar o retorno de dados nos end points da entidade EventList
+ * Classe para padronizar o retorno de dados nos en points da entidade EventList
  */
 class EventListResource extends JsonResource
 {

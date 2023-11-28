@@ -51,6 +51,6 @@ class EventNotFountException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Nenhum evento encontrado.';
+        return trans(key: 'messages.events.no_records_found');
     }
 }

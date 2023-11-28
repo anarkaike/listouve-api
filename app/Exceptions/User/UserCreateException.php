@@ -48,6 +48,6 @@ class UserCreateException extends BaseException
      * @return string
      */
     public function getDefaultMessage() {
-        return 'Erro ao tentar criar um usuário.';
+        return trans(key: 'messages.users.create_error');
     }
 }

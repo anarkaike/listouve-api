@@ -8,7 +8,7 @@ use Illuminate\{
 };
 
 /**
- * Classe com as validações do end point de criação de listas de eventos
+ * Classe com as validações do en point de criação de listas de eventos
  */
 class EventListCreateRequest extends FormRequest
 {

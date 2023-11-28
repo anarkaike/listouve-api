@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Exceptions\User;
+namespace App\Exceptions\Auth;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Exceptions\BaseException;
+use Throwable;
 
 /**
- * Classe de exceção para erro generico de listagem de usuário
+ * Classe de exceção para erro generico de criação de evento
  */
-class UserListException extends BaseException
+class DeniedAccessException extends BaseException
 {
     /**
      * @param string $message
      * @param int $code
-     * @param \Throwable|null $previous
+     * @param Throwable|null $previous
      */
-    public function __construct(string $message = null, int $code = 400, \Throwable $previous = null)
+    public function __construct(string $message = null, int $code = 400, Throwable $previous = null)
     {
         if (!$message) $message = $this->getDefaultMessage();
         parent::__construct(message: $message, code: $code, previous: $previous);
@@ -30,7 +31,7 @@ class UserListException extends BaseException
     public function apiResponse(string $message = null)
     {
         if (!$message) $message = $this->getDefaultMessage();
-        return new ApiErrorResponse(data: [], message: $this->message);
+        return new ApiErrorResponse(exception: $this, message: $message, data: [],);
     }
 
     /**
@@ -38,16 +39,18 @@ class UserListException extends BaseException
      *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return 'Mensagem de erro: ' . $this->getMessage() . ' ||| String Trace: ' . $this->getTraceAsString();
     }
 
     /**
-     * Mensagem padrão para erro de criação de usuário
+     * Mensagem padrão para erro de credenciais incorretas
      *
      * @return string
      */
-    public function getDefaultMessage() {
-        return 'Erro ao tentar listar todos os usuários.';
+    public function getDefaultMessage()
+    {
+        return trans(key: 'auth.denied_access');
     }
 }

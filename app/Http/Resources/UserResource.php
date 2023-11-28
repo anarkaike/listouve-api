@@ -9,7 +9,7 @@ use Illuminate\Http\{
 use App\Models\User;
 
 /**
- * Classe para padronizar o retorno de dados nos end points da entidade User
+ * Classe para padronizar o retorno de dados nos en points da entidade User
  */
 class UserResource extends JsonResource
 {

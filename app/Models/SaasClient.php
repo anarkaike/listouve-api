@@ -29,9 +29,9 @@ class SaasClient extends Model
     protected $fillable = [
         'name',
         'email_personal',
-        'email_pofessional',
+        'email_professional',
         'phone_personal',
-        'phone_pofessional',
+        'phone_professional',
         'observation',
         'status',
         'general_settings',

@@ -51,6 +51,6 @@ class EventListCreateException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar criar uma lista de evento.';
+        return trans(key: 'messages.events_lists.create_error');
     }
 }

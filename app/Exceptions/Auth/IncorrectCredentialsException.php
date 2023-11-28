@@ -51,6 +51,6 @@ class IncorrectCredentialsException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return "Credenciais incorretas.";
+        return trans(key: 'auth.failed');
     }
 }

@@ -46,9 +46,9 @@ class SaasClientActionTest extends TestCase
         $modelMockedExpected->id = $idToFind;
         $modelMockedExpected->name = fake()->name();
         $modelMockedExpected->email_personal = fake()->email();
-        $modelMockedExpected->email_pofessional = fake()->email();
+        $modelMockedExpected->email_professional = fake()->email();
         $modelMockedExpected->phone_personal = fake()->phoneNumber();
-        $modelMockedExpected->phone_pofessional = fake()->phoneNumber();
+        $modelMockedExpected->phone_professional = fake()->phoneNumber();
         $modelMockedExpected->observation = fake()->text();
         $modelMockedExpected->status = SaasClientStatusEnum::ACTIVE->value;
 
@@ -72,9 +72,9 @@ class SaasClientActionTest extends TestCase
             'id' => fake()->randomNumber(1,9999),
             'name' => fake()->name(),
             'email_personal' => fake()->email(),
-            'email_pofessional' => fake()->email(),
+            'email_professional' => fake()->email(),
             'phone_personal' => fake()->phoneNumber(),
-            'phone_pofessional' => fake()->phoneNumber(),
+            'phone_professional' => fake()->phoneNumber(),
             'observation' => fake()->text(),
             'status' => SaasClientStatusEnum::ACTIVE->value,
             'created_by' => fake()->randomNumber(1,9999),
@@ -84,9 +84,9 @@ class SaasClientActionTest extends TestCase
         $modelMockedExpected->id = $data['id'];
         $modelMockedExpected->name = $data['name'];
         $modelMockedExpected->email_personal = $data['email_personal'];
-        $modelMockedExpected->email_pofessional = $data['email_pofessional'];
+        $modelMockedExpected->email_professional = $data['email_professional'];
         $modelMockedExpected->phone_personal = $data['phone_personal'];
-        $modelMockedExpected->phone_pofessional = $data['phone_pofessional'];
+        $modelMockedExpected->phone_professional = $data['phone_professional'];
         $modelMockedExpected->observation = $data['observation'];
         $modelMockedExpected->status = $data['status'];
 
@@ -110,9 +110,9 @@ class SaasClientActionTest extends TestCase
             'id' => fake()->randomNumber(1,9999),
             'name' => fake()->name(),
             'email_personal' => fake()->email(),
-            'email_pofessional' => fake()->email(),
+            'email_professional' => fake()->email(),
             'phone_personal' => fake()->phoneNumber(),
-            'phone_pofessional' => fake()->phoneNumber(),
+            'phone_professional' => fake()->phoneNumber(),
             'observation' => fake()->text(),
             'status' => SaasClientStatusEnum::ACTIVE->value,
             'updated_by' => fake()->randomNumber(1,9999),
@@ -122,9 +122,9 @@ class SaasClientActionTest extends TestCase
         $modelMockedExpected->id = $data['id'];
         $modelMockedExpected->name = $data['name'];
         $modelMockedExpected->email_personal = $data['email_personal'];
-        $modelMockedExpected->email_pofessional = $data['email_pofessional'];
+        $modelMockedExpected->email_professional = $data['email_professional'];
         $modelMockedExpected->phone_personal = $data['phone_personal'];
-        $modelMockedExpected->phone_pofessional = $data['phone_pofessional'];
+        $modelMockedExpected->phone_professional = $data['phone_professional'];
         $modelMockedExpected->observation = $data['observation'];
         $modelMockedExpected->status = $data['status'];
 

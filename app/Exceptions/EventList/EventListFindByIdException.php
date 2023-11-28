@@ -51,6 +51,6 @@ class EventListFindByIdException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar recuperar um lista de evento pelo ID.';
+        return trans(key: 'messages.events_lists.find_by_id_error');
     }
 }

@@ -48,6 +48,6 @@ class UserFindByIdException extends BaseException
      * @return string
      */
     public function getDefaultMessage() {
-        return 'Erro ao tentar recuperar um usuário.';
+        return trans(key: 'messages.users.find_by_id_error');
     }
 }

@@ -51,6 +51,6 @@ class EventListItemFindByIdException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar recuperar um nome dalista de evento pelo ID.';
+        return trans(key: 'messages.events_lists_items.find_by_id_error');
     }
 }

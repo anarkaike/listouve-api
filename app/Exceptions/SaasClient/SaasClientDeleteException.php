@@ -51,6 +51,6 @@ class SaasClientDeleteException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar deletar um usuário do saas.';
+        return trans(key: 'messages.saas_clients.delete_error');
     }
 }

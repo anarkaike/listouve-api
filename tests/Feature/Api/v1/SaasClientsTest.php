@@ -8,7 +8,7 @@ use Tests\AppTestCase;
 use Illuminate\Support\Facades\Artisan;
 
 /**
- * Testa os end points do recurso Eventos (events)
+ * Testa os en points do recurso Eventos (events)
  */
 class SaasClientsTest extends AppTestCase
 {
@@ -22,7 +22,7 @@ class SaasClientsTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point listAll
+     * Verifica um retorno com sucesso para o en point listAll
      *
      * @test
      */
@@ -31,6 +31,7 @@ class SaasClientsTest extends AppTestCase
         $saasClients = SaasClient::factory(count: 5)->create();
         $response = $this->token()->get(uri: '/api/v1/saas-clients');
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.saas_clients.list_all_success'));
         $response->assertJsonCount(count: 5, key: 'data'); // Um usuário é criado dentro de $this->token()
         $response->assertJsonStructure([
             'success',
@@ -48,7 +49,7 @@ class SaasClientsTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point findById
+     * Verifica um retorno com sucesso para o en point findById
      *
      * @test
      */
@@ -57,6 +58,7 @@ class SaasClientsTest extends AppTestCase
         $saasClient = SaasClient::factory()->create();
         $response = $this->token()->get(uri: '/api/v1/saas-clients/' . $saasClient->id);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.saas_clients.find_by_id_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -70,8 +72,21 @@ class SaasClientsTest extends AppTestCase
         }
     }
 
+
     /**
-     * Verifica um retorno com sucesso para o end point create
+     * Verifica um retorno com sucesso para o en point findById
+     *
+     * @test
+     */
+    public function check_find_by_id_return_id_not_exists(): void
+    {
+        $response = $this->token()->get(uri: '/api/v1/saas-clients/99999');
+        $response->assertStatus(status: 400);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.saas_clients.no_records_found'));
+    }
+
+    /**
+     * Verifica um retorno com sucesso para o en point create
      *
      * @test
      */
@@ -81,6 +96,7 @@ class SaasClientsTest extends AppTestCase
 
         $response = $this->token()->post(uri: '/api/v1/saas-clients', data: $data);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.saas_clients.create_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -95,7 +111,7 @@ class SaasClientsTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point update
+     * Verifica um retorno com sucesso para o en point update
      *
      * @test
      */
@@ -109,6 +125,7 @@ class SaasClientsTest extends AppTestCase
 
         $response = $this->token()->put(uri: '/api/v1/saas-clients/' . $event->id, data: $data);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.saas_clients.update_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -123,7 +140,7 @@ class SaasClientsTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point delete
+     * Verifica um retorno com sucesso para o en point delete
      *
      * @test
      */
@@ -133,6 +150,7 @@ class SaasClientsTest extends AppTestCase
 
         $response = $this->token()->delete(uri: '/api/v1/saas-clients/' . $event->id);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.saas_clients.delete_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -151,9 +169,9 @@ class SaasClientsTest extends AppTestCase
         $data = [
             'name'              => fake()->name(),
             'email_personal'    => fake()->email(),
-            'email_pofessional' => fake()->email(),
+            'email_professional' => fake()->email(),
             'phone_personal'    => fake()->phoneNumber(),
-            'phone_pofessional' => fake()->phoneNumber(),
+            'phone_professional' => fake()->phoneNumber(),
             'observation'       => fake()->text(),
             'status'            => SaasClientStatusEnum::ACTIVE->value,
             'general_settings'  => '{}',

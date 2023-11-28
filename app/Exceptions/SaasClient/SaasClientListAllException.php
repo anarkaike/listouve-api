@@ -51,6 +51,6 @@ class SaasClientListAllException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar listar todos os usuários dos saas.';
+        return trans(key: 'messages.saas_clients.list_all_error');
     }
 }

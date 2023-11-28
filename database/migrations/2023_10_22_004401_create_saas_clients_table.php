@@ -21,9 +21,9 @@ return new class extends Migration
 
             $table->string(column: 'name', length: 255);
             $table->string(column: 'email_personal', length: 255);
-            $table->string(column: 'email_pofessional', length: 255);
+            $table->string(column: 'email_professional', length: 255);
             $table->string(column: 'phone_personal', length: 20);
-            $table->string(column: 'phone_pofessional', length: 20);
+            $table->string(column: 'phone_professional', length: 20);
             $table->longText(column: 'observation',);
             $table->enum(column: 'status', allowed: ['active', 'active_testing', 'active_pending_payment', 'blocked', 'blocked_pending_payment', 'archived',])->default(value: 'active');
             $table->json(column: 'general_settings')->nullable();

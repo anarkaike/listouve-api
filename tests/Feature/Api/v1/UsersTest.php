@@ -8,7 +8,7 @@ use App\Enums\User\UserStatusEnum;
 use App\Models\User;
 
 /**
- * Testa os end points do recurso usuários(users)
+ * Testa os en points do recurso usuários(users)
  */
 class UsersTest extends AppTestCase
 {
@@ -22,7 +22,7 @@ class UsersTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point listAll
+     * Verifica um retorno com sucesso para o en point listAll
      *
      * @test
      */
@@ -31,6 +31,7 @@ class UsersTest extends AppTestCase
         $users = User::factory(count: 5)->create();
         $response = $this->token()->get(uri: '/api/v1/users');
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.users.list_all_success'));
         $response->assertJsonCount(count: 6, key: 'data'); // Um usuário é criado dentro de $this->token()
         $response->assertJsonStructure([
             'success',
@@ -48,7 +49,7 @@ class UsersTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point findById
+     * Verifica um retorno com sucesso para o en point findById
      *
      * @test
      */
@@ -57,6 +58,7 @@ class UsersTest extends AppTestCase
         $user = User::factory()->create();
         $response = $this->token()->get(uri: '/api/v1/users/' . $user->id);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.users.find_by_id_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -71,7 +73,19 @@ class UsersTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point create
+     * Verifica um retorno com sucesso para o en point findById
+     *
+     * @test
+     */
+    public function check_find_by_id_return_id_not_exists(): void
+    {
+        $response = $this->token()->get(uri: '/api/v1/users/99999');
+        $response->assertStatus(status: 400);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.users.no_records_found'));
+    }
+
+    /**
+     * Verifica um retorno com sucesso para o en point create
      *
      * @test
      */
@@ -82,6 +96,7 @@ class UsersTest extends AppTestCase
 
         $response = $this->token()->post(uri: '/api/v1/users', data: $data);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.users.create_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -96,7 +111,7 @@ class UsersTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point update
+     * Verifica um retorno com sucesso para o en point update
      *
      * @test
      */
@@ -111,6 +126,7 @@ class UsersTest extends AppTestCase
 
         $response = $this->token()->put(uri: '/api/v1/users/' . $user->id, data: $data);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.users.update_success'));
         $response->assertJsonStructure([
             'success',
             'message',
@@ -125,7 +141,7 @@ class UsersTest extends AppTestCase
     }
 
     /**
-     * Verifica um retorno com sucesso para o end point delete
+     * Verifica um retorno com sucesso para o en point delete
      *
      * @test
      */
@@ -135,6 +151,7 @@ class UsersTest extends AppTestCase
 
         $response = $this->token()->delete(uri: '/api/v1/users/' . $user->id);
         $response->assertStatus(status: 200);
+        $response->assertJsonPath(path: "message", expect: trans(key: 'messages.users.delete_success'));
         $response->assertJsonStructure([
             'success',
             'message',

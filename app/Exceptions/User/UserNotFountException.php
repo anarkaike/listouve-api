@@ -48,6 +48,6 @@ class UserNotFountException extends BaseException
      * @return string
      */
     public function getDefaultMessage() {
-        return 'Nenhum usuário encontrado.';
+        return trans(key: 'messages.users.no_records_found');
     }
 }

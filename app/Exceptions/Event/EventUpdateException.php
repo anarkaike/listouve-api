@@ -51,6 +51,6 @@ class EventUpdateException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar atualizar um evento.';
+        return trans(key: 'messages.events.update_error');
     }
 }

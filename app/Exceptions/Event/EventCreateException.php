@@ -51,6 +51,6 @@ class EventCreateException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return "Erro ao tentar criar um evento.";
+        return trans(key: 'messages.events.create_error');
     }
 }

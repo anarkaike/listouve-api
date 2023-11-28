@@ -51,6 +51,6 @@ class EventListItemUpdateException extends BaseException
      */
     public function getDefaultMessage()
     {
-        return 'Erro ao tentar atualizar um nome da lista de evento.';
+        return trans(key: 'messages.events_lists_items.update_error');
     }
 }
