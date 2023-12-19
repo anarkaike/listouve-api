@@ -8,7 +8,7 @@ use App\Models\EventListItem;
 class EventListItemModelTest extends TestCase
 {
     /**
-     * Verificando se os campos preenchiveis configurads no model sào os citados abaixo
+     * Verificando se os campos preenchiveis configurads no model sào os citados abaixo teste
      *
      * @test
      */
