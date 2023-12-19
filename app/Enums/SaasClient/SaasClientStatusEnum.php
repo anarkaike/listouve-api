@@ -2,9 +2,6 @@
 
 namespace App\Enums\SaasClient;
 
-/**
- * Enum contendo as possibilidades da coluna status da entidade saas_clients
- */
 enum SaasClientStatusEnum: string
 {
     case ACTIVE = 'active'; // Sistema do cliente saas Ativo

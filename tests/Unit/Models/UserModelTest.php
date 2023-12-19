@@ -23,7 +23,6 @@ class UserModelTest extends TestCase
             'url_photo',
             'status',
             'created_by',
-            'updated_at',
             'updated_by',
             'updated_values',
             'deleted_at',

@@ -27,7 +27,7 @@ return [
         'get_bi_success' => 'Dados do BI obtidos com sucesso!',
         'get_bi_error' => 'Erro ao tentar obter os dados do BI.',
 
-        'no_records_found' => 'Nenhum evento encontrado.'
+        'no_records_found' => 'Registro não encontrado.'
     ],
     'events_lists' => [
         'find_by_id_success' => 'Lista de evento obtida pelo ID com sucesso!',
@@ -48,7 +48,7 @@ return [
         'get_bi_success' => 'Dados do BI obtidos com sucesso!',
         'get_bi_error' => 'Erro ao tentar obter os dados do BI.',
 
-        'no_records_found' => 'Nenhuma lista de evento encontrada.'
+        'no_records_found' => 'Registro não encontrado.'
     ],
     'events_lists_items' => [
         'find_by_id_success' => 'Nome na lista de evento obtida pelo ID com sucesso!',
@@ -69,7 +69,7 @@ return [
         'get_bi_success' => 'Dados do BI obtidos com sucesso!',
         'get_bi_error' => 'Erro ao tentar obter os dados do BI.',
 
-        'no_records_found' => 'Nenhum nome das listas de evento encontrado.'
+        'no_records_found' => 'Registro não encontrado.'
     ],
     'saas_clients' => [
         'find_by_id_success' => 'Cliente saas obtido pelo ID com sucesso!',
@@ -90,7 +90,7 @@ return [
         'get_bi_success' => 'Dados do BI obtidos com sucesso!',
         'get_bi_error' => 'Erro ao tentar obter os dados do BI.',
 
-        'no_records_found' => 'Nenhum cliente saas encontrado.'
+        'no_records_found' => 'Registro não encontrado.'
     ],
     'users' => [
         'find_by_id_success' => 'Usuário obtido pelo ID com sucesso.',
@@ -111,7 +111,7 @@ return [
         'get_bi_success' => 'Dados do BI obtidos com sucesso!',
         'get_bi_error' => 'Erro ao tentar obter os dados do BI.',
 
-        'no_records_found' => 'Nenhum usuário encontrado.'
+        'no_records_found' => 'Registro não encontrado.'
     ]
 
 ];

@@ -2,9 +2,7 @@
 
 namespace App\Enums\EventListItem;
 
-/**
- * Enum contendo as possibilidades da coluna payment_status da entidade events_lists_items
- */
+
 enum EventListItemPaymentStatusEnum: string
 {
     case PENDING = 'pending'; // Nome na lista pendente de pagamento

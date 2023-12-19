@@ -24,7 +24,6 @@ class EventListItemModelTest extends TestCase
             'saas_client_id',
             'created_by',
             'updated_by',
-            'updated_at',
             'updated_values',
             'deleted_at',
             'deleted_by',

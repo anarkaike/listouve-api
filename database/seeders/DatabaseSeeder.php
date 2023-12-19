@@ -3,11 +3,13 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Database\Seeders\{Events\EventsListsSeeder,
+use Database\Seeders\{
+    Events\EventsListsSeeder,
     Events\EventsSeeder,
     EventsListsItems\EventsListsItemsSeeder,
     Users\AddUserAnarkaikeSeeder,
-    Users\UsersSeeder};
+    Users\UsersSeeder
+};
 
 class DatabaseSeeder extends Seeder
 {

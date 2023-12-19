@@ -24,7 +24,6 @@ class SaasClientModelTest extends TestCase
             'status',
             'created_by',
             'updated_by',
-            'updated_at',
             'updated_values',
             'deleted_at',
             'deleted_by',

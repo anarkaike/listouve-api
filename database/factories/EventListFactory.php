@@ -7,18 +7,9 @@ use App\Models\SaasClient;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Classe para gerar listas de eventos com dados fake
- *
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventList>
- */
+
 class EventListFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [

@@ -6,18 +6,9 @@ use App\Enums\EventListItem\EventListItemPaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Classe para gerar items/nomes na lista de evento com dados fake
- *
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventListItem>
- */
+
 class EventListItemFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $eventList = EventListFactory::new()->create();

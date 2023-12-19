@@ -7,9 +7,6 @@ use App\Contracts\{
     Repositories\Bi\SaasClientBiRepositoryInterface,
 };
 
-/**
- * Classe Action para camada de negócio para entidade Clientes Saas (saas_clients/SaasClients)
- */
 class SaasClientBiAction implements SaasClientBiActionInterface {
 
     public function __construct(
@@ -30,56 +27,26 @@ class SaasClientBiAction implements SaasClientBiActionInterface {
         ];
     }
 
-    /**
-     * Obtem o total de registros
-     *
-     * @return int|mixed
-     */
     function getTotal() {
         return $this->repository->getTotal();
     }
 
-    /**
-     * Obtem o total de registros criados hoje
-     *
-     * @return int|mixed
-     */
     function getTotalRegisteredToday() {
         return $this->repository->getTotalRegisteredToday();
     }
 
-    /**
-     * Obtem o total de registros criados essa semana
-     *
-     * @return int|mixed
-     */
     function getTotalRegisteredThisWeek() {
         return $this->repository->getTotalRegisteredThisWeek();
     }
 
-    /**
-     * Obtem o total de registros criados este mes
-     *
-     * @return int|mixed
-     */
     function getTotalRegisteredThisMonth() {
         return $this->repository->getTotalRegisteredThisMonth();
     }
 
-    /**
-     * Obtem o total de registros deletados até o momento
-     *
-     * @return int|mixed
-     */
     function getTotalDeleted() {
         return $this->repository->getTotalDeleted();
     }
 
-    /**
-     * Obtem o total de registros deletados até o momento
-     *
-     * @return int|mixed
-     */
     function getTotalByCreated() {
         return $this->repository->getTotalByCreated();
     }

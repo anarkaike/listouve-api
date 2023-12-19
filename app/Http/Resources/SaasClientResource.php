@@ -8,16 +8,8 @@ use Illuminate\Http\{
 };
 use App\Models\saasClient;
 
-/**
- * Classe para padronizar o retorno de dados nos en points da entidade SaasClient
- */
 class SaasClientResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [

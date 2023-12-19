@@ -6,16 +6,8 @@ use App\Models\EventList;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Repositorio de consultas com estatisticas para dasbboard / BI
- */
 class EventListBiRepository implements EventListBiRepositoryInterface
 {
-    /**
-     * Injetamos model EventList
-     *
-     * @param EventList $eventList
-     */
     public function __construct(
         protected EventList $eventList
     )
@@ -23,11 +15,6 @@ class EventListBiRepository implements EventListBiRepositoryInterface
 
     }
 
-    /**
-     * Devolve todos os resultados de Bi deste repository em um array
-     *
-     * @return int[]
-     */
     public function all(): array
     {
         return [
@@ -39,31 +26,16 @@ class EventListBiRepository implements EventListBiRepositoryInterface
         ];
     }
 
-    /**
-     * Total de registros
-     *
-     * @return int
-     */
     function getTotal(): int
     {
         return $this->eventList->all()->count();
     }
 
-    /**
-     * Total de registros criados hoje
-     *
-     * @return int
-     */
     function getTotalRegisteredToday(): int
     {
         return $this->eventList->whereDate('created_at', Carbon::today())->count();
     }
 
-    /**
-     * Total de registros criados esta semana
-     *
-     * @return int
-     */
     function getTotalRegisteredThisWeek(): int
     {
         $start = Carbon::now()->startOfWeek();  // Segunda-feira
@@ -72,11 +44,6 @@ class EventListBiRepository implements EventListBiRepositoryInterface
         return $this->eventList->whereBetween('created_at', [$start, $end,])->count();
     }
 
-    /**
-     * Total de registros criados este mes
-     *
-     * @return int
-     */
     function getTotalRegisteredThisMonth(): int
     {
         $start = Carbon::now()->startOfMonth(); // Inicio do mes
@@ -85,21 +52,11 @@ class EventListBiRepository implements EventListBiRepositoryInterface
         return $this->eventList->whereBetween('created_at', [$start, $end,])->count();
     }
 
-    /**
-     * Total de registros deletados
-     *
-     * @return int
-     */
     function getTotalDeleted(): int
     {
         return $this->eventList->onlyTrashed()->count();
     }
 
-    /**
-     * Total de registros deletados
-     *
-     * @return int
-     */
     function getTotalByCreated(): array
     {
         return (array) $this->eventList

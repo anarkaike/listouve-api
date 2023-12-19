@@ -19,17 +19,8 @@ use App\Http\{
 };
 
 
-/**
- * Controller responsável pelos en points de login e logout.
- */
 class AuthController extends Controller
 {
-    /**
-     * Obter token - Action para en point /api/v1/login, para obter tokens de acessoo
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
     public function login(Request $request)
     {
         try {
@@ -38,7 +29,47 @@ class AuthController extends Controller
             }
 
             $data = [
-                'token' => $request->user()->createToken('invoice'),
+                'token' => $request->user()->createToken('invoice', [
+                    //Users Abilities
+                    'users:listAll',
+                    'users:findById',
+//                    'users:create',
+                    'users:update',
+                    'users:delete',
+                    'users:bi',
+
+                    //Saas Clients Abilities
+                    'saasClients:listAll',
+                    'saasClients:findById',
+                    'saasClients:create',
+                    'saasClients:update',
+                    'saasClients:delete',
+                    'saasClients:bi',
+
+                    //Events Abilities
+                    'events:listAll',
+                    'events:findById',
+                    'events:create',
+                    'events:update',
+                    'events:delete',
+                    'events:bi',
+
+                    //Events Lists Abilities
+                    'eventsLists:listAll',
+                    'eventsLists:findById',
+                    'eventsLists:create',
+                    'eventsLists:update',
+                    'eventsLists:delete',
+                    'eventsLists:bi',
+
+                    //Events Lists Abilities
+                    'eventsListsItems:listAll',
+                    'eventsListsItems:findById',
+                    'eventsListsItems:create',
+                    'eventsListsItems:update',
+                    'eventsListsItems:delete',
+                    'eventsListsItems:bi',
+                ]),
                 'user' => $request->user()->toArray()
             ];
             return new ApiSuccessResponse(data: $data, message: trans(key: 'auth.user_authenticated_successfully'));
@@ -48,21 +79,10 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Deslogar token - Action para en point /api/v1/logout
-     *
-     * @param Request $request
-     * @return ApiSuccessResponse|ApiErrorResponse
-     */
     public function logout(Request $request)
     {
         try {
-            // $request->session()->invalidate();
-            // $request->session()->regenerateToken();
-            // Obtendo o token enviado na requisição
             $accessToken = $request->bearerToken();
-
-            // Buscando token na base de dados
             $token = PersonalAccessToken::findToken($accessToken);
 
             if (!$token)            throw new InvalidTokenException();

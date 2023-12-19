@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Exceptions\EventListItem;
+namespace App\Exceptions\Auth;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Exceptions\BaseException;
 use Throwable;
 
-class EventListItemDeleteException extends BaseException
+class NoAbilityToAccessException extends BaseException
 {
     public function __construct(string $message = null, int $code = 400, Throwable $previous = null)
     {
@@ -17,7 +17,7 @@ class EventListItemDeleteException extends BaseException
     public function apiResponse(string $message = null)
     {
         if (!$message) $message = $this->getDefaultMessage();
-        return new ApiErrorResponse(data: [], message: $this->message);
+        return new ApiErrorResponse(exception: $this, message: $message, data: [],);
     }
 
     public function __toString()
@@ -27,6 +27,6 @@ class EventListItemDeleteException extends BaseException
 
     public function getDefaultMessage()
     {
-        return trans(key: 'messages.events_lists_items.delete_error');
+        return trans(key: 'auth.no_ability_to_access');
     }
 }

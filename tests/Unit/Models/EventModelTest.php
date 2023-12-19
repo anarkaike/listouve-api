@@ -20,7 +20,6 @@ class EventModelTest extends TestCase
             'url_photo',
             'saas_client_id',
             'created_by',
-            'updated_at',
             'updated_by',
             'updated_values',
             'deleted_at',

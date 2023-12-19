@@ -23,62 +23,26 @@ use App\Http\Controllers\Api\v1\{
 
 Route::prefix('/v1')->group(function(){
     Route::post(uri: '/login', action: [AuthController::class, 'login']);
-    Route::middleware('auth:sanctum')->post(uri: '/logout', action: [AuthController::class, 'logout']);
 
 
-    // Rotas para entidade usuário
-    Route::middleware('auth:sanctum')->prefix('users')->group(function(){
-        Route::get(uri: '/bi', action: [UsersController::class, 'bi']);
-        Route::get(uri: '', action: [UsersController::class, 'listAll']);
-        Route::post(uri: '', action: [UsersController::class, 'create']);
-        Route::get(uri: '/{id}', action: [UsersController::class, 'findById']);
-        Route::put(uri: '/{id}', action: [UsersController::class, 'update']);
-        Route::patch(uri: '/{id}', action: [UsersController::class, 'update']);
-        Route::delete(uri: '/{id}', action: [UsersController::class, 'delete']);
-    });
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::post(uri: '/logout', action: [AuthController::class, 'logout']);
 
-    // Rotas para entidade eventos
-    Route::middleware('auth:sanctum')->prefix('events')->group(function(){
-        Route::get(uri: '/bi', action: [EventsController::class, 'bi']);
-        Route::get(uri: '', action: [EventsController::class, 'listAll']);
-        Route::post(uri: '', action: [EventsController::class, 'create']);
-        Route::get(uri: '/{id}', action: [EventsController::class, 'findById']);
-        Route::put(uri: '/{id}', action: [EventsController::class, 'update']);
-        Route::patch(uri: '/{id}', action: [EventsController::class, 'update']);
-        Route::delete(uri: '/{id}', action: [EventsController::class, 'delete']);
-    });
 
-    // Rotas para entidade lista de eventos
-    Route::middleware('auth:sanctum')->prefix('events-lists')->group(function(){
-        Route::get(uri: '/bi', action: [EventsListsController::class, 'bi']);
-        Route::get(uri: '', action: [EventsListsController::class, 'listAll']);
-        Route::post(uri: '', action: [EventsListsController::class, 'create']);
-        Route::get(uri: '/{id}', action: [EventsListsController::class, 'findById']);
-        Route::put(uri: '/{id}', action: [EventsListsController::class, 'update']);
-        Route::patch(uri: '/{id}', action: [EventsListsController::class, 'update']);
-        Route::delete(uri: '/{id}', action: [EventsListsController::class, 'delete']);
-    });
+        // Info para BI
+        Route::get(uri: '/users/bi', action: [UsersController::class, 'bi']);
+        Route::get(uri: '/events/bi', action: [EventsController::class, 'bi']);
+        Route::get(uri: '/events-lists/bi', action: [EventsController::class, 'bi']);
+        Route::get(uri: '/events-lists-items/bi', action: [EventsController::class, 'bi']);
+        Route::get(uri: '/saas-clients/bi', action: [EventsController::class, 'bi']);
 
-    // Rotas para entidade itens/nomes da lista de eventos
-    Route::middleware('auth:sanctum')->prefix('events-lists-items')->group(function(){
-        Route::get(uri: '/bi', action: [EventsListsItemsController::class, 'bi']);
-        Route::get(uri: '', action: [EventsListsItemsController::class, 'listAll']);
-        Route::post(uri: '', action: [EventsListsItemsController::class, 'create']);
-        Route::get(uri: '/{id}', action: [EventsListsItemsController::class, 'findById']);
-        Route::put(uri: '/{id}', action: [EventsListsItemsController::class, 'update']);
-        Route::patch(uri: '/{id}', action: [EventsListsItemsController::class, 'update']);
-        Route::delete(uri: '/{id}', action: [EventsListsItemsController::class, 'delete']);
-    });
+        // Api CRUDs
+        Route::apiResource(name: 'users', controller: UsersController::class);
+        Route::apiResource(name: 'events', controller: EventsController::class);
+        Route::apiResource(name: 'events-lists', controller: EventsListsController::class);
+        Route::apiResource(name: 'events-lists-items', controller: EventsListsItemsController::class);
+        Route::apiResource(name: 'saas-clients', controller: SaasClientsController::class);
 
-    // Rotas para entidade clientes do saas
-    Route::middleware('auth:sanctum')->prefix('saas-clients')->group(function(){
-        Route::get(uri: '/bi', action: [SaasClientsController::class, 'bi']);
-        Route::get(uri: '', action: [SaasClientsController::class, 'listAll']);
-        Route::post(uri: '', action: [SaasClientsController::class, 'create']);
-        Route::get(uri: '/{id}', action: [SaasClientsController::class, 'findById']);
-        Route::put(uri: '/{id}', action: [SaasClientsController::class, 'update']);
-        Route::patch(uri: '/{id}', action: [SaasClientsController::class, 'update']);
-        Route::delete(uri: '/{id}', action: [SaasClientsController::class, 'delete']);
     });
 
 });

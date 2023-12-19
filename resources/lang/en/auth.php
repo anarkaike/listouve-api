@@ -22,5 +22,6 @@ return [
     'logout_error' => 'Error trying to log out of the user.',
     'invalid_token_error' => 'Token sent in request is invalid!',
     'denied_access' => 'Access to that end point was denied.',
+    'no_ability_to_access' => 'No permission to access.',
 
 ];

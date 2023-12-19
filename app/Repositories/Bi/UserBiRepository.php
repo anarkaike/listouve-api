@@ -6,16 +6,9 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Repositorio de consultas com estatisticas para dasbboard / BI
- */
+
 class UserBiRepository implements UserBiRepositoryInterface
 {
-    /**
-     * Injetamos model User
-     *
-     * @param User $user
-     */
     public function __construct(
         protected User $user
     )
@@ -23,11 +16,6 @@ class UserBiRepository implements UserBiRepositoryInterface
 
     }
 
-    /**
-     * Devolve todos os resultados de Bi deste repository em um array
-     *
-     * @return int[]
-     */
     public function all(): array
     {
         return [
@@ -39,30 +27,16 @@ class UserBiRepository implements UserBiRepositoryInterface
         ];
     }
 
-    /**
-     * Total de registros
-     *
-     * @return int
-     */
     function getTotal(): int
     {
         return $this->user->all()->count();
     }
 
-    /**
-     * Total de registros criados hoje
-     *
-     * @return int
-     */
     function getTotalRegisteredToday(): int
     {
         return $this->user->whereDate('created_at', Carbon::today())->count();
     }
 
-    /**
-     * Total de registros criados esta semana
-     * @return int
-     */
     function getTotalRegisteredThisWeek(): int
     {
         $start = Carbon::now()->startOfWeek();  // Segunda-feira
@@ -71,11 +45,6 @@ class UserBiRepository implements UserBiRepositoryInterface
         return $this->user->whereBetween('created_at', [$start, $end,])->count();
     }
 
-    /**
-     * Total de registros criados este mes
-     *
-     * @return int
-     */
     function getTotalRegisteredThisMonth(): int
     {
         $start = Carbon::now()->startOfMonth(); // Inicio do mes
@@ -84,21 +53,11 @@ class UserBiRepository implements UserBiRepositoryInterface
         return $this->user->whereBetween('created_at', [$start, $end,])->count();
     }
 
-    /**
-     * Total de registros deletados
-     *
-     * @return int
-     */
     function getTotalDeleted(): int
     {
         return $this->user->onlyTrashed()->count();
     }
 
-    /**
-     * Total de registros deletados
-     *
-     * @return int
-     */
     function getTotalByCreated(): array
     {
         return $this->user

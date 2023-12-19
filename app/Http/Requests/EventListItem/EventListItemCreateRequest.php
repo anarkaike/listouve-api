@@ -3,30 +3,20 @@
 namespace App\Http\Requests\EventListItem;
 
 use Illuminate\{
-    Foundation\Http\FormRequest,
     Validation\Rule,
     Validation\Rules\Enum,
 };
+use App\Http\Requests\BaseFormRequest;
 use App\Enums\EventListItem\EventListItemPaymentStatusEnum;
 
-/**
- * Classe com as validações do en point de criação de items/nomes na lista de evento
- */
-class EventListItemCreateRequest extends FormRequest
+
+class EventListItemCreateRequest extends BaseFormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [

@@ -9,9 +9,6 @@ use App\Contracts\{
     Repositories\UserRepositoryInterface,
 };
 
-/**
- * Classe Action para camada de negócio para entidade Usuário (users/User)
- */
 class UserAction implements UserActionInterface {
 
     public function __construct(

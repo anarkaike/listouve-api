@@ -3,28 +3,18 @@
 namespace App\Http\Requests\EventList;
 
 use Illuminate\{
-    Foundation\Http\FormRequest,
     Validation\Rule,
 };
+use App\Http\Requests\BaseFormRequest;
 
-/**
- * Classe com as validações do en point de atualização de listas de eventos
- */
-class EventListUpdateRequest extends FormRequest
+
+class EventListUpdateRequest extends BaseFormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -34,9 +24,5 @@ class EventListUpdateRequest extends FormRequest
             'url_photo' => ['nullable', 'string', 'max:255',],
             'saas_client_id' => ['nullable', 'integer'],
         ];
-    }
-
-    protected function prepareForValidation(){
-        $this->merge(['id' => $this->route(param: 'id'),]);
     }
 }

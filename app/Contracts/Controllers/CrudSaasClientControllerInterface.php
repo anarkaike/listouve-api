@@ -9,48 +9,15 @@ use App\Http\Requests\{
     SaasClient\SaasClientUpdateRequest,
 };
 
-/**
- * Interface para padrinizar os metodos CRUD no controller
- */
 interface CrudSaasClientControllerInterface
 {
-    /**
-     * Obtem todos os registros
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function listAll(Request $request);
+    public function index(Request $request);
 
-    /**
-     * Busca um único registro pelo ID
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function findById(Request $request);
+    public function show(Request $request);
 
-    /**
-     * Cria um novo registro
-     *
-     * @param SaasClientCreateRequest $request
-     * @return mixed
-     */
-    public function create(SaasClientCreateRequest $request);
+    public function store(SaasClientCreateRequest $request);
 
-    /**
-     * Atualiza um registro
-     *
-     * @param SaasClientCreateRequest $request
-     * @return mixed
-     */
     public function update(SaasClientUpdateRequest $request);
 
-    /**
-     * Deleta um registro
-     *
-     * @param SaasClientCreateRequest $request
-     * @return mixed
-     */
-    public function delete(SaasClientDeleteRequest $request);
+    public function destroy(SaasClientDeleteRequest $request);
 }

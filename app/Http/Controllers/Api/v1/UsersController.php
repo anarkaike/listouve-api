@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Actions\Bi\UserBiAction;
-use Illuminate\Http\Request;
-use App\Actions\UserAction;
-use App\Http\{Controllers\Controller,
+use App\Models\User;
+use App\Actions\{
+    Bi\UserBiAction,
+    UserAction,
+};
+use App\Exceptions\{
+    User\UserDeleteException,
+};
+use App\Http\{
+    Collections\UserCollection,
+    Controllers\Controller,
     Requests\User\UserCreateRequest,
-    Requests\User\UserDeleteRequest,
     Requests\User\UserUpdateRequest,
-    Resources\UserCollection,
     Resources\UserResource,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse};
-use Illuminate\Support\Facades\Auth;
-use App\Exceptions\User\{
-    UserNotFountException,
-    UserDeleteException,
+    Responses\ApiSuccessResponse
 };
 
 
-/**
- * Controllers para os en points relacionado a entidade usuário
- */
 class UsersController extends Controller
 {
     public function __construct(
-        // Obtendo por injeção de dependencia o UserAction e atribuindo ele como propriedade privada
         private UserAction $userAction,
         private UserBiAction $userBiAction,
     )
@@ -34,23 +31,9 @@ class UsersController extends Controller
 
     }
 
-    /**
-     * Action para en point de CRUD - GET /api/v1/users/{id}
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function findById(Request $request)
+    public function show(User $user)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $user = $this->userAction->findById(id: $request->route('id'));
-
-            if (!$user) {
-                throw new UserNotFountException();
-            }
-
             return new ApiSuccessResponse(
                 data: new UserResource($user),
                 message: trans(key: 'messages.users.find_by_id_success')
@@ -61,17 +44,9 @@ class UsersController extends Controller
         }
     }
 
-    /**
-     * Action para en point de CRUD - GET /api/v1/users
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function listAll(Request $request)
+    public function index()
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $users = $this->userAction->listAll();
 
             return new ApiSuccessResponse(
@@ -84,20 +59,10 @@ class UsersController extends Controller
         }
     }
 
-    /**
-     * Action para en point CRUD - POST /api/v1/users
-     *
-     * @param UserCreateRequest $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function create(UserCreateRequest $request)
+    public function store(UserCreateRequest $request)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
-//            $data = $request->all();
             $data = $request->validationData();
-            $data['created_by'] = Auth::id();
             $user = $this->userAction->create(data: $data);
 
             return new ApiSuccessResponse(
@@ -110,20 +75,11 @@ class UsersController extends Controller
         }
     }
 
-    /**
-     * Action para en point CRUD - PUT /api/v1/users/{id}
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function update(UserUpdateRequest $request)
+    public function update(UserUpdateRequest $request, User $user)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $data = $request->validationData();
-            $data['updated_by'] = Auth::id();
-            $user = $this->userAction->update(id: $request->route('id'), data: $request->validationData());
+            $user = $this->userAction->update(id: $user->id, data: $user->fill($data)->toArray());
 
             return new ApiSuccessResponse(
                 data: new UserResource($user),
@@ -135,18 +91,10 @@ class UsersController extends Controller
         }
     }
 
-    /**
-     * Action para en point CRUD - DELETE /api/v1/users/{id}
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function delete(UserDeleteRequest $request)
+    public function destroy(User $user)
     {
         try {
-            $userId = $request->route(param: 'id');
-
-            if(!$this->userAction->delete(id: $userId)) {
+            if(!$this->userAction->delete(id: $user->id)) {
                 throw new UserDeleteException();
             }
 
@@ -160,13 +108,7 @@ class UsersController extends Controller
         }
     }
 
-    /**
-     * Action para en point que retorna dados do BI
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function bi(Request $request)
+    public function bi()
     {
         try {
             return new ApiSuccessResponse(

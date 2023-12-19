@@ -9,48 +9,15 @@ use App\Http\Requests\User\{
     UserDeleteRequest,
 };
 
-/**
- * Interface para padrinizar os metodos CRUD no controller
- */
 interface CrudControllerInterface
 {
-    /**
-     * Obtem todos os registros
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function listAll(Request $request);
+    public function index(Request $request);
 
-    /**
-     * Busca um único registro pelo ID
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function findById(Request $request);
+    public function show(Request $request);
 
-    /**
-     * Cria um novo registro
-     *
-     * @param UserCreateRequest $request
-     * @return mixed
-     */
-    public function create(UserCreateRequest $request);
+    public function store(UserCreateRequest $request);
 
-    /**
-     * Atualiza um registro
-     *
-     * @param UserUpdateRequest $request
-     * @return mixed
-     */
     public function update(UserUpdateRequest $request);
 
-    /**
-     * Deleta um registro
-     *
-     * @param UserDeleteRequest $request
-     * @return mixed
-     */
-    public function delete(UserDeleteRequest $request);
+    public function destroy(UserDeleteRequest $request);
 }

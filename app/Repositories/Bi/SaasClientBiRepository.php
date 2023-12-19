@@ -6,16 +6,9 @@ use App\Models\SaasClient;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Repositorio de consultas com estatisticas para dasbboard / BI
- */
+
 class SaasClientBiRepository implements SaasClientBiRepositoryInterface
 {
-    /**
-     * Injetamos model SaasClient
-     *
-     * @param SaasClient $saasClient
-     */
     public function __construct(
         protected SaasClient $saasClient
     )
@@ -23,11 +16,6 @@ class SaasClientBiRepository implements SaasClientBiRepositoryInterface
 
     }
 
-    /**
-     * Devolve todos os resultados de Bi deste repository em um array
-     *
-     * @return int[]
-     */
     public function all(): array
     {
         return [
@@ -39,31 +27,16 @@ class SaasClientBiRepository implements SaasClientBiRepositoryInterface
         ];
     }
 
-    /**
-     * Total de registros
-     *
-     * @return int
-     */
     function getTotal(): int
     {
         return $this->saasClient->all()->count();
     }
 
-    /**
-     * Total de registros criados hoje
-     *
-     * @return int
-     */
     function getTotalRegisteredToday(): int
     {
         return $this->saasClient->whereDate('created_at', Carbon::today())->count();
     }
 
-    /**
-     * Total de registros criados esta semana
-     *
-     * @return int
-     */
     function getTotalRegisteredThisWeek(): int
     {
         $start = Carbon::now()->startOfWeek();  // Segunda-feira
@@ -72,11 +45,6 @@ class SaasClientBiRepository implements SaasClientBiRepositoryInterface
         return $this->saasClient->whereBetween('created_at', [$start, $end,])->count();
     }
 
-    /**
-     * Total de registros criados este mes
-     *
-     * @return int
-     */
     function getTotalRegisteredThisMonth(): int
     {
         $start = Carbon::now()->startOfMonth(); // Inicio do mes
@@ -85,21 +53,11 @@ class SaasClientBiRepository implements SaasClientBiRepositoryInterface
         return $this->saasClient->whereBetween('created_at', [$start, $end,])->count();
     }
 
-    /**
-     * Total de registros deletados
-     *
-     * @return int
-     */
     function getTotalDeleted(): int
     {
         return $this->saasClient->onlyTrashed()->count();
     }
 
-    /**
-     * Total de registros deletados
-     *
-     * @return int
-     */
     function getTotalByCreated(): array
     {
         return (array) $this->saasClient

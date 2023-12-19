@@ -9,48 +9,15 @@ use App\Http\Requests\{
     Event\EventUpdateRequest,
 };
 
-/**
- * Interface para padrinizar os metodos CRUD no controller
- */
 interface CrudEventControllerInterface
 {
-    /**
-     * Obtem todos os registros
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function listAll(Request $request);
+    public function index(Request $request);
 
-    /**
-     * Busca um único registro pelo ID
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function findById(Request $request);
+    public function show(Request $request);
 
-    /**
-     * Cria um novo registro
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function create(EventCreateRequest $request);
+    public function store(EventCreateRequest $request);
 
-    /**
-     * Atualiza um registro
-     *
-     * @param Request $request
-     * @return mixed
-     */
     public function update(EventUpdateRequest $request);
 
-    /**
-     * Deleta um registro
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function delete(EventDeleteRequest $request);
+    public function destroy(EventDeleteRequest $request);
 }

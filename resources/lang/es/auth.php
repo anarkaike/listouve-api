@@ -22,5 +22,6 @@ return [
     'logout_error' => 'Error al intentar cerrar la sesión del usuario.',
     'invalid_token_error' => '¡El token enviado en la solicitud no es válido!',
     'denied_access' => 'O acesso a esse end point foi negado.',
+    'no_ability_to_access' => 'Sin permiso para acceder.',
 
 ];

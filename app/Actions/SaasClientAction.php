@@ -6,9 +6,6 @@ use App\Contracts\Actions\SaasClientActionInterface;
 use App\Contracts\Repositories\SaasClientRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Classe Action para camada de negócio para entidade Eventos (saas_clients|SaasClient)
- */
 class SaasClientAction implements SaasClientActionInterface {
 
     public function __construct(

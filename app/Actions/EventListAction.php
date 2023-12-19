@@ -2,13 +2,12 @@
 
 namespace App\Actions;
 
-use App\Contracts\Actions\EventListActionInterface;
-use App\Contracts\Repositories\EventListRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Contracts\{
+    Actions\EventListActionInterface,
+    Repositories\EventListRepositoryInterface,
+};
 
-/**
- * Classe Action para camada de negócio para entidade Listas de Eventos (events|Event)
- */
 class EventListAction implements EventListActionInterface {
 
     public function __construct(

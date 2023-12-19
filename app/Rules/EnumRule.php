@@ -5,9 +5,7 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-/**
- * Classe para validar campos enum
- */
+
 class EnumRule implements ValidationRule
 {
     protected $enumClass;
@@ -17,9 +15,6 @@ class EnumRule implements ValidationRule
         $this->enumClass = $enumClass;
     }
 
-    /**
-     * Run the validation rule.
-     */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (in_array(needle: $value, haystack: (new $this->enumClass)->getValues(), strict: true)) {

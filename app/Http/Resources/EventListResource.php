@@ -8,16 +8,8 @@ use Illuminate\{
 };
 use App\Models\EventList;
 
-/**
- * Classe para padronizar o retorno de dados nos en points da entidade EventList
- */
 class EventListResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [

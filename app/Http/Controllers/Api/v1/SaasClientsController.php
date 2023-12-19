@@ -3,30 +3,24 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Actions\Bi\SaasClientBiAction;
-use Illuminate\Http\Request;
-use App\Contracts\Controllers\CrudSaasClientControllerInterface;
 use App\Actions\SaasClientAction;
-use Illuminate\Support\Facades\Auth;
-use App\Exceptions\{
-    SaasClient\SaasClientDeleteException,
-    SaasClient\SaasClientNotFountException,
-};
-use App\Http\{Controllers\Controller,
+use App\Models\SaasClient;
+use App\Exceptions\{SaasClient\SaasClientDeleteException,};
+use App\Http\{Collections\SaasClientCollection,
+    Controllers\Controller,
     Requests\SaasClient\SaasClientCreateRequest,
     Requests\SaasClient\SaasClientDeleteRequest,
     Requests\SaasClient\SaasClientUpdateRequest,
-    Resources\SaasClientCollection,
     Resources\SaasClientResource,
     Responses\ApiErrorResponse,
     Responses\ApiSuccessResponse};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-/**
- * Controllers para os en points relacionado a entidade usuário
- */
-class SaasClientsController extends Controller implements CrudSaasClientControllerInterface
+
+class SaasClientsController extends Controller
 {
     public function __construct(
-        // Obtendo por injeção de dependencia o SaasClientAction e atribuindo ele como propriedade privada
         private SaasClientAction $saasClientAction,
         private SaasClientBiAction $saasClientBiAction,
     )
@@ -34,23 +28,9 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
 
     }
 
-    /**
-     * Action para en point de CRUD - GET /api/v1/events/{id}
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function findById(Request $request)
+    public function show(SaasClient $saasClient)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $saasClient = $this->saasClientAction->findById(id: $request->route('id'));
-
-            if (!$saasClient) {
-                throw new SaasClientNotFountException();
-            }
-
             return new ApiSuccessResponse(
                 data: new SaasClientResource($saasClient),
                 message: trans(key: 'messages.saas_clients.find_by_id_success')
@@ -61,17 +41,9 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         }
     }
 
-    /**
-     * Action para en point de CRUD - GET /api/v1/events
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function listAll(Request $request)
+    public function index()
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $saasClients = $this->saasClientAction->listAll();
 
             return new ApiSuccessResponse(
@@ -84,19 +56,11 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         }
     }
 
-    /**
-     * Action para en point CRUD - POST /api/v1/events
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function create(SaasClientCreateRequest $request)
+    public function store(SaasClientCreateRequest $request)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $data = $request->validationData();
-            $data['created_by'] = Auth::id();
+
             $saasClient = $this->saasClientAction->create(data: $data);
 
             return new ApiSuccessResponse(
@@ -109,20 +73,11 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         }
     }
 
-    /**
-     * Action para en point CRUD - PUT /api/v1/events/{id}
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function update(SaasClientUpdateRequest $request)
+    public function update(SaasClientUpdateRequest $request, SaasClient $saasClient)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $data = $request->validationData();
-            $data['updated_by'] = Auth::id();
-            $saasClient = $this->saasClientAction->update(id: $request->route('id'), data: $data);
+            $saasClient = $this->saasClientAction->update(id: $saasClient->id, data: $saasClient->fill($data)->toArray());
 
             return new ApiSuccessResponse(
                 data: new SaasClientResource($saasClient),
@@ -134,18 +89,10 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         }
     }
 
-    /**
-     * Action para en point CRUD - DELETE /api/v1/events/{id}
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function delete(SaasClientDeleteRequest $request)
+    public function destroy(SaasClient $saasClient)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            if(!$this->saasClientAction->delete(id: $request->route('id'))) {
+            if(!$this->saasClientAction->delete(id: $saasClient->id)) {
                 throw new SaasClientDeleteException();
             }
 
@@ -159,13 +106,7 @@ class SaasClientsController extends Controller implements CrudSaasClientControll
         }
     }
 
-    /**
-     * Action para en point que retorna dados do BI
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function bi(Request $request)
+    public function bi()
     {
         try {
             return new ApiSuccessResponse(

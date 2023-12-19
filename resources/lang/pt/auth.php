@@ -22,5 +22,6 @@ return [
     'logout_error' => 'Erro ao tentar sair do usuário.',
     'invalid_token_error' => 'O token enviado na solicitação é inválido!',
     'denied_access' => 'O acesso a esse end point foi negado.',
+    'no_ability_to_access' => 'Sem permissão para acessar.',
 
 ];

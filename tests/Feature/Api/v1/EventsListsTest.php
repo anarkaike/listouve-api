@@ -146,9 +146,9 @@ class EventsListsTest extends AppTestCase
      */
     public function check_delete_return_with_success(): void
     {
-        $event               = EventList::factory()->create();
+        $eventList               = EventList::factory()->create();
 
-        $response = $this->token()->delete(uri: '/api/v1/events-lists/' . $event->id);
+        $response = $this->token()->delete(uri: '/api/v1/events-lists/' . $eventList->id);
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events_lists.delete_success'));
         $response->assertJsonStructure([

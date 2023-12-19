@@ -2,31 +2,25 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use Illuminate\Http\Request;
+use App\Actions\Bi\EventBiAction;
 use App\Actions\EventAction;
-use App\Contracts\Controllers\CrudEventControllerInterface;
-use App\Http\{Controllers\Controller,
+use App\Models\Event;
+use App\Exceptions\{Event\EventDeleteException, };
+use App\Http\{Collections\EventCollection,
+    Controllers\Controller,
     Requests\Event\EventCreateRequest,
     Requests\Event\EventDeleteRequest,
     Requests\Event\EventUpdateRequest,
-    Resources\EventCollection,
     Resources\EventResource,
     Responses\ApiErrorResponse,
     Responses\ApiSuccessResponse};
-use App\Exceptions\{
-    Event\EventNotFountException,
-    Event\EventDeleteException,
-};
-use App\Actions\Bi\EventBiAction;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Controllers para os en points relacionado a entidade usuário
- */
-class EventsController extends Controller implements CrudEventControllerInterface
+
+class EventsController extends Controller
 {
     public function __construct(
-        // Obtendo por injeção de dependencia o EventAction e atribuindo ele como propriedade privada
         private EventAction $eventAction,
         private EventBiAction $eventBiAction,
     )
@@ -34,23 +28,9 @@ class EventsController extends Controller implements CrudEventControllerInterfac
 
     }
 
-    /**
-     * Action para en point de CRUD - GET /api/v1/events/{id}
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function findById(Request $request)
+    public function show(Event $event)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            $event = $this->eventAction->findById(id: $request->route('id'));
-
-            if (!$event) {
-                throw new EventNotFountException();
-            }
-
             return new ApiSuccessResponse(
                 data: new EventResource($event),
                 message: trans(key: 'messages.events.find_by_id_success')
@@ -61,17 +41,9 @@ class EventsController extends Controller implements CrudEventControllerInterfac
         }
     }
 
-    /**
-     * Action para en point de CRUD - GET /api/v1/events
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function listAll(Request $request)
+    public function index()
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $events = $this->eventAction->listAll();
 
             return new ApiSuccessResponse(
@@ -84,19 +56,10 @@ class EventsController extends Controller implements CrudEventControllerInterfac
         }
     }
 
-    /**
-     * Action para en point CRUD - POST /api/v1/events
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function create(EventCreateRequest $request)
+    public function store(EventCreateRequest $request)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $data = $request->validationData();
-            $data['updated_by'] = Auth::id();
             $event = $this->eventAction->create(data: $data);
 
             return new ApiSuccessResponse(
@@ -109,20 +72,11 @@ class EventsController extends Controller implements CrudEventControllerInterfac
         }
     }
 
-    /**
-     * Action para en point CRUD - PUT /api/v1/events/{id}
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function update(EventUpdateRequest $request)
+    public function update(EventUpdateRequest $request, Event $event)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
             $data = $request->validationData();
-            $data['updated_by'] = Auth::id();
-            $event = $this->eventAction->update(id: $request->route('id'), data: $data);
+            $event = $this->eventAction->update(id: $event->id, data: $event->fill($data)->toArray());
 
             return new ApiSuccessResponse(
                 data: new EventResource($event),
@@ -134,18 +88,10 @@ class EventsController extends Controller implements CrudEventControllerInterfac
         }
     }
 
-    /**
-     * Action para en point CRUD - DELETE /api/v1/events/{id}
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function delete(EventDeleteRequest $request)
+    public function destroy(Event $event)
     {
         try {
-            // Aqui eu chamo o Action
-            // Action é a camada de negócio, chama repository, create log, send mail e etc.
-            if(!$this->eventAction->delete(id: $request->route('id'))) {
+            if(!$this->eventAction->delete(id: $event->id)) {
                 throw new EventDeleteException();
             }
 
@@ -159,13 +105,7 @@ class EventsController extends Controller implements CrudEventControllerInterfac
         }
     }
 
-    /**
-     * Action para en point que retorna dados do BI
-     *
-     * @param Request $request
-     * @return ApiErrorResponse|ApiSuccessResponse
-     */
-    public function bi(Request $request)
+    public function bi()
     {
         try {
             return new ApiSuccessResponse(
