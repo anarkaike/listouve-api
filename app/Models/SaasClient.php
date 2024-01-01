@@ -8,10 +8,8 @@ class SaasClient extends BaseModel
     protected $table = 'saas_clients';
     protected $fillable = [
         'name',
-        'email_personal',
-        'email_professional',
-        'phone_personal',
-        'phone_professional',
+        'email',
+        'phone',
         'observation',
         'status',
         'general_settings',

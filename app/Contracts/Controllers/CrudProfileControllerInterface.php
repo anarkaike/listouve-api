@@ -9,7 +9,7 @@ use App\Http\Requests\{
     User\UserUpdateRequest,
 };
 
-interface CrudUserControllerInterface extends CrudControllerInterface
+interface CrudProfileControllerInterface extends CrudControllerInterface
 {
     public function index(Request $request);
 

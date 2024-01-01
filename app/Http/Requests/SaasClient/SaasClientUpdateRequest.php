@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\SaasClient;
 
-use Illuminate\{
-    Validation\Rules\Enum,
-};
+use Illuminate\{Validation\Rule, Validation\Rules\Enum};
 use App\Http\Requests\BaseFormRequest;
 use App\Enums\SaasClient\SaasClientStatusEnum;
 
@@ -19,10 +17,8 @@ class SaasClientUpdateRequest extends BaseFormRequest
     {
         return [
             'name' => ['nullable', 'string', 'max:255',],
-            'email_personal' => ['nullable', 'string', 'email',],
-            'email_professional' => ['nullable', 'string', 'email',],
-            'phone_personal' => ['nullable', 'string', 'max:20',],
-            'phone_professional' => ['nullable', 'string', 'max:20',],
+            'email' => ['nullable', 'string', 'email', Rule::unique(table: 'users', column: 'email')->ignore($this->id)->withoutTrashed(),],
+            'phone' => ['nullable', 'string', 'max:20',],
             'observation' => ['nullable', 'string',],
             'status' => ['nullable', new Enum(SaasClientStatusEnum::class)],
         ];

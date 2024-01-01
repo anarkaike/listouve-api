@@ -20,7 +20,7 @@ class UserCreateRequest extends BaseFormRequest
     {
         return [
             'name' => ['nullable', 'string', 'max:255',],
-            'email' => ['nullable', 'string', 'email', Rule::unique(table: 'users', column: 'email')->whereNull('deleted_at'),],
+            'email' => ['nullable', 'string', 'email', Rule::unique(table: 'users', column: 'email')->withoutTrashed(),],
             'password' => ['nullable', 'string', 'max:255',],
             'phone_personal' => ['nullable', 'string', 'max:255',],
             'phone_professional' => ['nullable', 'string', 'max:255',],

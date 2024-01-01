@@ -20,11 +20,7 @@ class UserUpdateRequest extends BaseFormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255',],
-            'email' => [
-                'nullable',
-                'string',
-                'email',
-            ],
+            'email' => ['nullable', 'string', 'email', Rule::unique(table: 'users', column: 'email')->ignore($this->id)->withoutTrashed(),],
             'password' => ['nullable', 'string', 'max:255',],
             'phone_personal' => ['nullable', 'string', 'max:255',],
             'phone_professional' => ['nullable', 'string', 'max:255',],
