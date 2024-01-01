@@ -6,9 +6,6 @@ use Illuminate\{
     Support\Facades\Schema,
 };
 
-/**
- * Migration para gerar a entidade saas_clients
- */
 return new class extends Migration
 {
     /**
@@ -20,6 +17,9 @@ return new class extends Migration
             $table->id();
 
             $table->string(column: 'name', length: 255);
+            $table->string(column: 'domain_api', length: 255);
+            $table->string(column: 'domain_front', length: 255);
+            $table->string(column: 'logo', length: 255);
             $table->string(column: 'email_personal', length: 255);
             $table->string(column: 'email_professional', length: 255);
             $table->string(column: 'phone_personal', length: 20);

@@ -6,9 +6,6 @@ use Illuminate\{
     Support\Facades\Schema,
 };
 
-/**
- * Migration para gerar a entidade eventos
- */
 return new class extends Migration
 {
     /**

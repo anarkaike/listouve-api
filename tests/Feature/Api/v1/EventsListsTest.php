@@ -29,20 +29,25 @@ class EventsListsTest extends AppTestCase
      */
     public function check_list_all_return_with_success(): void
     {
-        $eventsLists = EventList::factory(count: 5)->create();
-        $response = $this->token()->get(uri: '/api/v1/events-lists');
+        $saasClient     = SaasClient::factory()->create();
+        $event1         = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $event2         = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $eventsLists1   = EventList::factory(count: 5)->create(['saas_client_id' => $saasClient->id, 'event_id' => $event1->id]);
+        EventList::factory(count: 5)->create(['saas_client_id' => $saasClient->id, 'event_id' => $event2->id]);
+
+        $response = $this->token()->get(uri: '/api/v1/events-lists?filters[event_id][$eq]=' . $event1->id);
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events_lists.list_all_success'));
         $response->assertJsonCount(count: 5, key: 'data'); // Um usuário é criado dentro de $this->token()
         $response->assertJsonStructure([
             'success',
             'message',
-            'data' => [$this->eventList(onlyKeys: true)],
+            'data' => [$this->eventListFake(onlyKeys: true)],
             'metadata'
         ]);
 
-        $keys = $this->eventList(onlyKeys: true);
-        foreach ($eventsLists as $k => $eventList) {
+        $keys = $this->eventListFake(onlyKeys: true);
+        foreach ($eventsLists1 as $k => $eventList) {
             foreach ($keys as $key) {
                 $response->assertJsonPath(path: "data.$k.$key", expect: $eventList->$key);
             }
@@ -56,18 +61,21 @@ class EventsListsTest extends AppTestCase
      */
     public function check_find_by_id_return_with_success(): void
     {
-        $eventList = EventList::factory()->create();
+        $saasClient = SaasClient::factory()->create();
+        $event      = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $eventList  = EventList::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event->id]);
+
         $response = $this->token()->get(uri: '/api/v1/events-lists/' . $eventList->id);
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events_lists.find_by_id_success'));
         $response->assertJsonStructure([
             'success',
             'message',
-            'data' => $this->eventList(onlyKeys: true),
+            'data' => $this->eventListFake(onlyKeys: true),
             'metadata'
         ]);
 
-        $keys = $this->eventList(onlyKeys: true);
+        $keys = $this->eventListFake(onlyKeys: true);
         foreach ($keys as $key) {
             $response->assertJsonPath(path: "data.$key", expect: $eventList->$key);
         }
@@ -92,19 +100,25 @@ class EventsListsTest extends AppTestCase
      */
     public function check_create_return_with_success(): void
     {
-        $data = $this->eventList();
+        $saasClient = SaasClient::factory()->create();
+        $event      = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+
+        $data = $this->eventListFake();
+        $data['saas_client_id'] = $saasClient->id;
+        $data['event_id'] = $event->id;
 
         $response = $this->token()->post(uri: '/api/v1/events-lists', data: $data);
+
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events_lists.create_success'));
         $response->assertJsonStructure([
             'success',
             'message',
-            'data' => $this->eventList(onlyKeys: true),
+            'data' => $this->eventListFake(onlyKeys: true),
             'metadata'
         ]);
 
-        $keys = $this->eventList(onlyKeys: true);
+        $keys = $this->eventListFake(onlyKeys: true);
         foreach ($keys as $key) {
             $response->assertJsonPath(path: "data.$key", expect: $data[$key]);
         }
@@ -117,23 +131,23 @@ class EventsListsTest extends AppTestCase
      */
     public function check_update_return_with_success(): void
     {
-        $event               = EventList::factory()->create();
+        $saasClient = SaasClient::factory()->create();
+        $event      = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $eventList  = EventList::factory()->create(['event_id' => $event->id, 'saas_client_id' => $saasClient->id]);
 
-        $data               = $this->eventList();
-        $data['id']         = $event->id;
+        $data       = $this->eventListFake();
 
-
-        $response = $this->token()->put(uri: '/api/v1/events-lists/' . $event->id, data: $data);
+        $response = $this->token()->put(uri: '/api/v1/events-lists/' . $eventList->id, data: $data);
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events_lists.update_success'));
         $response->assertJsonStructure([
             'success',
             'message',
-            'data' => $this->eventList(onlyKeys: true),
+            'data' => $this->eventListFake(onlyKeys: true),
             'metadata'
         ]);
 
-        $keys = $this->eventList(onlyKeys: true);
+        $keys = $this->eventListFake(onlyKeys: true);
         foreach ($keys as $key) {
             $response->assertJsonPath(path: "data.$key", expect: $data[$key]);
         }
@@ -146,7 +160,9 @@ class EventsListsTest extends AppTestCase
      */
     public function check_delete_return_with_success(): void
     {
-        $eventList               = EventList::factory()->create();
+        $saasClient = SaasClient::factory()->create();
+        $event      = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $eventList  = EventList::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event->id]);
 
         $response = $this->token()->delete(uri: '/api/v1/events-lists/' . $eventList->id);
         $response->assertStatus(status: 200);
@@ -165,10 +181,8 @@ class EventsListsTest extends AppTestCase
      * @param $onlyKeys
      * @return array|int[]|string[]
      */
-    private function eventList($onlyKeys = false) {
+    private function eventListFake($onlyKeys = false) {
         $data = [
-            'saas_client_id'    => $saasClientId = SaasClient::factory()->create()->id,
-            'event_id'          => Event::factory()->create(['saas_client_id' => $saasClientId,])->id,
             'name'              => fake()->name(),
             'description'       => fake()->text(),
             'url_photo'         => fake()->imageUrl(),

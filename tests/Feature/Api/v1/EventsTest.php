@@ -28,7 +28,8 @@ class EventsTest extends AppTestCase
      */
     public function check_list_all_return_with_success(): void
     {
-        $events = Event::factory(count: 5)->create();
+        $saasClient = SaasClient::factory()->create();
+        $events = Event::factory(count: 5)->create(attributes: ['saas_client_id' => $saasClient->id]);
         $response = $this->token()->get(uri: '/api/v1/events');
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events.list_all_success'));
@@ -55,7 +56,8 @@ class EventsTest extends AppTestCase
      */
     public function check_find_by_id_return_with_success(): void
     {
-        $event = Event::factory()->create();
+        $saasClient = SaasClient::factory()->create();
+        $event = Event::factory()->create(attributes: ['saas_client_id' => $saasClient->id]);
         $response = $this->token()->get(uri: '/api/v1/events/' . $event->id);
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events.find_by_id_success'));
@@ -92,7 +94,10 @@ class EventsTest extends AppTestCase
      */
     public function check_create_return_with_success(): void
     {
+        $saasClient = SaasClient::factory()->create();
         $data = $this->event();
+        $data['saas_client_id'] = $saasClient->id;
+
 
         $response = $this->token()->post(uri: '/api/v1/events', data: $data);
         $response->assertStatus(status: 200);
@@ -117,7 +122,8 @@ class EventsTest extends AppTestCase
      */
     public function check_update_return_with_success(): void
     {
-        $event               = Event::factory()->create();
+        $saasClient         = SaasClient::factory()->create();
+        $event              = Event::factory()->create(attributes: ['saas_client_id' => $saasClient->id]);
 
         $data               = $this->event();
         $data['id']         = $event->id;
@@ -146,7 +152,8 @@ class EventsTest extends AppTestCase
      */
     public function check_delete_return_with_success(): void
     {
-        $event               = Event::factory()->create();
+        $saasClient         = SaasClient::factory()->create();
+        $event               = Event::factory()->create(attributes: ['saas_client_id' => $saasClient->id]);
 
         $response = $this->token()->delete(uri: '/api/v1/events/' . $event->id);
         $response->assertStatus(status: 200);
@@ -170,7 +177,6 @@ class EventsTest extends AppTestCase
             'name'              => fake()->name(),
             'description'       => fake()->text(),
             'url_photo'         => fake()->imageUrl(),
-            'saas_client_id'    => SaasClient::factory()->create()->id,
         ];
 
         return $onlyKeys ? array_keys($data) : $data;

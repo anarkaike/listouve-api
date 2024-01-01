@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Auth;
 class SaasClientsController extends Controller
 {
     public function __construct(
-        private SaasClientAction $saasClientAction,
         private SaasClientBiAction $saasClientBiAction,
     )
     {
@@ -44,7 +43,7 @@ class SaasClientsController extends Controller
     public function index()
     {
         try {
-            $saasClients = $this->saasClientAction->listAll();
+            $saasClients = SaasClient::get();
 
             return new ApiSuccessResponse(
                 data: SaasClientCollection::make($saasClients),
@@ -60,8 +59,7 @@ class SaasClientsController extends Controller
     {
         try {
             $data = $request->validationData();
-
-            $saasClient = $this->saasClientAction->create(data: $data);
+            $saasClient = SaasClient::create(attributes: $data);
 
             return new ApiSuccessResponse(
                 data: new SaasClientResource($saasClient),
@@ -77,10 +75,11 @@ class SaasClientsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $saasClient = $this->saasClientAction->update(id: $saasClient->id, data: $saasClient->fill($data)->toArray());
+            $data['updated_values'] = array_diff_assoc($saasClient->toArray(), $data);
+            $saasClient->fill(attributes: $data)->update();
 
             return new ApiSuccessResponse(
-                data: new SaasClientResource($saasClient),
+                data: new SaasClientResource(SaasClient::find($saasClient->id)),
                 message: trans(key: 'messages.saas_clients.update_success')
             );
 
@@ -92,7 +91,7 @@ class SaasClientsController extends Controller
     public function destroy(SaasClient $saasClient)
     {
         try {
-            if(!$this->saasClientAction->delete(id: $saasClient->id)) {
+            if(!$saasClient->delete()) {
                 throw new SaasClientDeleteException();
             }
 

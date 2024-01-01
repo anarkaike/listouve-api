@@ -2,31 +2,29 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use Illuminate\Support\Facades\Auth;
 use App\Actions\Bi\EventBiAction;
-use App\Actions\EventAction;
 use App\Models\Event;
-use App\Exceptions\{Event\EventDeleteException, };
-use App\Http\{Collections\EventCollection,
+use App\Exceptions\{
+    Event\EventDeleteException,
+};
+use App\Http\{
+    Collections\EventCollection,
     Controllers\Controller,
     Requests\Event\EventCreateRequest,
-    Requests\Event\EventDeleteRequest,
     Requests\Event\EventUpdateRequest,
     Resources\EventResource,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse};
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+    Responses\ApiSuccessResponse
+};
 
 
 class EventsController extends Controller
 {
     public function __construct(
-        private EventAction $eventAction,
         private EventBiAction $eventBiAction,
     )
-    {
-
-    }
+    {}
 
     public function show(Event $event)
     {
@@ -44,7 +42,7 @@ class EventsController extends Controller
     public function index()
     {
         try {
-            $events = $this->eventAction->listAll();
+            $events = Event::get();
 
             return new ApiSuccessResponse(
                 data: EventCollection::make($events),
@@ -60,10 +58,10 @@ class EventsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $event = $this->eventAction->create(data: $data);
+            $eventCreated = Event::create(attributes: $data);
 
             return new ApiSuccessResponse(
-                data: new EventResource($event),
+                data: new EventResource($eventCreated),
                 message: trans(key: 'messages.events.create_success')
             );
 
@@ -76,10 +74,11 @@ class EventsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $event = $this->eventAction->update(id: $event->id, data: $event->fill($data)->toArray());
+            $data['updated_values'] = array_diff_assoc($event->toArray(), $data);
+            $event->fill(attributes: $data)->update();
 
             return new ApiSuccessResponse(
-                data: new EventResource($event),
+                data: new EventResource(Event::find($event->id)),
                 message: trans(key: 'messages.events.update_success')
             );
 
@@ -91,7 +90,7 @@ class EventsController extends Controller
     public function destroy(Event $event)
     {
         try {
-            if(!$this->eventAction->delete(id: $event->id)) {
+            if(!$event->delete()) {
                 throw new EventDeleteException();
             }
 

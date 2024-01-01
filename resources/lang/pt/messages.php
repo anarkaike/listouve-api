@@ -112,6 +112,30 @@ return [
         'get_bi_error' => 'Erro ao tentar obter os dados do BI.',
 
         'no_records_found' => 'Registro não encontrado.'
+    ],
+    'profiles' => [
+        'find_by_id_success' => 'Perfil obtido pelo ID com sucesso.',
+        'find_by_id_error' => 'Erro ao tentar buscar um perfil pelo ID.',
+
+        'list_all_success' => 'Perfis listados com sucesso!',
+        'list_all_error' => 'Erro ao tentar listar os perfils.',
+
+        'create_success' => 'Perfil criado com sucesso!',
+        'create_error' => 'Erro ao tentar criar um perfil.',
+
+        'update_success' => 'Perfil atualizado com sucesso!',
+        'update_error' => 'Erro ao tentar atualizar um perfil.',
+
+        'delete_success' => 'Perfil deletado com sucesso!',
+        'delete_error' => 'Erro ao tentar excluir um perfil.',
+
+        'no_records_found' => 'Registro não encontrado.'
+    ],
+    'permission' => [
+        'list_all_success' => 'Permissões listados com sucesso!',
+        'list_all_error' => 'Erro ao tentar listar as permissões.',
+
+        'no_records_found' => 'Registro não encontrado.'
     ]
 
 ];

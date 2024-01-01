@@ -6,9 +6,6 @@ use Illuminate\{
     Support\Facades\Schema,
 };
 
-/**
- * Migration para gerar a entidade users
- */
 return new class extends Migration
 {
     /**
@@ -29,6 +26,7 @@ return new class extends Migration
             $table->string(column: 'url_photo', length: 255)->nullable();
             $table->enum(column: 'status', allowed: ['active', 'blocked'])->default(value: 'active');
             $table->json(column: 'general_settings')->nullable();
+            $table->boolean(column: 'is_super_admin')->default(value: false)->nullable();
 
             // Campos de Auditoria - "criado_em" e "criado_por"
             $table->timestamp(column: 'created_at')->useCurrent()->nullable()->default(value: null);

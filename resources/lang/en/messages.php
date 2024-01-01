@@ -112,5 +112,29 @@ return [
         'get_bi_error' => 'Error when trying to obtain BI data.',
 
         'no_records_found' => 'No users found.'
+    ],
+    'profiles' => [
+        'find_by_id_success' => 'Profile ID obtained successfully.',
+        'find_by_id_error' => 'Error when trying to search for a profile by ID.',
+
+        'list_all_success' => 'Profiles listed successfully!',
+        'list_all_error' => 'Error trying to list profiles.',
+
+        'create_success' => 'Profile created successfully!',
+        'create_error' => 'Error when trying to create a profile.',
+
+        'update_success' => 'Profile updated successfully!',
+        'update_error' => 'Error when trying to update a profile.',
+
+        'delete_success' => 'Profile deleted successfully!',
+        'delete_error' => 'Error when trying to delete a profile.',
+
+        'no_records_found' => 'No profiles found.'
+    ],
+    'permissions' => [
+        'list_all_success' => 'Permissions listed successfully!',
+        'list_all_error' => 'Error trying to list permissions.',
+
+        'no_records_found' => 'No permissions found.'
     ]
 ];

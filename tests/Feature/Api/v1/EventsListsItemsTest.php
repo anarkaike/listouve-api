@@ -31,8 +31,15 @@ class EventsListsItemsTest extends AppTestCase
      */
     public function check_list_all_return_with_success(): void
     {
-        $eventsListsItems = EventListItem::factory(count: 5)->create();
-        $response = $this->token()->get(uri: '/api/v1/events-lists-items');
+        $saasClient         = SaasClient::factory()->create();
+        $event1             = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $event2             = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $eventList1         = EventList::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event1->id]);
+        $eventList2         = EventList::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event2->id]);
+        $eventsListsItems   = EventListItem::factory(count: 5)->create(['saas_client_id' => $saasClient->id, 'event_id' => $event1->id, 'event_list_id' => $eventList1->id]);
+        EventListItem::factory(count: 5)->create(['saas_client_id' => $saasClient->id, 'event_id' => $event2->id, 'event_list_id' => $eventList2->id]);
+
+        $response = $this->token()->get(uri: '/api/v1/events-lists-items?filters[event_id][$eq]=' . $event1->id);
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events_lists_items.list_all_success'));
         $response->assertJsonCount(count: 5, key: 'data'); // Um usuário é criado dentro de $this->token()
@@ -58,8 +65,13 @@ class EventsListsItemsTest extends AppTestCase
      */
     public function check_find_by_id_return_with_success(): void
     {
-        $eventListItem = EventListItem::factory()->create();
+        $saasClient         = SaasClient::factory()->create();
+        $event              = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $eventList          = EventList::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event->id]);
+        $eventListItem      = EventListItem::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event->id, 'event_list_id' => $eventList->id]);
+
         $response = $this->token()->get(uri: '/api/v1/events-lists-items/' . $eventListItem->id);
+
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events_lists_items.find_by_id_success'));
         $response->assertJsonStructure([
@@ -94,7 +106,14 @@ class EventsListsItemsTest extends AppTestCase
      */
     public function check_create_return_with_success(): void
     {
+        $saasClient = SaasClient::factory()->create();
+        $event = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $eventList = EventList::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event->id]);
+
         $data = $this->eventListItem();
+        $data['saas_client_id'] = $saasClient->id;
+        $data['event_id'] = $event->id;
+        $data['event_list_id'] = $eventList->id;
 
         $response = $this->token()->post(uri: '/api/v1/events-lists-items', data: $data);
         $response->assertStatus(status: 200);
@@ -119,13 +138,19 @@ class EventsListsItemsTest extends AppTestCase
      */
     public function check_update_return_with_success(): void
     {
-        $event               = EventListItem::factory()->create();
+        $saasClient             = SaasClient::factory()->create();
+        $event                  = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $eventList              = EventList::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event->id]);
+        $eventListItem          = EventListItem::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event->id, 'event_list_id' => $eventList->id]);
 
-        $data               = $this->eventListItem();
-        $data['id']         = $event->id;
+        $data                   = $this->eventListItem();
+        $data['id']             = $eventListItem->id;
+        $data['saas_client_id'] = $saasClient->id;
+        $data['event_id']       = $event->id;
+        $data['event_list_id']  = $eventList->id;
 
 
-        $response = $this->token()->put(uri: '/api/v1/events-lists-items/' . $event->id, data: $data);
+        $response = $this->token()->put(uri: '/api/v1/events-lists-items/' . $eventListItem->id, data: $data);
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events_lists_items.update_success'));
         $response->assertJsonStructure([
@@ -148,9 +173,12 @@ class EventsListsItemsTest extends AppTestCase
      */
     public function check_delete_return_with_success(): void
     {
-        $event               = EventListItem::factory()->create();
+        $saasClient     = SaasClient::factory()->create();
+        $event          = Event::factory()->create(['saas_client_id' => $saasClient->id]);
+        $eventList      = EventList::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event->id]);
+        $eventListItem  = EventListItem::factory()->create(['saas_client_id' => $saasClient->id, 'event_id' => $event->id, 'event_list_id' => $eventList->id]);
 
-        $response = $this->token()->delete(uri: '/api/v1/events-lists-items/' . $event->id);
+        $response = $this->token()->delete(uri: '/api/v1/events-lists-items/' . $eventListItem->id);
         $response->assertStatus(status: 200);
         $response->assertJsonPath(path: "message", expect: trans(key: 'messages.events_lists_items.delete_success'));
         $response->assertJsonStructure([
@@ -169,13 +197,10 @@ class EventsListsItemsTest extends AppTestCase
      */
     private function eventListItem($onlyKeys = false) {
         $data = [
-            'saas_client_id'    => $saasClientId = SaasClient::factory()->create()->id,
             'name'              => fake()->name(),
             'email'             => fake()->email(),
             'phone'             => fake()->phoneNumber(),
-            'event_id'          => $eventId = Event::factory()->create(['saas_client_id' => $saasClientId,])->id,
-            'event_list_id'     => EventList::factory()->create(['event_id' => $eventId, 'saas_client_id' => $saasClientId,])->id,
-            'payment_status'    => EventListItemPaymentStatusEnum::PAID->value,
+            'payment_status'    => EventListItemPaymentStatusEnum::PENDING->value,
         ];
 
         return $onlyKeys ? array_keys($data) : $data;

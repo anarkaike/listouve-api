@@ -2,26 +2,28 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\EventList;
-use App\Actions\{Bi\EventListBiAction, EventListAction,};
-use App\Exceptions\{EventList\EventListDeleteException,};
+use App\Actions\{
+    Bi\EventListBiAction,
+};
+use App\Exceptions\{
+    EventList\EventListDeleteException,
+};
 use App\Http\{Collections\EventListCollection,
     Controllers\Controller,
     Requests\EventList\EventListCreateRequest,
-    Requests\EventList\EventListDeleteRequest,
     Requests\EventList\EventListUpdateRequest,
     Resources\EventListResource,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse};
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+    Responses\ApiSuccessResponse
+};
 
 
 class EventsListsController extends Controller
 {
     public function __construct(
-        private EventListAction $eventListAction,
         private EventListBiAction $eventListBiAction,
     )
     {
@@ -32,7 +34,7 @@ class EventsListsController extends Controller
     {
         try {
             return new ApiSuccessResponse(
-                data: new EventListResource($eventsList),
+                data: new EventListResource(resource: $eventsList),
                 message: trans(key: 'messages.events_lists.find_by_id_success')
             );
 
@@ -41,16 +43,15 @@ class EventsListsController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $eventsLists = $this->eventListAction->listAll();
+            $eventsLists = EventList::filter($request->get('filters'))->get();
 
             return new ApiSuccessResponse(
                 data: EventListCollection::make($eventsLists),
                 message: trans(key: 'messages.events_lists.list_all_success')
             );
-
         } catch (\Exception $e) {
             return new ApiErrorResponse(exception: $e);
         }
@@ -60,10 +61,10 @@ class EventsListsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $eventList = $this->eventListAction->create(data: $data);
+            $eventList = EventList::create(attributes: $data);
 
             return new ApiSuccessResponse(
-                data: new EventListResource($eventList),
+                data: new EventListResource(resource: $eventList),
                 message: trans(key: 'messages.events_lists.create_success')
             );
 
@@ -72,14 +73,15 @@ class EventsListsController extends Controller
         }
     }
 
-    public function update(EventListUpdateRequest $request, EventList $eventsList)
+    public function update(EventList $eventsList, EventListUpdateRequest $request)
     {
         try {
             $data = $request->validationData();
-            $eventsList = $this->eventListAction->update(id: $eventsList->id, data: $eventsList->fill($data)->toArray());
+            $data['updated_values'] = array_diff_assoc($eventsList->toArray(), $data);
+            $eventsList->update(attributes: $data);
 
             return new ApiSuccessResponse(
-                data: new EventListResource($eventsList),
+                data: new EventListResource(resource: EventList::find(id: $eventsList->id)),
                 message: trans(key: 'messages.events_lists.update_success')
             );
 
@@ -91,7 +93,7 @@ class EventsListsController extends Controller
     public function destroy(EventList $eventsList)
     {
         try {
-            if(!$this->eventListAction->delete(id: $eventsList->id)) {
+            if(!$eventsList->delete()) {
                 throw new EventListDeleteException();
             }
 

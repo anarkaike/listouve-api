@@ -26,7 +26,6 @@ class EventListItemUpdateRequest extends BaseFormRequest
             'email' => ['nullable', 'string', 'max:255',],
             'phone' => ['nullable', 'string', 'max:20',],
             'payment_status' => ['nullable', new Enum(EventListItemPaymentStatusEnum::class)],
-            'saas_client_id' => ['nullable', 'integer'],
         ];
     }
 }

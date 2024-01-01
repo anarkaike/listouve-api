@@ -14,10 +14,9 @@ class EventUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255',],
+            'name' => ['nullable', 'string', 'max:255',],
             'description' => ['nullable', 'string',],
             'url_photo' => ['nullable', 'string', 'max:255',],
-            'saas_client_id' => ['nullable', 'integer'],
         ];
     }
 }

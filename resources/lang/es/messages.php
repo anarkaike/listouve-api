@@ -112,6 +112,30 @@ return [
         'get_bi_error' => 'Error al intentar obtener datos de BI.',
 
         'no_records_found' => 'No se encontraron usuarios.'
+    ],
+    'profiles' => [
+        'find_by_id_success' => 'ID de perfil obtenida exitosamente.',
+        'find_by_id_error' => 'Error al intentar buscar un perfil por ID.',
+
+        'list_all_success' => '¡Perfiles listados exitosamente!',
+        'list_all_error' => 'Error al intentar enumerar los perfiles.',
+
+        'create_success' => '¡Perfil creado exitosamente!',
+        'create_error' => 'Error al intentar crear un perfil.',
+
+        'update_success' => 'Perfil actualizado exitosamente!',
+        'update_error' => 'Error al intentar actualizar un perfil.',
+
+        'delete_success' => '¡Perfil eliminado exitosamente!',
+        'delete_error' => 'Error al intentar eliminar un perfil.',
+
+        'no_records_found' => 'No se encontraron perfiles.'
+    ],
+    'permissions' => [
+        'list_all_success' => '¡Permission listados exitosamente!',
+        'list_all_error' => 'Error al intentar enumerar los permissiones.',
+
+        'no_records_found' => 'No se encontraron permissiones.'
     ]
 
 ];

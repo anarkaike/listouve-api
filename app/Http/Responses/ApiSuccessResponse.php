@@ -39,7 +39,7 @@ class ApiSuccessResponse implements Responsable
                 'data' => $this->data,
                 'metadata' => $this->metadata,
             ],
-            $this->code,
+            200,
             $this->headers
         );
     }

@@ -2,23 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{
-    Factories\HasFactory,
-    Model,
-    SoftDeletes,
-};
-use Abbasudo\Purity\Traits\{
-    Filterable,
-    Sortable,
-};
-
-
-class EventList extends Model
+class EventList extends BaseModel
 {
-    use HasFactory, SoftDeletes, Filterable, Sortable;
-
     protected $table = 'events_lists';
-//    protected $touches = ['events',];
     protected $fillable = [
         'event_id',
         'name',

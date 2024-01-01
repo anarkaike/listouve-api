@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\v1;
 use App\Models\User;
 use App\Actions\{
     Bi\UserBiAction,
-    UserAction,
 };
+use Illuminate\Http\Request;
 use App\Exceptions\{
     User\UserDeleteException,
 };
@@ -19,12 +19,12 @@ use App\Http\{
     Responses\ApiErrorResponse,
     Responses\ApiSuccessResponse
 };
+use Illuminate\Support\Facades\Auth;
 
 
 class UsersController extends Controller
 {
     public function __construct(
-        private UserAction $userAction,
         private UserBiAction $userBiAction,
     )
     {
@@ -44,10 +44,10 @@ class UsersController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $users = $this->userAction->listAll();
+            $users = User::filter($request->get(key: 'filters'))->get();
 
             return new ApiSuccessResponse(
                 data: UserCollection::make($users),
@@ -63,7 +63,7 @@ class UsersController extends Controller
     {
         try {
             $data = $request->validationData();
-            $user = $this->userAction->create(data: $data);
+            $user = User::create(attributes: $data);
 
             return new ApiSuccessResponse(
                 data: new UserResource($user),
@@ -79,10 +79,11 @@ class UsersController extends Controller
     {
         try {
             $data = $request->validationData();
-            $user = $this->userAction->update(id: $user->id, data: $user->fill($data)->toArray());
+            $data['updated_values'] = Auth::id();
+            $user->fill(attributes: $data)->update();
 
             return new ApiSuccessResponse(
-                data: new UserResource($user),
+                data: new UserResource(User::find($user->id)),
                 message: trans(key: 'messages.users.update_success')
             );
 
@@ -94,7 +95,7 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         try {
-            if(!$this->userAction->delete(id: $user->id)) {
+            if(!$user->delete()) {
                 throw new UserDeleteException();
             }
 

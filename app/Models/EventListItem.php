@@ -2,22 +2,10 @@
 
 namespace App\Models;
 
-use Abbasudo\Purity\Traits\Filterable;
-use Abbasudo\Purity\Traits\Sortable;
-use App\Http\Controllers\Api\v1\EventsListsItemsController;
-use Illuminate\Database\Eloquent\{
-    Factories\HasFactory,
-    Model,
-    SoftDeletes,
-};
-use Illuminate\Support\Facades\Route;
 
-
-class EventListItem extends Model
+class EventListItem extends BaseModel
 {
-    use HasFactory, SoftDeletes, Filterable, Sortable;
     protected $table = 'events_lists_items';
-//    protected $touches = ['events', 'events_lists',];
     protected $fillable = [
         'name',
         'email',

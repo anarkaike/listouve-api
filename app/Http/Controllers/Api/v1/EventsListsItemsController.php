@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Actions\Bi\EventListItemBiAction;
-use App\Actions\EventListItemAction;
-use App\Contracts\Controllers\CrudEventListItemControllerInterface;
 use App\Models\EventListItem;
-use App\Exceptions\{EventListItem\EventListItemDeleteException, EventListItem\EventListItemNotFountException,};
+use App\Exceptions\{EventListItem\EventListItemDeleteException,};
 use App\Http\{Collections\EventListItemCollection,
     Controllers\Controller,
     Requests\EventListItem\EventListItemCreateRequest,
-    Requests\EventListItem\EventListItemDeleteRequest,
     Requests\EventListItem\EventListItemUpdateRequest,
     Resources\EventListItemResource,
     Responses\ApiErrorResponse,
@@ -22,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 class EventsListsItemsController extends Controller
 {
     public function __construct(
-        private EventListItemAction   $eventListItemAction,
         private EventListItemBiAction $eventListItemBiAction,
     )
     {
@@ -42,10 +38,10 @@ class EventsListsItemsController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $eventsListsItems = $this->eventListItemAction->listAll();
+            $eventsListsItems = EventListItem::filter($request->get(key: 'filters'))->get();
 
             return new ApiSuccessResponse(
                 data: EventListItemCollection::make($eventsListsItems),
@@ -61,7 +57,7 @@ class EventsListsItemsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $eventListItem = $this->eventListItemAction->create(data: $data);
+            $eventListItem = EventListItem::create(attributes: $data);
 
             return new ApiSuccessResponse(
                 data: new EventListItemResource($eventListItem),
@@ -77,10 +73,11 @@ class EventsListsItemsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $eventsListsItem = $this->eventListItemAction->update(id: $eventsListsItem->id, data: $eventsListsItem->fill($data)->toArray());
+            $data['created_values'] = array_diff_assoc($eventsListsItem->toArray(), $data);
+            $eventsListsItem->fill(attributes: $data)->update();
 
             return new ApiSuccessResponse(
-                data: new EventListItemResource($eventsListsItem),
+                data: new EventListItemResource(EventListItem::find($eventsListsItem->id)),
                 message: trans(key: 'messages.events_lists_items.update_success')
             );
 
@@ -92,7 +89,7 @@ class EventsListsItemsController extends Controller
     public function destroy(EventListItem $eventsListsItem)
     {
         try {
-            if(!$this->eventListItemAction->delete(id: $eventsListsItem->id)) {
+            if(!$eventsListsItem->delete()) {
                 throw new EventListItemDeleteException();
             }
 
