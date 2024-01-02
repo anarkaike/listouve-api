@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\v1;
 use App\Actions\Bi\SaasClientBiAction;
 use App\Actions\SaasClientAction;
 use App\Models\SaasClient;
-use App\Exceptions\{SaasClient\SaasClientDeleteException,};
+use App\Models\User;
+use App\Notifications\SaasClientConfirmEmailNotification;
+use App\Exceptions\{SaasClient\SaasClientDeleteException, SaasClient\SaasClientNotFountException};
 use App\Http\{Collections\SaasClientCollection,
     Controllers\Controller,
     Requests\SaasClient\SaasClientCreateRequest,
@@ -63,6 +65,54 @@ class SaasClientsController extends Controller
 
             return new ApiSuccessResponse(
                 data: new SaasClientResource($saasClient),
+                message: trans(key: 'messages.saas_clients.create_success')
+            );
+
+        } catch (\Exception $e) {
+            return new ApiErrorResponse(exception: $e);
+        }
+    }
+
+    public function autoRegister(SaasClientCreateRequest $request)
+    {
+        try {
+            $data = $request->validationData();
+            $data['code_email_validation'] = substr(strtoupper(md5(date('YmdHis') . rand(0,9999))), 0, 5);
+            if( $saasClient = SaasClient::create(attributes: $data) ) {
+                $saasClient->notify(new SaasClientConfirmEmailNotification(codeEmailValidation: $data['code_email_validation']));
+            }
+
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'password' => $data['password'],
+            ]);
+
+            return new ApiSuccessResponse(
+                data: [
+                    'token' => $user->createToken('invoice'),
+                    'user' => $user->toArray(),
+                    'saasClient' => new SaasClientResource($saasClient),
+                ],
+                message: trans(key: 'messages.saas_clients.create_success')
+            );
+
+        } catch (\Exception $e) {
+            return new ApiErrorResponse(exception: $e);
+        }
+    }
+
+    public function confirmEmail(Request $request)
+    {
+        try {
+            $data = $request->all();
+            if (!SaasClient::where('id', $data['id'])->where('code_email_validation', $data['code'])->exists()) {
+                throw new \Exception('Código invalido.');
+            }
+
+            return new ApiSuccessResponse(
+                data: [],
                 message: trans(key: 'messages.saas_clients.create_success')
             );
 

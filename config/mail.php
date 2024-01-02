@@ -85,6 +85,15 @@ return [
                 'log',
             ],
         ],
+
+        'mailjet' => [
+            'transport' => 'smtp',
+            'host' => 'in-v3.mailjet.com',
+            'port' => 587,
+            'encryption' => 'tls',
+            'username' => env('MJ_APIKEY_PUBLIC'),
+            'password' => env('MAIL_MAILJET_SECRET_KEY'),
+        ],
     ],
 
     /*

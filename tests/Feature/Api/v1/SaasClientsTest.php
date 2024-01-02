@@ -168,10 +168,8 @@ class SaasClientsTest extends AppTestCase
     private function saasClient($onlyKeys = false) {
         $data = [
             'name'              => fake()->name(),
-            'email_personal'    => fake()->email(),
-            'email_professional' => fake()->email(),
-            'phone_personal'    => fake()->phoneNumber(),
-            'phone_professional' => fake()->phoneNumber(),
+            'email'             => fake()->email(),
+            'phone'             => fake()->phoneNumber(),
             'observation'       => fake()->text(),
             'status'            => SaasClientStatusEnum::ACTIVE->value,
             'general_settings'  => '{}',

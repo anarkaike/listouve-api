@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Models\Profile;
+use App\Models\SaasClient;
+use App\Notifications\NewSaasClientForAdminNotification;
 use Laravel\Sanctum\PersonalAccessToken;
-use Illuminate\{
-    Http\Request,
-    Support\Facades\Auth,
-};
+use Illuminate\{Http\Request, Support\Arr, Support\Facades\Auth};
 use App\Exceptions\Auth\{
     InvalidTokenException,
     LogoutException,
@@ -28,48 +28,17 @@ class AuthController extends Controller
                 throw new IncorrectCredentialsException();
             }
 
+            // Buscando permissões relacionado ao usuário e aos perfis relacionados ao usuário
+            $profilesIdsOfUser = array_column(array: $request->user()->profiles()->get()->toArray(), column_key: 'id');
+            $permissionsOfProfilesOfUser = [];
+            foreach ($profilesIdsOfUser as $profileId) {
+                $permissionsOfProfilesOfUser[] = Arr::pluck(array: Profile::find($profileId)->permissions()->get()->toArray(), value: 'name');
+            }
+            $permissionsOfUser = Arr::pluck($request->user()->permissions()->get()->toArray(), 'name');
+
+            $permissions = array_unique(array_merge($permissionsOfUser, $permissionsOfProfilesOfUser));
             $data = [
-                'token' => $request->user()->createToken('invoice', [
-                    //Users Abilities
-                    'users:listAll',
-                    'users:findById',
-//                    'users:create',
-                    'users:update',
-                    'users:delete',
-                    'users:bi',
-
-                    //Saas Clients Abilities
-                    'saasClients:listAll',
-                    'saasClients:findById',
-                    'saasClients:create',
-                    'saasClients:update',
-                    'saasClients:delete',
-                    'saasClients:bi',
-
-                    //Events Abilities
-                    'events:listAll',
-                    'events:findById',
-                    'events:create',
-                    'events:update',
-                    'events:delete',
-                    'events:bi',
-
-                    //Events Lists Abilities
-                    'eventsLists:listAll',
-                    'eventsLists:findById',
-                    'eventsLists:create',
-                    'eventsLists:update',
-                    'eventsLists:delete',
-                    'eventsLists:bi',
-
-                    //Events Lists Abilities
-                    'eventsListsItems:listAll',
-                    'eventsListsItems:findById',
-                    'eventsListsItems:create',
-                    'eventsListsItems:update',
-                    'eventsListsItems:delete',
-                    'eventsListsItems:bi',
-                ]),
+                'token' => $request->user()->createToken('invoice', $permissions),
                 'user' => $request->user()->toArray()
             ];
             return new ApiSuccessResponse(data: $data, message: trans(key: 'auth.user_authenticated_successfully'));

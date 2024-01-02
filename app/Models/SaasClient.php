@@ -3,8 +3,11 @@
 namespace App\Models;
 
 
+use Illuminate\Notifications\Notifiable;
+
 class SaasClient extends BaseModel
 {
+    use Notifiable;
     protected $table = 'saas_clients';
     protected $fillable = [
         'name',
@@ -13,6 +16,8 @@ class SaasClient extends BaseModel
         'observation',
         'status',
         'general_settings',
+        'email_confirmed_at',
+        'code_email_validation',
         'created_by',
         'updated_by',
         'updated_values',

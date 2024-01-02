@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Broadcasting\Channels\MailjetChannel;
+use App\Services\Integrations\MailjetService;
+use Illuminate\Notifications\Channels\MailChannel;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\ServiceProvider;
 use App\Actions\{Bi\EventBiAction,
     Bi\EventListBiAction,
@@ -64,12 +68,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(abstract: EventListItemBiRepositoryInterface::class, concrete: EventListItemBiRepository::class);
         $this->app->bind(abstract: SaasClientBiRepositoryInterface::class, concrete: SaasClientBiRepository::class);
 
-        // Actions Interfaces
-        $this->app->bind(abstract: UserActionInterface::class, concrete: UserAction::class);
-        $this->app->bind(abstract: EventActionInterface::class, concrete: EventAction::class);
-        $this->app->bind(abstract: EventListActionInterface::class, concrete: EventListAction::class);
-        $this->app->bind(abstract: EventListItemActionInterface::class, concrete: EventListItemAction::class);
-        $this->app->bind(abstract: SaasClientActionInterface::class, concrete: SaasClientAction::class);
         // Bi
         $this->app->bind(abstract: UserBiActionInterface::class, concrete: UserBiAction::class);
         $this->app->bind(abstract: EventBiActionInterface::class, concrete: EventBiAction::class);
@@ -83,6 +81,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
+        $this->app->when(concrete: MailjetChannel::class)
+            ->needs(abstract: MailChannel::class)
+            ->give(function () {
+                return $this->app->make(abstract: 'mailjet')->getSwiftMailer();
+            });
+
+
+        Notification::extend(driver: 'mailjet', callback: function ($app) {
+            return new MailjetChannel(mailjet: new MailjetService);
+        });
     }
 }

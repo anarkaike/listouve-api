@@ -170,8 +170,7 @@ class UsersTest extends AppTestCase
         $data = [
             'name'                  => fake()->name(),
             'email'                 => fake()->email(),
-            'phone_personal'        => fake()->phoneNumber(),
-            'phone_professional'    => fake()->phoneNumber(),
+            'phone'                 => fake()->phoneNumber(),
             'url_photo'             => fake()->imageUrl(),
             'status'                => UserStatusEnum::ACTIVE->value,
             'general_settings'      => '{}',

@@ -21,8 +21,7 @@ return new class extends Migration
             $table->string(column: 'password');
             $table->rememberToken();
 
-            $table->string(column: 'phone_personal', length: 30)->nullable();
-            $table->string(column: 'phone_professional', length: 30)->nullable();
+            $table->string(column: 'phone', length: 30)->nullable();
             $table->string(column: 'url_photo', length: 255)->nullable();
             $table->enum(column: 'status', allowed: ['active', 'blocked'])->default(value: 'active');
             $table->json(column: 'general_settings')->nullable();

@@ -23,6 +23,8 @@ use App\Http\Controllers\Api\v1\{AuthController,
 
 Route::prefix('/v1')->group(function(){
     Route::post(uri: '/login', action: [AuthController::class, 'login']);
+    Route::post(uri: '/saas-clients/auto-register', action: [SaasClientsController::class, 'autoRegister']);
+    Route::post(uri: '/saas-clients/confirm-email', action: [SaasClientsController::class, 'confirmEmail']);
 
 
     Route::middleware('auth:sanctum')->group(function(){

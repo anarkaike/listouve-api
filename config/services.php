@@ -31,4 +31,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+
+    'mailjet' => [
+        'driver' => 'mailjet',
+        'api_key' => env('MJ_APIKEY_PUBLIC'),
+        'api_secret' => env('MJ_APIKEY_PRIVATE'),
+        'from' => [
+            'address' => 'notificacoes@fuegoup.com.br',
+            'name' => 'Sistema FuegoUP',
+        ],
+    ],
+
 ];

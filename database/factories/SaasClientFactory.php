@@ -13,10 +13,8 @@ class SaasClientFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email_personal' => fake()->unique()->safeEmail(),
-            'email_professional' => fake()->unique()->safeEmail(),
-            'phone_personal' => '00000000000',
-            'phone_professional' => '00000000000',
+            'email' => fake()->unique()->safeEmail(),
+            'phone' => '00000000000',
             'observation' => fake()->text(),
             'status' => SaasClientStatusEnum::ACTIVE->value,
             'created_by' => Auth::id(),

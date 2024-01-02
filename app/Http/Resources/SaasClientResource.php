@@ -15,10 +15,8 @@ class SaasClientResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email_personal' => $this->email_personal,
-            'email_professional' => $this->email_professional,
-            'phone_personal' => $this->phone_personal,
-            'phone_professional' => $this->phone_professional,
+            'email' => $this->email,
+            'phone' => $this->phone,
             'observation' => $this->observation,
             'status' => $this->status,
             'general_settings' => $this->general_settings,
