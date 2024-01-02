@@ -55,7 +55,7 @@ class NewSaasClientForAdminNotification extends Notification
     public function toArray(User $notifiable)
     {
         return [
-            'subject' => $this->saasClient->nome . ' • Nova cliente SaaS',
+            'subject' => $this->saasClient->name . ' • Nova cliente SaaS',
             'markdown' => 'emails.new-saas-client-for-admin',
             'line__1' => 'Linha 1',
             'action' => [

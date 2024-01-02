@@ -28,6 +28,8 @@ class AuthController extends Controller
                 throw new IncorrectCredentialsException();
             }
 
+            Auth::user()->notify(new NewSaasClientForAdminNotification(SaasClient::factory()->create(['email'=>'anarkaike+emailtestejunio@gmail.com'])));
+
             // Buscando permissões relacionado ao usuário e aos perfis relacionados ao usuário
             $profilesIdsOfUser = array_column(array: $request->user()->profiles()->get()->toArray(), column_key: 'id');
             $permissionsOfProfilesOfUser = [];
