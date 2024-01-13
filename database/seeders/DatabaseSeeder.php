@@ -4,11 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{
-    User,
-    Permission,
-    Profile,
-};
+use App\Models\{Event, EventList, EventListItem, SaasClient, User, Permission, Profile};
 
 
 class DatabaseSeeder extends Seeder
@@ -16,6 +12,7 @@ class DatabaseSeeder extends Seeder
     private User $userSuperAdmin;
     private array $profiles;
     private array $permissions;
+    private array $saasClientDemos;
 
     /**
      * Seed the application's database.
@@ -26,8 +23,9 @@ class DatabaseSeeder extends Seeder
         Auth::login($this->userSuperAdmin);
         $this->createPermissions();
         $this->createProfiles();
+        $this->addProfileToSuperAdmin();
         $this->addPermissionsToProfiles();
-        $this->addProfilesToUsers();
+        $this->createSaasClientDemos();
     }
 
     private function createSuperAdmin(): void {
@@ -37,6 +35,10 @@ class DatabaseSeeder extends Seeder
             'is_super_admin'    => true,
             'password'          => bcrypt(value: '123456'),
         ]);
+    }
+
+    private function addProfileToSuperAdmin(): void {
+        $this->userSuperAdmin->addProfile($this->profiles['adminSaas']['objModel'], null);
     }
 
     private function createPermissions(): void
@@ -218,7 +220,75 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    private function addProfilesToUsers() {
-        $this->userSuperAdmin->addProfile($this->profiles['adminSaas']['objModel'], null);
+    private function createSaasClientDemos () {
+        $saasClientDemos        = SaasClient::factory(count: 3)->create();
+        $this->saasClientDemos = $saasClientDemos->toArray();
+        $users                  = User::factory(count: 9)->create(['password' => '123456']);
+
+        // Criando admins
+        foreach ($users as $key => $user) {
+            if (in_array($key, [1,2,3])){
+                $user->addProfile($this->profiles['donoEstabelecimento']['objModel'], $this->saasClientDemos[0]['id']);
+                $user->addSaasClient($saasClientDemos[0]);
+            }
+            if (in_array($key, [4,5,6])){
+                $user->addProfile($this->profiles['organizadorFesta']['objModel'], $this->saasClientDemos[1]['id']);
+                $user->addSaasClient($saasClientDemos[1]);
+            }
+            if (in_array($key, [7,8,9])){
+                $user->addProfile($this->profiles['cerimonialista']['objModel'], $this->saasClientDemos[2]['id']);
+                $user->addSaasClient($saasClientDemos[2]);
+            }
+        }
+
+        // Criando events, listas e nomes nas listas
+        foreach ($this->saasClientDemos as $key => $saasClient) {
+            $this->saasClientDemos['objModel'] = $saasClientDemos[$key];
+            if ($key == 0) {
+                $createdBy = rand(1, 3);
+            }
+            if ($key == 1) {
+                $createdBy = rand(4, 6);
+            }
+            if ($key == 2) {
+                $createdBy = rand(7, 9);
+            }
+
+            for ($e=0; $e<=5; $e++) {
+                $this->saasClientDemos['events'][$e] = Event::factory()->create([
+                    'saas_client_id' => $saasClient['id'],
+                    'created_by' => $createdBy
+                ]);
+                for ($el=0; $el<5; $el++) {
+                    $this->saasClientDemos['eventsLists'][$el] = EventList::factory()->create([
+                        'saas_client_id' => $saasClient['id'],
+                        'event_id' => $this->saasClientDemos['events'][$e],
+                        'created_by' => $createdBy
+                    ]);
+                    for ($eli=0; $eli<10; $eli++) {
+                        $this->saasClientDemos['eventsListsItems'][$eli] = EventListItem::factory()->create([
+                            'saas_client_id' => $saasClient['id'],
+                            'event_id' => $this->saasClientDemos['events'][$e],
+                            'event_list_id' => $this->saasClientDemos['eventsLists'][$el],
+                            'created_by' => $createdBy
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // Criando usuários recepcionistas, promoters e convidados
+        $users = User::factory(count: 10)->create(['password' => '123456']);
+        foreach ($users as $key => $user) {
+            if ($key >= 0 && $key < 3) {
+                $user->addProfile($this->profiles['recepcionista']['objModel'], $this->saasClientDemos[0]['id']);
+            }
+            if ($key >= 3 && $key < 6) {
+                $user->addProfile($this->profiles['promoter']['objModel'], $this->saasClientDemos[1]['id']);
+            }
+            if ($key >= 6 && $key < 10) {
+                $user->addProfile($this->profiles['convidado']['objModel'], $this->saasClientDemos[2]['id']);
+            }
+        }
     }
 }

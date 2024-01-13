@@ -7,6 +7,7 @@ use App\Actions\SaasClientAction;
 use App\Models\SaasClient;
 use App\Models\User;
 use App\Notifications\SaasClientConfirmEmailNotification;
+use Illuminate\Support\Facades\DB;
 use App\Exceptions\{SaasClient\SaasClientDeleteException, SaasClient\SaasClientNotFountException};
 use App\Http\{Collections\SaasClientCollection,
     Controllers\Controller,
@@ -78,6 +79,8 @@ class SaasClientsController extends Controller
         try {
             $data = $request->validationData();
             $data['code_email_validation'] = substr(strtoupper(md5(date('YmdHis') . rand(0,9999))), 0, 5);
+
+            DB::beginTransaction();
             if( $saasClient = SaasClient::create(attributes: $data) ) {
                 $saasClient->notify(new SaasClientConfirmEmailNotification(codeEmailValidation: $data['code_email_validation']));
             }
@@ -88,7 +91,10 @@ class SaasClientsController extends Controller
                 'phone' => $data['phone'],
                 'password' => $data['password'],
             ]);
+            $saasClient->users()->attach($user);
 
+
+            DB::commit();
             return new ApiSuccessResponse(
                 data: [
                     'token' => $user->createToken('invoice'),
@@ -99,6 +105,7 @@ class SaasClientsController extends Controller
             );
 
         } catch (\Exception $e) {
+            DB::rollBack();
             return new ApiErrorResponse(exception: $e);
         }
     }
@@ -107,13 +114,23 @@ class SaasClientsController extends Controller
     {
         try {
             $data = $request->all();
-            if (!SaasClient::where('id', $data['id'])->where('code_email_validation', $data['code'])->exists()) {
+            if (!$saasClient = SaasClient::where('id', $data['id'])
+                ->where('code_email_validation', $data['code'])
+                ->whereNull('email_confirmed_at')
+                ->first()) {
                 throw new \Exception('Código invalido.');
             }
+//            $saasClient->update(['email_confirmed_at' => now()]);
+
+            $user = $saasClient->users()->first();
 
             return new ApiSuccessResponse(
-                data: [],
-                message: trans(key: 'messages.saas_clients.create_success')
+                data: [
+                    'token' => $user->createToken('invoice'),
+                    'user' => $user->toArray(),
+                    'saasClient' => new SaasClientResource($saasClient),
+                ],
+                message: 'Codigo validado com sucesso!'
             );
 
         } catch (\Exception $e) {

@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create(table: 'saas_clients', callback: function (Blueprint $table) {
             $table->id();
 
-            $table->string(column: 'name', length: 255);
+            $table->string(column: 'company_name', length: 255);
+            $table->string(column: 'contact_name', length: 255);
             $table->string(column: 'domain_api', length: 255)->nullable();
             $table->string(column: 'domain_front', length: 255)->nullable();
             $table->string(column: 'logo', length: 255)->nullable();
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->string(column: 'code_email_validation', length: 32)->nullable();
             $table->timestamp(column: 'email_confirmed_at')->nullable();
             $table->enum(column: 'status', allowed: ['active', 'active_testing', 'active_pending_payment', 'blocked', 'blocked_pending_payment', 'archived',])->default(value: 'active');
+            $table->enum(column: 'business_sector', allowed: ['bar', 'boate', 'produtor_de_festas', 'cerimonialista', 'outros'])->nullable()->default(value: null);
             $table->json(column: 'general_settings')->nullable();
 
             // Campos de Auditoria - "criado_em" e "criado_por"

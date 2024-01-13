@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Models\Profile;
+use App\Models\SaasClient;
 use App\Models\User;
 use App\Actions\{
     Bi\UserBiAction,
@@ -47,7 +49,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         try {
-            $users = User::filter($request->get(key: 'filters'))->get();
+            $users = User::filter($request->get(key: 'filters'))->with('profiles')->get();
 
             return new ApiSuccessResponse(
                 data: UserCollection::make($users),
@@ -64,6 +66,14 @@ class UsersController extends Controller
         try {
             $data = $request->validationData();
             $user = User::create(attributes: $data);
+
+            $profiles = $request->get('profiles');
+            $saasClients = $request->get('saas_client_id');
+            foreach ($profiles as $profile) {
+                foreach ($saasClients as $saasClient) {
+                    $user->addProfile(Profile::find($profile['id'])->first(), $saasClient->id);
+                }
+            }
 
             return new ApiSuccessResponse(
                 data: new UserResource($user),

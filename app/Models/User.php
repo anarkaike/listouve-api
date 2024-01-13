@@ -60,16 +60,69 @@ class User extends Authenticatable
         });
     }
 
-    public function saasClient()
+    // RELACIONAMENTO COM CLIENTE SAAS
+    public function saasClients()
     {
         return $this->belongsToMany(related: SaasClient::class, table: 'saas_client_users');
     }
 
+    public function addSaasClient(SaasClient $saasClient): void
+    {
+        $this->saasClients()->attach($saasClient->id);
+    }
+
+    public function removeSaasClient(SaasClient $saasClient): void
+    {
+        $this->saasClients()->detach($saasClient->id);
+    }
+
+    public function hasSaasClient(SaasClient $saasClient): bool
+    {
+        return $this->saasClients()->where('id', $saasClient->id)->exists();
+    }
+
+    // RELACIONAMENTO COM PERMISSIONS
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(related: Permission::class, table: 'user_permissions');
     }
 
+    public function assignPermission(string $permission): void
+    {
+        if (!$this->hasPermission($permission)) {
+            $this->permissions()->attach(Permission::where('name', $permission)->first());
+        }
+    }
+
+    public function addPermission(string|Permission $permission)
+    {
+        if (is_object($permission)) {
+            $permission = $permission->name;
+        }
+        $this->assignPermission($permission);
+    }
+
+    public function revokePermission(string $permission): void
+    {
+        if ($this->hasPermission($permission)) {
+            $this->permissions()->detach(Permission::where('name', $permission)->first());
+        }
+    }
+
+    public function removePermission(string|Permission $permission)
+    {
+        if (is_object($permission)) {
+            $permission = $permission->name;
+        }
+        $this->revokePermission($permission);
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        return $this->permissions()->where('name', $permission)->exists();
+    }
+
+    // RELACIONAMENTO COM PROFILES
     public function profiles(): BelongsToMany
     {
         return $this->belongsToMany(related: Profile::class, table: 'user_profiles');
@@ -88,24 +141,5 @@ class User extends Authenticatable
     public function hasProfile(Profile $profile, $saasClientId): bool
     {
         return $this->profiles()->where('id', $profile->id)->where('saas_client_id', $saasClientId)->exists();
-    }
-
-    public function assignPermission(string $permission): void
-    {
-        if (!$this->hasPermission($permission)) {
-            $this->permissions()->attach(Permission::where('name', $permission)->first());
-        }
-    }
-
-    public function revokePermission(string $permission): void
-    {
-        if ($this->hasPermission($permission)) {
-            $this->permissions()->detach(Permission::where('name', $permission)->first());
-        }
-    }
-
-    public function hasPermission(string $permission): bool
-    {
-        return $this->permissions()->where('name', $permission)->exists();
     }
 }

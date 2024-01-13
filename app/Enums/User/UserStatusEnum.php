@@ -5,6 +5,7 @@ namespace App\Enums\User;
 enum UserStatusEnum: string
 {
     case ACTIVE = 'active'; // Usuário ativo
+    case INACTIVE = 'inatice'; // Usuário ativo
     case BLOCKED = 'blocked'; // Usuário bloqueado
 
     public static function getValues()
@@ -12,6 +13,7 @@ enum UserStatusEnum: string
         return [
             self::ACTIVE->value,
             self::BLOCKED->value,
+            self::INACTIVE->value,
         ];
     }
 }

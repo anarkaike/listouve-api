@@ -25,6 +25,8 @@ class UserCreateRequest extends BaseFormRequest
             'phone' => ['nullable', 'string', 'max:255',],
             'url_photo' => ['nullable', 'string', 'max:255',],
             'status' => ['nullable', new Enum(UserStatusEnum::class)],
+            'profiles' => ['nullable'],
+            'saas_client_id' => ['nullable'],
         ];
     }
 }
