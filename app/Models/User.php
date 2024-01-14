@@ -46,7 +46,7 @@ class User extends Authenticatable
         'updated_at' => 'datetime:d/m/Y H:m',
         'deleted_at' => 'datetime:d/m/Y H:m',
     ];
-    protected $appends = ['profile_ids', 'saas_client_ids'];
+    protected $appends = ['profile_ids', 'saas_client_ids', 'profiles'];
 
     public static function boot()
     {
@@ -70,17 +70,21 @@ class User extends Authenticatable
 
     public function addSaasClient(SaasClient $saasClient): void
     {
-        $this->saasClients()->attach($saasClient->id);
+        if (!$this->hasSaasClient($saasClient)) {
+            $this->saasClients()->attach($saasClient->id);
+        }
     }
 
     public function removeSaasClient(SaasClient $saasClient): void
     {
-        $this->saasClients()->detach($saasClient->id);
+        if ($this->hasSaasClient($saasClient)) {
+            $this->saasClients()->detach($saasClient->id);
+        }
     }
 
     public function hasSaasClient(SaasClient $saasClient): bool
     {
-        return $this->saasClients()->where('id', $saasClient->id)->exists();
+        return $this->saasClients()->where('saas_clients.id', $saasClient->id)->exists();
     }
 
     // RELACIONAMENTO COM PERMISSIONS
@@ -132,23 +136,34 @@ class User extends Authenticatable
 
     public function addProfile(Profile $profile, $saasClientId): void
     {
-        $this->profiles()->attach($profile->id, ['saas_client_id' => $saasClientId]);
+        if (!$this->hasProfile($profile, $saasClientId)) {
+            $this->profiles()->attach($profile->id, ['saas_client_id' => $saasClientId]);
+        }
     }
 
     public function removeProfile(Profile $profile, $saasClientId): void
     {
-        $this->profiles()->detach($profile->id, ['saas_client_id' => $saasClientId]);
+        if ($this->hasProfile($profile, $saasClientId)) {
+            $this->profiles()->detach($profile->id, ['saas_client_id' => $saasClientId]);
+        }
     }
 
     public function hasProfile(Profile $profile, $saasClientId): bool
     {
-        return $this->profiles()->where('id', $profile->id)->where('saas_client_id', $saasClientId)->exists();
+        return $this->profiles()->where('profiles.id', $profile->id)->where('saas_client_id', $saasClientId)->exists();
     }
 
 
     public function getProfileIdsAttribute()
     {
         return $this->profiles()->pluck('profiles.id')->toArray();
+    }
+
+    public function getProfilesAttribute()
+    {
+        return $this->profiles()->get(['profiles.name', 'profiles.id'])->map(function ($profile) {
+            return $profile->only(['id', 'name']);
+        })->toArray();
     }
 
     public function getSaasClientIdsAttribute()

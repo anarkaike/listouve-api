@@ -58,16 +58,20 @@ class SaasClient extends BaseModel
 
     public function addUser(User $user): void
     {
-        $this->users()->attach($user->id);
+        if (!$this->hasUser($user)) {
+            $this->users()->attach($user->id);
+        }
     }
 
     public function removeUser(User $user): void
     {
-        $this->users()->detach($user->id);
+        if ($this->hasUser($user)) {
+            $this->users()->detach($user->id);
+        }
     }
 
     public function hasUser(User $user): bool
     {
-        return $this->users()->where('id', $user->id)->exists();
+        return $this->users()->where('users.id', $user->id)->exists();
     }
 }

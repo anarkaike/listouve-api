@@ -21,11 +21,7 @@ class Profile extends BaseModel
         'deleted_at' => 'datetime:d/m/Y H:m',
     ];
 
-    public function permissions()
-    {
-        return $this->belongsToMany(related: Permission::class, table: 'profile_permissions');
-    }
-
+    // RELACIONAMENTO COM USUARIOS
     public function users()
     {
         return $this->belongsToMany(related: User::class, table: 'user_profiles');
@@ -33,17 +29,27 @@ class Profile extends BaseModel
 
     public function addUser(User $user, $saasClientId): void
     {
-        $this->users()->attach($user, ['saas_client_id' => $saasClientId]);
+        if (!$this->hasUser($user, $saasClientId)) {
+            $this->users()->attach($user, ['saas_client_id' => $saasClientId]);
+        }
     }
 
-    public function removeProfile(User $user, $saasClientId): void
+    public function removeUser(User $user, $saasClientId): void
     {
-        $this->users()->detach($user, ['saas_client_id' => $saasClientId]);
+        if ($this->hasUser($user, $saasClientId)) {
+            $this->users()->deattach($user, ['saas_client_id' => $saasClientId]);
+        }
     }
 
-    public function hasProfile(Profile $profile, $saasClientId): bool
+    public function hasUser(User $user, $saasClientId): bool
     {
-        return $this->profiles()->where('id', $profile->id)->where('saas_client_id', $saasClientId)->exists();
+        return $this->users()->where('users.id', $user->id)->where('saas_client_id', $saasClientId)->exists();
+    }
+
+    // RELACIONAMENTO COM PERMISSOES
+    public function permissions()
+    {
+        return $this->belongsToMany(related: Permission::class, table: 'profile_permissions');
     }
 
     public function assignPermission(string $permission): void

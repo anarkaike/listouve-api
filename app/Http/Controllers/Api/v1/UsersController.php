@@ -69,11 +69,12 @@ class UsersController extends Controller
                 $profile = Profile::find($profileId);
                 if ($profile) {
                     foreach ($saasClientsIds as $saasClientId) {
-                        if (SaasClient::find($saasClientId)->exists()) {
-                            $user->addProfile($profile->first(), $saasClientId);
-                        }
+                        $user->addProfile($profile->first(), $saasClientId);
                     }
                 }
+            }
+            foreach ($saasClientsIds as $saasClientId) {
+                $user->addSaasClient(Profile::find($saasClientId));
             }
         }
     }
