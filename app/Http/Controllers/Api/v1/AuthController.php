@@ -37,9 +37,9 @@ class AuthController extends Controller
             }
             $permissionsOfUser = Arr::pluck($request->user()->permissions()->get()->toArray(), 'name');
 
-            $permissions = array_unique(array_merge($permissionsOfUser, $permissionsOfProfilesOfUser));
+//            $permissions = array_unique(array_merge($permissionsOfUser, $permissionsOfProfilesOfUser));
             $data = [
-                'token' => $request->user()->createToken('invoice', $permissions),
+                'token' => $request->user()->createToken('invoice', []),
                 'user' => $request->user()->toArray()
             ];
             return new ApiSuccessResponse(data: $data, message: trans(key: 'auth.user_authenticated_successfully'));

@@ -42,6 +42,9 @@ Route::prefix('/v1')->group(function(){
 
         // Permissões de Usuários
         Route::get(uri: '/permissions', action: [PermissionsController::class, 'index']);
+
+        // Usuarios
+        Route::post(uri: '/users/{user}', action: [UsersController::class, 'update']);
         Route::apiResource(name: 'users', controller: UsersController::class);
         Route::get(uri: '/users/bi', action: [UsersController::class, 'bi']);
 

@@ -19,11 +19,11 @@ class UserUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255',],
+            'name' => ['nullable', 'string', 'max:255',],
             'email' => ['nullable', 'string', 'email', Rule::unique(table: 'users', column: 'email')->ignore($this->id)->withoutTrashed(),],
             'password' => ['nullable', 'string', 'max:255',],
             'phone' => ['nullable', 'string', 'max:255',],
-            'url_photo' => ['nullable', 'string', 'max:255',],
+            'url_photo' => ['nullable', 'file'],
             'status' => ['nullable', new Enum(UserStatusEnum::class)],
         ];
     }

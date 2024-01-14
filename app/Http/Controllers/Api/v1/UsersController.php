@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Models\Profile;
 use App\Models\SaasClient;
 use App\Models\User;
+use App\Services\Upload;
 use App\Actions\{
     Bi\UserBiAction,
 };
@@ -21,7 +22,6 @@ use App\Http\{
     Responses\ApiErrorResponse,
     Responses\ApiSuccessResponse
 };
-use Illuminate\Support\Facades\Auth;
 
 
 class UsersController extends Controller
@@ -49,7 +49,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         try {
-            $users = User::filter($request->get(key: 'filters'))->with('profiles')->get();
+            $users = User::filter($request->get(key: 'filters'))->get();
 
             return new ApiSuccessResponse(
                 data: UserCollection::make($users),
@@ -61,19 +61,35 @@ class UsersController extends Controller
         }
     }
 
+    private function addProfileAndSaasClient($request, $user) {
+        $profilesIds = $request->get('profile_ids') ?? [];
+        $saasClientsIds = $request->get('saas_client_ids') ?? [];
+        if (count($profilesIds) > 0 && $saasClientsIds > 0) {
+            foreach ($profilesIds as $profileId) {
+                $profile = Profile::find($profileId);
+                if ($profile) {
+                    foreach ($saasClientsIds as $saasClientId) {
+                        if (SaasClient::find($saasClientId)->exists()) {
+                            $user->addProfile($profile->first(), $saasClientId);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public function store(UserCreateRequest $request)
     {
         try {
             $data = $request->validationData();
-            $user = User::create(attributes: $data);
 
-            $profiles = $request->get('profiles');
-            $saasClients = $request->get('saas_client_id');
-            foreach ($profiles as $profile) {
-                foreach ($saasClients as $saasClient) {
-                    $user->addProfile(Profile::find($profile['id'])->first(), $saasClient->id);
-                }
+            $file = $request->file('url_photo', null);
+            if ($file) {
+                $data['url_photo'] = Upload::uploadFile($file);
             }
+
+            $user = User::create(attributes: $data);
+            $this->addProfileAndSaasClient($request, $user);
 
             return new ApiSuccessResponse(
                 data: new UserResource($user),
@@ -89,8 +105,14 @@ class UsersController extends Controller
     {
         try {
             $data = $request->validationData();
-            $data['updated_values'] = Auth::id();
+
+            $file = $request->file('url_photo', null);
+            if ($file) {
+                $data['url_photo'] = Upload::uploadFile($file);
+            }
+
             $user->fill(attributes: $data)->update();
+            $this->addProfileAndSaasClient($request, $user);
 
             return new ApiSuccessResponse(
                 data: new UserResource(User::find($user->id)),

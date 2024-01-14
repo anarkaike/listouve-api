@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 use Illuminate\{Database\Eloquent\Factories\HasFactory,
     Database\Eloquent\Relations\BelongsToMany,
     Database\Eloquent\SoftDeletes,
@@ -45,6 +46,7 @@ class User extends Authenticatable
         'updated_at' => 'datetime:d/m/Y H:m',
         'deleted_at' => 'datetime:d/m/Y H:m',
     ];
+    protected $appends = ['profile_ids', 'saas_client_ids'];
 
     public static function boot()
     {
@@ -142,4 +144,24 @@ class User extends Authenticatable
     {
         return $this->profiles()->where('id', $profile->id)->where('saas_client_id', $saasClientId)->exists();
     }
+
+
+    public function getProfileIdsAttribute()
+    {
+        return $this->profiles()->pluck('profiles.id')->toArray();
+    }
+
+    public function getSaasClientIdsAttribute()
+    {
+        return $this->saasClients()->pluck('saas_clients.id')->toArray();
+    }
+
+//    public function scopeWithIdsFk()
+//    {
+//        return $this->select(
+//            'users.*',
+//            DB::raw('(SELECT GROUP_CONCAT(profiles.id) FROM profiles INNER JOIN user_profile ON profiles.id = user_profile.profile_id WHERE user_profile.user_id = users.id) as profile_ids'),
+//            DB::raw('(SELECT GROUP_CONCAT(saas_clients.id) FROM saas_clients INNER JOIN user_saas_client ON saas_clients.id = user_saas_client.saas_client_id WHERE user_saas_client.user_id = users.id) as saas_client_ids')
+//        );
+//    }
 }

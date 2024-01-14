@@ -17,7 +17,7 @@ class EventListFactory extends Factory
             'description' => fake()->text(maxNbChars: 500),
             'url_photo' => fake()->imageUrl(),
             'event_id' => Event::factory()->create()->id,
-            'saas_client_id' => SaasClient::factory()->create()->id,
+            'saas_client_id' => 0,
         ];
     }
 }
