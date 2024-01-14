@@ -64,17 +64,21 @@ class UsersController extends Controller
     private function addProfileAndSaasClient($request, $user) {
         $profilesIds = $request->get('profile_ids') ?? [];
         $saasClientsIds = $request->get('saas_client_ids') ?? [];
-        if (count($profilesIds) > 0 && $saasClientsIds > 0) {
+        if ($saasClientsIds > 0) {
+            foreach ($saasClientsIds as $saasClientId) {
+                $user->addSaasClient(SaasClient::find($saasClientId));
+            }
+        }
+
+        $saasClients = $user->saasClients()->get();
+        if (count($profilesIds) > 0) {
             foreach ($profilesIds as $profileId) {
                 $profile = Profile::find($profileId);
                 if ($profile) {
-                    foreach ($saasClientsIds as $saasClientId) {
-                        $user->addProfile($profile->first(), $saasClientId);
+                    foreach ($saasClients as $saasClient) {
+                        $user->addProfile($profile->first(), $saasClient->id);
                     }
                 }
-            }
-            foreach ($saasClientsIds as $saasClientId) {
-                $user->addSaasClient(Profile::find($saasClientId));
             }
         }
     }
