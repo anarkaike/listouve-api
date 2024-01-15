@@ -198,8 +198,8 @@ class User extends Authenticatable
 
     public function getCreatedByUserAttribute()
     {
-        $model = $this->createdByUser()->select(['id', 'name'])->get()->first();
-        return $model ? $model->toArray() : [];
+//        $model = $this->createdByUser()->select(['id', 'name'])->get()->first();
+        return [];//$model ? $model->toArray() : [];
     }
 
     // Definindo a relação belongsTo com o modelo User
@@ -211,7 +211,7 @@ class User extends Authenticatable
     public function getUpdatedByUserAttribute()
     {
         $model = $this->updatedByUser()->select(['id', 'name'])->get()->first();
-        return $model ? $model->toArray() : [];
+        return []; //$model ? $model->toArray() : [];
     }
 
     // Definindo a relação belongsTo com o modelo User
@@ -222,8 +222,8 @@ class User extends Authenticatable
 
     public function getDeletedByUserAttribute()
     {
-        $model = $this->deletedByUser()->select(['id', 'name'])->get()->first();
-        return $model ? $model->toArray() : [];
+//        $model = $this->deletedByUser()->select(['id', 'name'])->get()->first();
+        return []; //$model ? $model->toArray() : [];
     }
 
 //    public function scopeWithIdsFk()
