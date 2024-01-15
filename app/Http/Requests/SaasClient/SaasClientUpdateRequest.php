@@ -18,6 +18,7 @@ class SaasClientUpdateRequest extends BaseFormRequest
         return [
             'name' => ['nullable', 'string', 'max:255',],
             'email' => ['nullable', 'string', 'email', Rule::unique(table: 'users', column: 'email')->ignore($this->id)->withoutTrashed(),],
+            'url_logo_up' => ['nullable', 'file',],
             'phone' => ['nullable', 'string', 'max:20',],
             'observation' => ['nullable', 'string',],
             'status' => ['nullable', new Enum(SaasClientStatusEnum::class)],

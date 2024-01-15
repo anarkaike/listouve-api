@@ -7,8 +7,21 @@ class Event extends BaseModel
     protected $table = 'events';
     protected $fillable = [
         'name',
+        'starts_at',
+        'ends_at',
+        'duration_in_hours',
+        'name',
         'description',
-        'url_photo',
+        'url_banner',
+        'address',
+        'city',
+        'state',
+        'contact_info',
+        'attractions_info',
+        'payment_info',
+        'restrictions_info',
+        'ticket_info',
+        'social_networks',
         'saas_client_id',
         'created_by',
         'updated_by',
@@ -17,11 +30,7 @@ class Event extends BaseModel
         'deleted_by',
     ];
     protected $hidden = [];
-    protected $casts = [
-        'created_at' => 'datetime:d/m/Y H:m',
-        'updated_at' => 'datetime:d/m/Y H:m',
-        'deleted_at' => 'datetime:d/m/Y H:m',
-    ];
+    protected $casts = [];
 
     public function eventsLists()
     {

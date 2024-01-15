@@ -35,6 +35,7 @@ class ApiErrorResponse implements Responsable
             [
                 'success' => false,
                 'message' => $this->message ?? $this->exception->getMessage(),
+                'code' => method_exists($this->exception, 'getMessageCode') ? $this->exception->getMessageCode() : null,
                 'data' => $this->data,
                 'exception' => $this->exception->getTrace()
             ],

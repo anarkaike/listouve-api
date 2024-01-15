@@ -40,13 +40,9 @@ class User extends Authenticatable
         'remember_token',
     ];
     protected $casts = [
-        'email_verified_at' => 'datetime:d/m/Y H:m',
         'password' => 'hashed',
-        'created_at' => 'datetime:d/m/Y H:m',
-        'updated_at' => 'datetime:d/m/Y H:m',
-        'deleted_at' => 'datetime:d/m/Y H:m',
     ];
-    protected $appends = ['profile_ids', 'saas_client_ids', 'profiles'];
+    protected $appends = ['profile_ids', 'profile_id', 'saas_client_ids', 'saas_client_id', 'profiles'];
 
     public static function boot()
     {
@@ -134,7 +130,7 @@ class User extends Authenticatable
         return $this->belongsToMany(related: Profile::class, table: 'user_profiles');
     }
 
-    public function addProfile(Profile $profile, $saasClientId): void
+    public function addProfile(Profile $profile, $saasClientId = null): void
     {
         if (!$this->hasProfile($profile, $saasClientId)) {
             $this->profiles()->attach($profile->id, ['saas_client_id' => $saasClientId]);
@@ -153,10 +149,15 @@ class User extends Authenticatable
         return $this->profiles()->where('profiles.id', $profile->id)->where('saas_client_id', $saasClientId)->exists();
     }
 
-
     public function getProfileIdsAttribute()
     {
         return $this->profiles()->pluck('profiles.id')->toArray();
+    }
+
+    public function getProfileIdAttribute()
+    {
+        $arr = $this->profiles()->pluck('profiles.id')->toArray();
+        return count($arr) > 1 ? $arr[0] : $arr;
     }
 
     public function getProfilesAttribute()
@@ -169,6 +170,12 @@ class User extends Authenticatable
     public function getSaasClientIdsAttribute()
     {
         return $this->saasClients()->pluck('saas_clients.id')->toArray();
+    }
+
+    public function getSaasClientIdAttribute()
+    {
+        $arr = $this->saasClients()->pluck('saas_clients.id')->toArray();
+        return count($arr) > 0 ? $arr[0]: $arr;
     }
 
 //    public function scopeWithIdsFk()

@@ -18,6 +18,7 @@ class SaasClientCreateRequest extends BaseFormRequest
         return [
             'name' => ['required', 'string', 'max:255',],
             'email' => ['nullable', 'string', 'email', Rule::unique(table: 'users', column: 'email')->withoutTrashed(),],
+            'url_logo_up' => ['nullable', 'file',],
             'phone' => ['nullable', 'string', 'max:20',],
             'observation' => ['nullable', 'string',],
             'status' => ['nullable', new Enum(SaasClientStatusEnum::class)],

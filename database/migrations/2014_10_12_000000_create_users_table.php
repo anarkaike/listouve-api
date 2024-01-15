@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->string(column: 'phone', length: 30)->nullable();
             $table->string(column: 'url_photo', length: 255)->nullable();
-            $table->enum(column: 'status', allowed: ['active', 'blocked'])->default(value: 'active');
+            $table->enum(column: 'status', allowed: ['active', 'inactive', 'blocked'])->default(value: 'active');
             $table->json(column: 'general_settings')->nullable();
             $table->boolean(column: 'is_super_admin')->default(value: false)->nullable();
 

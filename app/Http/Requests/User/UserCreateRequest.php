@@ -23,7 +23,7 @@ class UserCreateRequest extends BaseFormRequest
             'email' => ['nullable', 'string', 'email', Rule::unique(table: 'users', column: 'email')->withoutTrashed(),],
             'password' => ['nullable', 'string', 'max:255',],
             'phone' => ['nullable', 'string', 'max:255',],
-            'url_photo' => ['nullable', 'file'],
+            'url_photo_up' => ['nullable', 'file'],
             'status' => ['nullable', new Enum(UserStatusEnum::class)],
             'profiles' => ['nullable'],
             'saas_client_id' => ['nullable'],

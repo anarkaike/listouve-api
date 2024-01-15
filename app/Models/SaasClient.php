@@ -14,6 +14,7 @@ class SaasClient extends BaseModel
         'contact_name',
         'email',
         'phone',
+        'url_foto',
         'observation',
         'status',
         'business_sector',
@@ -27,11 +28,7 @@ class SaasClient extends BaseModel
         'deleted_by',
     ];
     protected $hidden = [];
-    protected $casts = [
-        'created_at' => 'datetime:d/m/Y H:m',
-        'updated_at' => 'datetime:d/m/Y H:m',
-        'deleted_at' => 'datetime:d/m/Y H:m',
-    ];
+    protected $casts = [];
 
     public function events()
     {

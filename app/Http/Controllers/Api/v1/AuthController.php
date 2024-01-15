@@ -40,7 +40,8 @@ class AuthController extends Controller
 //            $permissions = array_unique(array_merge($permissionsOfUser, $permissionsOfProfilesOfUser));
             $data = [
                 'token' => $request->user()->createToken('invoice', []),
-                'user' => $request->user()->toArray()
+                'user' => $request->user()->toArray(),
+                'saasClient' => $request->user()->saasClients()->first()
             ];
             return new ApiSuccessResponse(data: $data, message: trans(key: 'auth.user_authenticated_successfully'));
 

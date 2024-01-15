@@ -7,6 +7,7 @@ use App\Actions\SaasClientAction;
 use App\Models\SaasClient;
 use App\Models\User;
 use App\Notifications\SaasClientConfirmEmailNotification;
+use App\Services\Upload;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\{SaasClient\SaasClientDeleteException, SaasClient\SaasClientNotFountException};
 use App\Http\{Collections\SaasClientCollection,
@@ -144,6 +145,12 @@ class SaasClientsController extends Controller
             $data = $request->validationData();
             $data['updated_values'] = array_diff_assoc($saasClient->toArray(), $data);
             $saasClient->fill(attributes: $data)->update();
+
+
+            $file = $request->file('url_logo_up', null);
+            if ($file) {
+                $data['url_logo_up'] = Upload::uploadFile($file);
+            }
 
             return new ApiSuccessResponse(
                 data: new SaasClientResource(SaasClient::find($saasClient->id)),

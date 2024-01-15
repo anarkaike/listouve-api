@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
         Auth::login($this->userSuperAdmin);
         $this->createPermissions();
         $this->createProfiles();
-        $this->addProfileToSuperAdmin();
         $this->addPermissionsToProfiles();
         $this->createSaasClientDemos();
+        $this->addRelationsToSuperAdmin();
     }
 
     private function createSuperAdmin(): void {
@@ -37,8 +37,9 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 
-    private function addProfileToSuperAdmin(): void {
-        $this->userSuperAdmin->addProfile($this->profiles['adminSaas']['objModel'], null);
+    private function addRelationsToSuperAdmin(): void {
+        $this->userSuperAdmin->addProfile($this->profiles['adminSaas']['objModel']);
+        $this->userSuperAdmin->addSaasClient($this->saasClientDemos[0]);
     }
 
     private function createPermissions(): void
@@ -122,7 +123,7 @@ class DatabaseSeeder extends Seeder
         $this->profiles = [
             'adminSaas'            => ['name' => 'Admin SaaS', 'description' => 'Usuário administrador do SaaS'],
             'revendedorSaas'       => ['name' => 'Revendedor SaaS', 'description' => 'Usuário revendedor do SaaS'],
-            'donoEstabelecimento'  => ['name' => 'Dono de Estabelecimento de Entretenimento', 'description' => 'Usuário dono de estabelecimento de entretenimento como boates e bares.'],
+            'donoEstabelecimento'  => ['name' => 'Dono de Estabelecimento', 'description' => 'Usuário dono de estabelecimento de entretenimento como boates e bares.'],
             'organizadorFesta'     => ['name' => 'Organizador de Festas', 'description' => 'Usuário organizador de festas.'],
             'cerimonialista'        => ['name' => 'Cerimonialista', 'description' => 'Usuário organizador de cerimonias.'],
             'recepcionista'         => ['name' => 'Recepcionista', 'description' => 'Usuário recepcionista de convidados.'],
@@ -221,21 +222,52 @@ class DatabaseSeeder extends Seeder
     }
 
     private function createSaasClientDemos () {
-        $saasClientDemos        = SaasClient::factory(count: 3)->create();
-        $this->saasClientDemos = $saasClientDemos->toArray();
+        $saasClientDemos = [];
+        $saasClientDemos[]        = SaasClient::factory()->create([
+            'company_name' => 'Boate Londom Pub',
+            'contact_name' => 'Jorge',
+            'domain_api' => 'londom.apilistme.junio.cc',
+            'domain_front' => 'londom.listme.junio.cc',
+            'email' => 'anarkaike+londomtestelistme@gmail.com',
+            'phone' => '3432367230',
+            'status' => 'active',
+            'email_confirmed_at' => fake()->dateTime(),
+        ]);
+        $saasClientDemos[]        = SaasClient::factory()->create([
+            'company_name' => 'Bar Rose',
+            'contact_name' => 'Sandra',
+            'domain_api' => 'rose.apilistme.junio.cc',
+            'domain_front' => 'rose.listme.junio.cc',
+            'email' => 'anarkaike+rosetestelistme@gmail.com',
+            'phone' => '3432367230',
+            'status' => 'active',
+            'email_confirmed_at' => fake()->dateTime(),
+        ]);
+        $saasClientDemos[]        = SaasClient::factory()->create([
+            'company_name' => 'Casamentos Uesley',
+            'contact_name' => 'Uesley',
+            'domain_api' => 'uesley.apilistme.junio.cc',
+            'domain_front' => 'uesley.listme.junio.cc',
+            'email' => 'anarkaike+uesleytestelistme@gmail.com',
+            'phone' => '3432367230',
+            'status' => 'active',
+            'email_confirmed_at' => fake()->dateTime(),
+        ]);
+        $this->saasClientDemos = $saasClientDemos;
+
         $users                  = User::factory(count: 9)->create(['password' => '123456']);
 
         // Criando admins
         foreach ($users as $key => $user) {
-            if (in_array($key, [1,2,3])){
+            if (in_array($key, [0,1,2])){
                 $user->addProfile($this->profiles['donoEstabelecimento']['objModel'], $this->saasClientDemos[0]['id']);
                 $user->addSaasClient($saasClientDemos[0]);
             }
-            if (in_array($key, [4,5,6])){
+            if (in_array($key, [3,4,5])){
                 $user->addProfile($this->profiles['organizadorFesta']['objModel'], $this->saasClientDemos[1]['id']);
                 $user->addSaasClient($saasClientDemos[1]);
             }
-            if (in_array($key, [7,8,9])){
+            if (in_array($key, [6,7,8])){
                 $user->addProfile($this->profiles['cerimonialista']['objModel'], $this->saasClientDemos[2]['id']);
                 $user->addSaasClient($saasClientDemos[2]);
             }

@@ -13,10 +13,11 @@ class SaasClientFactory extends Factory
     public function definition(): array
     {
         return [
-            'company_name' => fake()->name(),
+            'company_name' => fake()->company(),
             'contact_name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'phone' => '00000000000',
+            'url_logo' => fake()->imageUrl(),
             'observation' => fake()->text(),
             'status' => SaasClientStatusEnum::ACTIVE->value,
             'business_sector' => SaasClientBusinessSectorEnum::OUTROS->value,

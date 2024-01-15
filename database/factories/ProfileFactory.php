@@ -11,6 +11,7 @@ class ProfileFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'description' => fake()->text(),
             'created_by' => 0,
         ];
     }

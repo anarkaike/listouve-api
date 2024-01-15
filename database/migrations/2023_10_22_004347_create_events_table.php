@@ -17,8 +17,20 @@ return new class extends Migration
             $table->id();
 
             $table->string(column: 'name', length: 255);
+            $table->timestamp(column: 'starts_at')->nullable();
+            $table->timestamp(column: 'ends_at')->nullable();
+            $table->integer(column: 'duration_in_hours')->nullable();
             $table->text(column: 'description')->nullable();
-            $table->string(column: 'url_photo', length: 255)->nullable();
+            $table->string(column: 'url_banner', length: 255)->nullable();
+            $table->string(column: 'address', length: 255)->nullable();
+            $table->string(column: 'city', length: 255)->nullable();
+            $table->string(column: 'state', length: 255)->nullable();
+            $table->string(column: 'contact_info', length: 255)->nullable();
+            $table->string(column: 'attractions_info', length: 255)->nullable();
+            $table->string(column: 'payment_info', length: 255)->nullable();
+            $table->string(column: 'restrictions_info', length: 255)->nullable();
+            $table->string(column: 'ticket_info', length: 255)->nullable();
+            $table->json(column: 'social_networks')->nullable();
 
             $table
                 ->unsignedBigInteger(column: 'saas_client_id')->nullable()->default(value: null)

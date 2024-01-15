@@ -29,4 +29,8 @@ class DeniedAccessException extends BaseException
     {
         return trans(key: 'auth.denied_access');
     }
+
+    public function getMessageCode() {
+        return 'denied_access';
+    }
 }

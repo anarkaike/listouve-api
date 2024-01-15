@@ -61,25 +61,34 @@ class UsersController extends Controller
         }
     }
 
-    private function addProfileAndSaasClient($request, $user) {
-        $profilesIds = $request->get('profile_ids') ?? [];
-        $saasClientsIds = $request->get('saas_client_ids') ?? [];
-        if ($saasClientsIds > 0) {
-            foreach ($saasClientsIds as $saasClientId) {
-                $user->addSaasClient(SaasClient::find($saasClientId));
+    private function updateProfilesOfUser($request, $user) {
+        $currentProfiles = $user->profiles()->pluck('profiles.id')->toArray();
+        $profilesIds = $request->get('profile_ids', []);
+        $profilesIdsToRemove = array_diff($currentProfiles, $profilesIds);
+        foreach ($profilesIdsToRemove as $profileId) {
+            $profile = Profile::where('id', $profileId)->get()[0];
+            if ($profile) {
+                $user->removeProfile($profile, $saasClientsIds ?? null);
             }
         }
-
-        $saasClients = $user->saasClients()->get();
-        if (count($profilesIds) > 0) {
-            foreach ($profilesIds as $profileId) {
-                $profile = Profile::find($profileId);
-                if ($profile) {
-                    foreach ($saasClients as $saasClient) {
-                        $user->addProfile($profile->first(), $saasClient->id);
-                    }
-                }
+        foreach ($profilesIds as $profileId) {
+            $profile = Profile::where('id', $profileId)->get()[0];
+            if ($profile) {
+                $user->addProfile($profile, $saasClientsIds ?? null);
             }
+        }
+    }
+
+    private function updateSaasClientsOfUser($request, $user) {
+        $saasClientsId = $request->get('saas_client_id', null);
+        $currentSaasClients = $user->saasClients()->pluck('saas_clients.id')->toArray();
+        if ($saasClientsId) {
+            $user->addSaasClient(SaasClient::where('id', $saasClientsId)->get()[0]);
+        }
+        $saasClientsToRemove = array_diff($currentSaasClients, [$saasClientsId]);
+        if (!$saasClientsId || count($saasClientsToRemove) > 0) {
+            foreach ($saasClientsToRemove as $saasClientId)
+                $user->removeSaasClient(SaasClient::where('id', $saasClientId)->get()[0]);
         }
     }
 
@@ -88,16 +97,17 @@ class UsersController extends Controller
         try {
             $data = $request->validationData();
 
-            $file = $request->file('url_photo', null);
+            $file = $request->file('url_photo_up');
             if ($file) {
                 $data['url_photo'] = Upload::uploadFile($file);
             }
 
             $user = User::create(attributes: $data);
-            $this->addProfileAndSaasClient($request, $user);
+            $this->updateSaasClientsOfUser($request, $user);
+            $this->updateProfilesOfUser($request, $user);
 
             return new ApiSuccessResponse(
-                data: new UserResource($user),
+                data: new UserResource(User::where('id', $user->id)->get()[0]),
                 message: trans(key: 'messages.users.create_success')
             );
 
@@ -111,16 +121,17 @@ class UsersController extends Controller
         try {
             $data = $request->validationData();
 
-            $file = $request->file('url_photo', null);
+            $file = $request->file('url_photo_up');
             if ($file) {
                 $data['url_photo'] = Upload::uploadFile($file);
             }
 
             $user->fill(attributes: $data)->update();
-            $this->addProfileAndSaasClient($request, $user);
+            $this->updateSaasClientsOfUser($request, $user);
+            $this->updateProfilesOfUser($request, $user);
 
             return new ApiSuccessResponse(
-                data: new UserResource(User::find($user->id)),
+                data: new UserResource(User::where('id', $user->id)->get()[0]),
                 message: trans(key: 'messages.users.update_success')
             );
 

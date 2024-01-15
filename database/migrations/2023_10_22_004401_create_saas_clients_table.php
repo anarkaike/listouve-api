@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string(column: 'contact_name', length: 255);
             $table->string(column: 'domain_api', length: 255)->nullable();
             $table->string(column: 'domain_front', length: 255)->nullable();
-            $table->string(column: 'logo', length: 255)->nullable();
+            $table->string(column: 'url_logo', length: 255)->nullable();
             $table->string(column: 'email', length: 255);
             $table->string(column: 'phone', length: 20);
             $table->longText(column: 'observation')->nullable();
