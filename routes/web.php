@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/reset', function () {
-    Artisan::call('storage:link');
+Route::get('/reset-database', function () {
+    Artisan::call('php artisan migrate:fresh && php artisan db:seed');
     return view('welcome');
 });
