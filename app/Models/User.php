@@ -5,7 +5,9 @@ namespace App\Models;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\{Database\Eloquent\Factories\HasFactory,
+    Database\Eloquent\Relations\BelongsTo,
     Database\Eloquent\Relations\BelongsToMany,
+    Database\Eloquent\Relations\HasMany,
     Database\Eloquent\SoftDeletes,
     Foundation\Auth\User as Authenticatable,
     Notifications\Notifiable,
@@ -42,7 +44,16 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
-    protected $appends = ['profile_ids', 'profile_id', 'saas_client_ids', 'saas_client_id', 'profiles'];
+    protected $appends = [
+        'profile_ids',
+        'profile_id',
+        'saas_client_ids',
+        'saas_client_id',
+        'profiles',
+        'created_by_user',
+        'updated_by_user',
+        'deleted_by_user'
+    ];
 
     public static function boot()
     {
@@ -176,6 +187,43 @@ class User extends Authenticatable
     {
         $arr = $this->saasClients()->pluck('saas_clients.id')->toArray();
         return count($arr) > 0 ? $arr[0]: $arr;
+    }
+
+
+    // Definindo a relação belongsTo com o modelo User
+    public function createdByUser()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function getCreatedByUserAttribute()
+    {
+        $model = $this->createdByUser()->select(['id', 'name'])->get()->first();
+        return $model ? $model->toArray() : [];
+    }
+
+    // Definindo a relação belongsTo com o modelo User
+    public function updatedByUser()
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function getUpdatedByUserAttribute()
+    {
+        $model = $this->updatedByUser()->select(['id', 'name'])->get()->first();
+        return $model ? $model->toArray() : [];
+    }
+
+    // Definindo a relação belongsTo com o modelo User
+    public function deletedByUser()
+    {
+        return $this->belongsTo(User::class, 'deleted_by', 'id');
+    }
+
+    public function getDeletedByUserAttribute()
+    {
+        $model = $this->deletedByUser()->select(['id', 'name'])->get()->first();
+        return $model ? $model->toArray() : [];
     }
 
 //    public function scopeWithIdsFk()

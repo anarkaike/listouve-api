@@ -126,6 +126,7 @@ class UsersController extends Controller
                 $data['url_photo'] = Upload::uploadFile($file);
             }
 
+//            $data['updated_values'] = array_diff_assoc($user->toArray(), $data);
             $user->fill(attributes: $data)->update();
             $this->updateSaasClientsOfUser($request, $user);
             $this->updateProfilesOfUser($request, $user);

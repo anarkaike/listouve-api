@@ -34,7 +34,7 @@ class ProfilesController extends Controller
     public function index(Request $request)
     {
         try {
-            $profiles = Profile::filter($request->get(key: 'filters'))->with('permissions')->get();
+            $profiles = Profile::filter($request->get(key: 'filters'))->get();
 
             return new ApiSuccessResponse(
                 data: ProfileCollection::make($profiles),
@@ -66,7 +66,7 @@ class ProfilesController extends Controller
     {
         try {
             $data = $request->validationData();
-            $data['updated_values'] = array_diff_assoc($profile->toArray(), $data);
+//            $data['updated_values'] = array_diff_assoc($profile->toArray(), $data);
             $profile->fill($data)->update();
 
             return new ApiSuccessResponse(

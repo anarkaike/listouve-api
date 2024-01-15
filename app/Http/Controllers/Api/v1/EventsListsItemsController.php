@@ -73,7 +73,7 @@ class EventsListsItemsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $data['created_values'] = array_diff_assoc($eventsListsItem->toArray(), $data);
+//            $data['updated_values'] = array_diff_assoc($eventsListsItem->toArray(), $data);
             $eventsListsItem->fill(attributes: $data)->update();
 
             return new ApiSuccessResponse(

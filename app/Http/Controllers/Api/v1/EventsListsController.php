@@ -77,7 +77,7 @@ class EventsListsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $data['updated_values'] = array_diff_assoc($eventsList->toArray(), $data);
+//            $data['updated_values'] = array_diff_assoc($eventsList->toArray(), $data);
             $eventsList->update(attributes: $data);
 
             return new ApiSuccessResponse(

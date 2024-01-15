@@ -63,6 +63,12 @@ class SaasClientsController extends Controller
     {
         try {
             $data = $request->validationData();
+
+            $file = $request->file('url_logo_up');
+            if ($file) {
+                $data['url_logo'] = Upload::uploadFile($file);
+            }
+
             $saasClient = SaasClient::create(attributes: $data);
 
             return new ApiSuccessResponse(
@@ -143,14 +149,17 @@ class SaasClientsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $data['updated_values'] = array_diff_assoc($saasClient->toArray(), $data);
-            $saasClient->fill(attributes: $data)->update();
 
-
+            $file = $request->file('url_logo_up');
+            if ($file) {
+                $data['url_logo'] = Upload::uploadFile($file);
+            }
             $file = $request->file('url_logo_up', null);
             if ($file) {
                 $data['url_logo_up'] = Upload::uploadFile($file);
             }
+
+            $saasClient->fill(attributes: $data)->update();
 
             return new ApiSuccessResponse(
                 data: new SaasClientResource(SaasClient::find($saasClient->id)),

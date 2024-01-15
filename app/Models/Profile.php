@@ -8,6 +8,7 @@ class Profile extends BaseModel
     protected $table = 'profiles';
     protected $fillable = [
         'name',
+        'description',
         'created_by',
         'updated_by',
         'updated_values',

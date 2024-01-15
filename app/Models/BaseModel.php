@@ -17,6 +17,8 @@ class BaseModel extends Model
 {
     use HasFactory, SoftDeletes, Filterable, Sortable;
 
+    protected $appends = ['created_by_user', 'updated_by_user', 'deleted_by_user'];
+
     public static function boot()
     {
         parent::boot();
@@ -29,5 +31,41 @@ class BaseModel extends Model
         static::deleting(function ($profile) {
             $profile->deleted_by = Auth::id();
         });
+    }
+
+    // Definindo a relação belongsTo com o modelo User
+    public function createdByUser()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function getCreatedByUserAttribute()
+    {
+        $model = $this->createdByUser()->select(['id', 'name'])->get()->first();
+        return $model ? $model->toArray() : [];
+    }
+
+    // Definindo a relação belongsTo com o modelo User
+    public function updatedByUser()
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id');
+    }
+
+    public function getUpdatedByUserAttribute()
+    {
+        $model = $this->updatedByUser()->select(['id', 'name'])->get()->first();
+        return $model ? $model->toArray() : [];
+    }
+
+    // Definindo a relação belongsTo com o modelo User
+    public function deletedByUser()
+    {
+        return $this->belongsTo(User::class, 'deleted_by', 'id');
+    }
+
+    public function getDeletedByUserAttribute()
+    {
+        $model = $this->deletedByUser()->select(['id', 'name'])->get()->first();
+        return $model ? $model->toArray() : [];
     }
 }

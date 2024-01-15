@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Services\Upload;
 use Illuminate\Support\Facades\Auth;
 use App\Actions\Bi\EventBiAction;
 use App\Models\Event;
@@ -58,6 +59,10 @@ class EventsController extends Controller
     {
         try {
             $data = $request->validationData();
+            $file = $request->file('url_banner_up');
+            if ($file) {
+                $data['url_banner'] = Upload::uploadFile($file);
+            }
             $eventCreated = Event::create(attributes: $data);
 
             return new ApiSuccessResponse(
@@ -74,7 +79,12 @@ class EventsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $data['updated_values'] = array_diff_assoc($event->toArray(), $data);
+
+            $file = $request->file('url_banner_up');
+            if ($file) {
+                $data['url_banner'] = Upload::uploadFile($file);
+            }
+//            $data['updated_values'] = array_diff_assoc($event->toArray(), $data);
             $event->fill(attributes: $data)->update();
 
             return new ApiSuccessResponse(

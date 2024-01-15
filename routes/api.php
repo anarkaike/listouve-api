@@ -31,10 +31,12 @@ Route::prefix('/v1')->group(function(){
         Route::post(uri: '/logout', action: [AuthController::class, 'logout']);
 
         // Clientes Saas
+        Route::post(uri: '/saas-clients/{saasClient}', action: [SaasClientsController::class, 'update']);
         Route::apiResource(name: 'saas-clients', controller: SaasClientsController::class);
         Route::get(uri: '/saas-clients/bi', action: [EventsController::class, 'bi']);
 
         // Perfis de Usuários
+        Route::post(uri: '/profiles/{profile}', action: [ProfilesController::class, 'update']);
         Route::apiResource(name: 'profiles', controller: ProfilesController::class);
         Route::get(uri: '/profiles/{profile}/permissions', action: [ProfilesController::class, 'getPermissions']);
         Route::post(uri: '/profiles/{profile}/assignPermission/{permission}', action: [ProfilesController::class, 'assignPermission']);
@@ -49,14 +51,17 @@ Route::prefix('/v1')->group(function(){
         Route::get(uri: '/users/bi', action: [UsersController::class, 'bi']);
 
         // Eventos
+        Route::post(uri: '/events/{event}', action: [EventsController::class, 'update']);
         Route::apiResource(name: 'events', controller: EventsController::class);
         Route::get(uri: '/events/bi', action: [EventsController::class, 'bi']);
 
         // Listas de Convidados dos Eventos
+        Route::post(uri: '/events-lists/{eventList}', action: [EventsListsController::class, 'update']);
         Route::apiResource(name: 'events-lists', controller: EventsListsController::class);
         Route::get(uri: '/events-lists/bi', action: [EventsController::class, 'bi']);
 
         // Convidados das Listas de Eventos
+        Route::post(uri: '/events-lists-items/{eventListItem}', action: [EventsListsItemsController::class, 'update']);
         Route::apiResource(name: 'events-lists-items', controller: EventsListsItemsController::class);
         Route::get(uri: '/events-lists-items/bi', action: [EventsController::class, 'bi']);
 

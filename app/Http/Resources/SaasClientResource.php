@@ -18,7 +18,7 @@ class SaasClientResource extends JsonResource
             'contact_name' => $this->contact_name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'url_logo' => $this->phone,
+            'url_logo' => $this->url_logo,
             'observation' => $this->observation,
             'status' => $this->status,
             'business_sector' => $this->business_sector,

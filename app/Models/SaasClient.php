@@ -3,6 +3,8 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 
 class SaasClient extends BaseModel
@@ -12,9 +14,11 @@ class SaasClient extends BaseModel
     protected $fillable = [
         'company_name',
         'contact_name',
+        'domain_api',
+        'domain_front',
         'email',
         'phone',
-        'url_foto',
+        'url_logo',
         'observation',
         'status',
         'business_sector',

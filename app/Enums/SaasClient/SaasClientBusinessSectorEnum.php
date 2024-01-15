@@ -4,11 +4,11 @@ namespace App\Enums\SaasClient;
 
 enum SaasClientBusinessSectorEnum: string
 {
-    case BAR = 'Bar';
-    case BOATE = 'Boate';
-    case PRODUTOR_DE_FESTAS = 'Produtor de Festas';
-    case CERIMONIALISA = 'Cerimonialista';
-    case OUTROS = 'Outros';
+    case BAR = 'bar';
+    case BOATE = 'boate';
+    case PRODUTOR_DE_FESTAS = 'produtor_de_festas';
+    case CERIMONIALISA = 'cerimonialista';
+    case OUTROS = 'outros';
 
     public static function getValues()
     {
