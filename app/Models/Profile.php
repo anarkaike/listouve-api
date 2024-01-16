@@ -17,6 +17,7 @@ class Profile extends BaseModel
     ];
     protected $hidden = [];
     protected $casts = [];
+//    protected $appends = ['permissions'];
 
     // RELACIONAMENTO COM USUARIOS
     public function users()
@@ -66,6 +67,13 @@ class Profile extends BaseModel
     public function hasPermission(string $permission): bool
     {
         return $this->permissions()->where('name', $permission)->exists();
+    }
+
+    public function getPermissionsAttribute()
+    {
+        return $this->permissions()->get(['permissions.name', 'permissions.id'])->map(function ($permission) {
+            return $permission->only(['id', 'name']);
+        })->toArray();
     }
 
 }

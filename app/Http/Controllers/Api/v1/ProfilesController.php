@@ -22,7 +22,7 @@ class ProfilesController extends Controller
     {
         try {
             return new ApiSuccessResponse(
-                data: new ProfileResource($profile),
+                data: $profile->toArray(),
                 message: trans(key: 'messages.profiles.find_by_id_success')
             );
 
