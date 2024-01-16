@@ -21,6 +21,6 @@ class Permission extends BaseModel
 
     public function profiles(): BelongsToMany
     {
-        return $this->belongsToMany(related: User::class, table: 'profiles_permissions');
+        return $this->belongsToMany(related: Profile::class, table: 'profile_permissions');
     }
 }
