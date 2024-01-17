@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 
 class SaasClient extends BaseModel
@@ -19,6 +16,8 @@ class SaasClient extends BaseModel
         'email',
         'phone',
         'url_logo',
+        'url_login_bg',
+        'url_system_bg',
         'observation',
         'status',
         'business_sector',

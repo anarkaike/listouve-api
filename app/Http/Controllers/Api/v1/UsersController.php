@@ -49,7 +49,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         try {
-            $users = User::filter($request->get(key: 'filters'))->get();
+            $users = User::all();
 
             return new ApiSuccessResponse(
                 data: UserCollection::make($users),

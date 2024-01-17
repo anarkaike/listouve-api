@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Permission;
-use App\Models\Profile;
-use App\Http\{Collections\PermissionCollection,
+
+use App\Http\{
     Controllers\Controller,
     Responses\ApiErrorResponse,
-    Responses\ApiSuccessResponse};
+    Responses\ApiSuccessResponse
+};
 use Illuminate\Http\Request;
 
 

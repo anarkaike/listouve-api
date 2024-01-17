@@ -23,9 +23,11 @@ class SaasClientUpdateRequest extends BaseFormRequest
             'domain_front' => ['nullable', 'string', 'max:255',],
             'email' => ['nullable', 'string', 'email', Rule::unique(table: 'users', column: 'email')->ignore($this->id)->withoutTrashed(),],
             'url_logo_up' => ['nullable', 'file',],
+            'url_login_bg_up' => ['nullable', 'file',],
+            'url_system_bg_up' => ['nullable', 'file',],
             'phone' => ['nullable', 'string', 'max:20',],
             'observation' => ['nullable', 'string',],
-            'general_settings' => ['nullable', 'text',],
+            'general_settings' => ['nullable', 'json',],
             'status' => ['nullable', new Enum(SaasClientStatusEnum::class)],
             'business_sector' => ['nullable', new Enum(SaasClientBusinessSectorEnum::class)],
         ];

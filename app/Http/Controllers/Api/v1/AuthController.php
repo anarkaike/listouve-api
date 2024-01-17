@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Profile;
-use App\Models\SaasClient;
-use App\Notifications\NewSaasClientForAdminNotification;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\{Http\Request, Support\Arr, Support\Facades\Auth};
 use App\Exceptions\Auth\{

@@ -25,6 +25,7 @@ Route::prefix('/v1')->group(function(){
     Route::post(uri: '/login', action: [AuthController::class, 'login']);
     Route::post(uri: '/saas-clients/auto-register', action: [SaasClientsController::class, 'autoRegister']);
     Route::post(uri: '/saas-clients/confirm-email', action: [SaasClientsController::class, 'confirmEmail']);
+    Route::get(uri: '/saas-clients/by-current-domain', action: [SaasClientsController::class, 'getSaasClientByCurrentDomain']);
 
 
     Route::middleware('auth:sanctum')->group(function(){
