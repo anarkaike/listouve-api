@@ -63,19 +63,9 @@ class SaasClientsController extends Controller
     {
         try {
             $data = $request->validationData();
-
-            $file = $request->file('url_logo_up');
-            if ($file) {
-                $data['url_logo'] = Upload::uploadFile($file);
-            }
-            $file = $request->file('url_login_bg_up');
-            if ($file) {
-                $data['url_login_bg'] = Upload::uploadFile($file);
-            }
-            $file = $request->file('url_system_bg_up');
-            if ($file) {
-                $data['url_system_bg'] = Upload::uploadFile($file);
-            }
+            $data['url_logo'] = $this->upload(paramName: 'url_logo', request: $request);
+            $data['url_login_bg'] = $this->upload(paramName: 'url_login_bg', request: $request);
+            $data['url_system_bg'] = $this->upload(paramName: 'url_system_bg', request: $request);
 
             $saasClient = SaasClient::create(attributes: $data);
 
@@ -157,24 +147,9 @@ class SaasClientsController extends Controller
     {
         try {
             $data = $request->validationData();
-
-            // Upload Logo
-            $file = $request->file('url_logo_up');
-            if ($file) {
-                $data['url_logo'] = Upload::uploadFile($file);
-            }
-
-            // Upload Fundo Login
-            $file = $request->file('url_login_bg_up');
-            if ($file) {
-                $data['url_login_bg'] = Upload::uploadFile($file);
-            }
-
-            // Upload Fundo Sistema
-            $file = $request->file('url_system_bg_up');
-            if ($file) {
-                $data['url_system_bg'] = Upload::uploadFile($file);
-            }
+            $data['url_logo'] = $this->upload(paramName: 'url_logo', request: $request);
+            $data['url_login_bg'] = $this->upload(paramName: 'url_login_bg', request: $request);
+            $data['url_system_bg'] = $this->upload(paramName: 'url_system_bg', request: $request);
 
             $saasClient->fill(attributes: $data)->update();
 

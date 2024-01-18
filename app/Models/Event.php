@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class Event extends BaseModel
 {
     protected $table = 'events';
@@ -31,6 +33,18 @@ class Event extends BaseModel
     ];
     protected $hidden = [];
     protected $casts = [];
+
+    protected function startsAt (): Attribute {
+        return Attribute::make(
+            get: fn (string|null $value) => !$value?null:\Carbon\Carbon::parse(str_replace('/', '-', $value))->format('d/m/Y H:i')
+        );
+    }
+
+    protected function endsAt (): Attribute {
+        return Attribute::make(
+            get: fn (string $value) => \Carbon\Carbon::parse(str_replace('/', '-', $value))->format('d/m/Y H:i')
+        );
+    }
 
     public function eventsLists()
     {

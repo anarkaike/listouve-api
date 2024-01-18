@@ -59,10 +59,9 @@ class EventsController extends Controller
     {
         try {
             $data = $request->validationData();
-            $file = $request->file('url_banner_up');
-            if ($file) {
-                $data['url_banner'] = Upload::uploadFile($file);
-            }
+            $data['url_banner'] = $this->upload(paramName: 'url_banner', request: $request);
+            $data['starts_at'] = $this->formatDateToDb($data['starts_at']);
+            $data['ends_at'] = $this->formatDateToDb($data['ends_at']);
             $eventCreated = Event::create(attributes: $data);
 
             return new ApiSuccessResponse(
@@ -79,12 +78,10 @@ class EventsController extends Controller
     {
         try {
             $data = $request->validationData();
+            $data['url_banner'] = $this->upload(paramName: 'url_banner', request: $request);
+            $data['starts_at'] = $this->formatDateToDb($data['starts_at']);
+            $data['ends_at'] = $this->formatDateToDb($data['ends_at']);
 
-            $file = $request->file('url_banner_up');
-            if ($file) {
-                $data['url_banner'] = Upload::uploadFile($file);
-            }
-//            $data['updated_values'] = array_diff_assoc($event->toArray(), $data);
             $event->fill(attributes: $data)->update();
 
             return new ApiSuccessResponse(

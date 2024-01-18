@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\v1;
 use App\Models\Profile;
 use App\Models\SaasClient;
 use App\Models\User;
-use App\Services\Upload;
 use App\Actions\{
     Bi\UserBiAction,
 };
@@ -96,11 +95,7 @@ class UsersController extends Controller
     {
         try {
             $data = $request->validationData();
-
-            $file = $request->file('url_photo_up');
-            if ($file) {
-                $data['url_photo'] = Upload::uploadFile($file);
-            }
+            $data['url_photo'] = $this->upload(paramName: 'url_photo', request: $request);
 
             $user = User::create(attributes: $data);
             $this->updateSaasClientsOfUser($request, $user);
@@ -120,13 +115,8 @@ class UsersController extends Controller
     {
         try {
             $data = $request->validationData();
+            $data['url_photo'] = $this->upload(paramName: 'url_photo', request: $request);
 
-            $file = $request->file('url_photo_up');
-            if ($file) {
-                $data['url_photo'] = Upload::uploadFile($file);
-            }
-
-//            $data['updated_values'] = array_diff_assoc($user->toArray(), $data);
             $user->fill(attributes: $data)->update();
             $this->updateSaasClientsOfUser($request, $user);
             $this->updateProfilesOfUser($request, $user);

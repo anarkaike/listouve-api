@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 class SaasClient {
     static function getDomainAccessByHaeder($fullUrl = null) {
-        return Domain::getDomainByFullUrl($fullUrl ?? $_SERVER['HTTP_X_JC_CURRENT_DOMAIN']);
+        $fullUrl = $fullUrl ?? @$_SERVER['HTTP_X_JC_CURRENT_DOMAIN'] ?? null;
+        return $fullUrl ? Domain::getDomainByFullUrl($fullUrl) : null;
     }
 }

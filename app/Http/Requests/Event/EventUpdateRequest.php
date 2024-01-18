@@ -17,7 +17,7 @@ class EventUpdateRequest extends BaseFormRequest
             'name' => ['required', 'string', 'max:255',],
             'starts_at' => ['nullable', 'string', 'max:255',],
             'ends_at' => ['nullable', 'string', 'max:255',],
-            'duration_in_hours' => ['nullable', 'integer', 'max:255',],
+//            'duration_in_hours' => ['nullable', 'integer', 'max:255',],
             'address' => ['nullable', 'string','max:255',],
             'city' => ['nullable', 'string','max:255',],
             'state' => ['nullable', 'string','max:255',],

@@ -2,11 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{
-    Factories\HasFactory,
-    Model,
-    SoftDeletes,
-};
+use Illuminate\Database\Eloquent\{Casts\Attribute, Factories\HasFactory, Model, SoftDeletes};
 use Abbasudo\Purity\Traits\{
     Filterable,
     Sortable,
@@ -31,6 +27,24 @@ class BaseModel extends Model
         static::deleting(function ($profile) {
             $profile->deleted_by = Auth::id();
         });
+    }
+
+    protected function createdAt (): Attribute {
+        return Attribute::make(
+            get: fn (string|null $value) => !$value?null:\Carbon\Carbon::parse(str_replace('/', '-', $value))->format('d/m/Y H:i')
+        );
+    }
+
+    protected function updatedAt (): Attribute {
+        return Attribute::make(
+            get: fn (string|null $value) => !$value?null:\Carbon\Carbon::parse(str_replace('/', '-', $value))->format('d/m/Y H:i')
+        );
+    }
+
+    protected function deletedAt (): Attribute {
+        return Attribute::make(
+            get: fn (string|null $value) => !$value?null:\Carbon\Carbon::parse(str_replace('/', '-', $value))->format('d/m/Y H:i')
+        );
     }
 
 //    // Definindo a relação belongsTo com o modelo User
