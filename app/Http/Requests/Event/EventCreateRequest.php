@@ -29,7 +29,6 @@ class EventCreateRequest extends BaseFormRequest
             'social_networks' => ['nullable',],
             'description' => ['nullable', 'string',],
             'url_banner_up' => ['nullable', 'file',],
-            'saas_client_id' => ['required', 'integer'],
         ];
     }
 }

@@ -22,7 +22,6 @@ class EventListCreateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255',],
             'description' => ['nullable', 'string',],
             'url_photo' => ['nullable', 'string', 'max:255',],
-            'saas_client_id' => ['required', 'integer'],
         ];
     }
 }

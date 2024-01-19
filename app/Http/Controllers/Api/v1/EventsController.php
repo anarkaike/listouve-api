@@ -43,7 +43,7 @@ class EventsController extends Controller
     public function index()
     {
         try {
-            $events = Event::get();
+            $events = Event::where('saas_client_id', $this->getSaasClientId())->get();
 
             return new ApiSuccessResponse(
                 data: EventCollection::make($events),
@@ -62,6 +62,7 @@ class EventsController extends Controller
             $data['url_banner'] = $this->upload(paramName: 'url_banner', request: $request);
             $data['starts_at'] = $this->formatDateToDb($data['starts_at']);
             $data['ends_at'] = $this->formatDateToDb($data['ends_at']);
+            $data['saas_client_id'] = $this->getSaasClientId();
             $eventCreated = Event::create(attributes: $data);
 
             return new ApiSuccessResponse(

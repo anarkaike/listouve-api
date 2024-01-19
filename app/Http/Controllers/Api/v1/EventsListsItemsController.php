@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Actions\Bi\EventListItemBiAction;
+use App\Models\EventList;
 use App\Models\EventListItem;
 use App\Exceptions\{EventListItem\EventListItemDeleteException,};
 use App\Http\{Collections\EventListItemCollection,
@@ -41,7 +42,13 @@ class EventsListsItemsController extends Controller
     public function index(Request $request)
     {
         try {
-            $eventsListsItems = EventListItem::filter($request->get(key: 'filters'))->get();
+            $eventBuilder = EventListItem::filter($request->get('filters'));
+            if ($request->get('event_list_id')) {
+                $eventBuilder->where('event_list_id', $request->get('event_list_id'));
+            }
+            $eventsListsItems = $eventBuilder
+                ->where('saas_client_id', $this->getSaasClientId())
+                ->get();
 
             return new ApiSuccessResponse(
                 data: EventListItemCollection::make($eventsListsItems),

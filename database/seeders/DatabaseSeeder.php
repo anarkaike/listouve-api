@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
 
     private function addRelationsToSuperAdmin(): void {
         $this->userSuperAdmin->addProfile($this->profiles['adminSaas']['objModel']);
-        $this->userSuperAdmin->addSaasClient($this->saasClientDemos[0]);
+        $this->userSuperAdmin->addSaasClient($this->saasClientDemos[0]['objModel']);
     }
 
     private function createPermissions(): void
@@ -253,29 +253,30 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
             'email_confirmed_at' => fake()->dateTime(),
         ]);
-        $this->saasClientDemos = $saasClientDemos;
 
         $users                  = User::factory(count: 9)->create(['password' => '123456']);
 
         // Criando admins
         foreach ($users as $key => $user) {
             if (in_array($key, [0,1,2])){
-                $user->addProfile($this->profiles['donoEstabelecimento']['objModel'], $this->saasClientDemos[0]['id']);
+                $user->addProfile($this->profiles['donoEstabelecimento']['objModel'], $saasClientDemos[0]->id);
                 $user->addSaasClient($saasClientDemos[0]);
             }
             if (in_array($key, [3,4,5])){
-                $user->addProfile($this->profiles['organizadorFesta']['objModel'], $this->saasClientDemos[1]['id']);
+                $user->addProfile($this->profiles['organizadorFesta']['objModel'], $saasClientDemos[1]->id);
                 $user->addSaasClient($saasClientDemos[1]);
             }
             if (in_array($key, [6,7,8])){
-                $user->addProfile($this->profiles['cerimonialista']['objModel'], $this->saasClientDemos[2]['id']);
+                $user->addProfile($this->profiles['cerimonialista']['objModel'], $saasClientDemos[2]->id);
                 $user->addSaasClient($saasClientDemos[2]);
             }
         }
 
+        $this->saasClientDemos = [];
         // Criando events, listas e nomes nas listas
-        foreach ($this->saasClientDemos as $key => $saasClient) {
-            $this->saasClientDemos['objModel'] = $saasClientDemos[$key];
+        foreach ($saasClientDemos as $key => $saasClient) {
+            $this->saasClientDemos[$key] = $saasClient->toArray();
+            $this->saasClientDemos[$key]['objModel'] = $saasClient;
             if ($key == 0) {
                 $createdBy = rand(1, 3);
             }
@@ -287,21 +288,21 @@ class DatabaseSeeder extends Seeder
             }
 
             for ($e=0; $e<=5; $e++) {
-                $this->saasClientDemos['events'][$e] = Event::factory()->create([
+                $this->saasClientDemos[$key]['events'][$e] = Event::factory()->create([
                     'saas_client_id' => $saasClient['id'],
                     'created_by' => $createdBy
                 ]);
                 for ($el=0; $el<5; $el++) {
-                    $this->saasClientDemos['eventsLists'][$el] = EventList::factory()->create([
+                    $this->saasClientDemos[$key]['eventsLists'][$el] = EventList::factory()->create([
                         'saas_client_id' => $saasClient['id'],
-                        'event_id' => $this->saasClientDemos['events'][$e],
+                        'event_id' => $this->saasClientDemos[$key]['events'][$e]->id,
                         'created_by' => $createdBy
                     ]);
                     for ($eli=0; $eli<10; $eli++) {
-                        $this->saasClientDemos['eventsListsItems'][$eli] = EventListItem::factory()->create([
+                        $this->saasClientDemos[$key]['eventsListsItems'][$eli] = EventListItem::factory()->create([
                             'saas_client_id' => $saasClient['id'],
-                            'event_id' => $this->saasClientDemos['events'][$e],
-                            'event_list_id' => $this->saasClientDemos['eventsLists'][$el],
+                            'event_id' => $this->saasClientDemos[$key]['events'][$e]->id,
+                            'event_list_id' => $this->saasClientDemos[$key]['eventsLists'][$el]->id,
                             'created_by' => $createdBy
                         ]);
                     }

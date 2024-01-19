@@ -46,7 +46,12 @@ class EventsListsController extends Controller
     public function index(Request $request)
     {
         try {
-            $eventsLists = EventList::filter($request->get('filters'))->get();
+            $eventBuilder = EventList::filter($request->get('filters'));
+            if ($request->get('event_id')) {
+                $eventBuilder->where('event_id', $request->get('event_id'));
+            }
+            $eventsLists = $eventBuilder
+                ->where('saas_client_id', $this->getSaasClientId())->get();
 
             return new ApiSuccessResponse(
                 data: EventListCollection::make($eventsLists),
@@ -61,10 +66,12 @@ class EventsListsController extends Controller
     {
         try {
             $data = $request->validationData();
+            $data['url_photo'] = $this->upload(paramName: 'url_photo', request: $request);
+            $data['saas_client_id'] = $this->getSaasClientId();
             $eventList = EventList::create(attributes: $data);
 
             return new ApiSuccessResponse(
-                data: new EventListResource(resource: $eventList),
+                data: $eventList->toArray(),
                 message: trans(key: 'messages.events_lists.create_success')
             );
 
@@ -73,15 +80,17 @@ class EventsListsController extends Controller
         }
     }
 
-    public function update(EventList $eventsList, EventListUpdateRequest $request)
+    public function update(EventList $eventList, EventListUpdateRequest $request)
     {
         try {
             $data = $request->validationData();
-//            $data['updated_values'] = array_diff_assoc($eventsList->toArray(), $data);
-            $eventsList->update(attributes: $data);
+            $data['url_photo'] = $this->upload(paramName: 'url_photo', request: $request);
+            if(!$eventList->update(attributes: $data)){
+                throw new \Exception('Erro ao atualizar');
+            }
 
             return new ApiSuccessResponse(
-                data: new EventListResource(resource: EventList::find(id: $eventsList->id)),
+                data: $eventList->toArray(),
                 message: trans(key: 'messages.events_lists.update_success')
             );
 

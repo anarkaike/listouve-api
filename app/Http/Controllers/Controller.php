@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SaasClient;
 use App\Services\Upload;
 use Illuminate\Http\Request;
 use Illuminate\{
@@ -24,5 +25,9 @@ class Controller extends BaseController
 
     protected function formatDateToDb($date) {
         return \Carbon\Carbon::parse(str_replace('/', '-', $date))->format('Y-m-d H:i:s');
+    }
+
+    protected function getSaasClientId() {
+        return SaasClient::getSaasClientByHeaderVar()?->id;
     }
 }
