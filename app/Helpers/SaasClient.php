@@ -9,6 +9,9 @@ class SaasClient {
     }
 
     static function getSaasClientByHeaderVar() {
+        if (isset($_SERVER['HTTP_X_JC_SAASCLIENT_ID'])) {
+            return \App\Models\SaasClient::where('id', $_SERVER['HTTP_X_JC_SAASCLIENT_ID'])->get()->first();
+        }
         $saasClient = \App\Models\SaasClient::where('domain_front', self::getDomainAccessByHaeder())->get()->first();
         return $saasClient ?? null;
     }

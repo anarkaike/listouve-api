@@ -124,7 +124,7 @@ class DatabaseSeeder extends Seeder
             'adminSaas'            => ['name' => 'Admin SaaS', 'description' => 'Usuário administrador do SaaS'],
             'revendedorSaas'       => ['name' => 'Revendedor SaaS', 'description' => 'Usuário revendedor do SaaS'],
             'donoEstabelecimento'  => ['name' => 'Dono de Estabelecimento', 'description' => 'Usuário dono de estabelecimento de entretenimento como boates e bares.'],
-            'organizadorFesta'     => ['name' => 'Organizador de Festas', 'description' => 'Usuário organizador de festas.'],
+            'produtorDeFestas'     => ['name' => 'Produtor de Festas', 'description' => 'Usuário produtor de festas.'],
             'cerimonialista'        => ['name' => 'Cerimonialista', 'description' => 'Usuário organizador de cerimonias.'],
             'recepcionista'         => ['name' => 'Recepcionista', 'description' => 'Usuário recepcionista de convidados.'],
             'promoter'              => ['name' => 'Promoter', 'description' => 'Usuário promoter de eventos.'],
@@ -172,7 +172,7 @@ class DatabaseSeeder extends Seeder
                             $profile['objModel']->assignPermission($permission['name']);
                         }
                     }
-                    if ($profileName === 'organizadorFesta') {
+                    if ($profileName === 'produtorDeFestas') {
                         if (
                             ($entityName === 'user' && $permissionName !== 'justMine') ||
                             ($entityName === 'event' && $permissionName !== 'justMine') ||
@@ -263,7 +263,7 @@ class DatabaseSeeder extends Seeder
                 $user->addSaasClient($saasClientDemos[0]);
             }
             if (in_array($key, [3,4,5])){
-                $user->addProfile($this->profiles['organizadorFesta']['objModel'], $saasClientDemos[1]->id);
+                $user->addProfile($this->profiles['produtorDeFestas']['objModel'], $saasClientDemos[1]->id);
                 $user->addSaasClient($saasClientDemos[1]);
             }
             if (in_array($key, [6,7,8])){

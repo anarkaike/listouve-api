@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string(column: 'name');
             $table->string(column: 'email')->unique();
             $table->timestamp(column: 'email_verified_at')->nullable();
-            $table->string(column: 'password');
+            $table->string(column: 'password')->nullable();
             $table->rememberToken();
 
+            $table->string(column: 'token_auto_register', length: 32)->default(null)->nullable();
+            $table->timestamp(column: 'token_auto_register_at')->default(null)->nullable();
             $table->string(column: 'phone', length: 30)->nullable();
             $table->string(column: 'url_photo', length: 255)->nullable();
             $table->enum(column: 'status', allowed: ['active', 'inactive', 'blocked'])->default(value: 'active');

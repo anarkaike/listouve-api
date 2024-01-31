@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Actions\Bi\SaasClientBiAction;
 use App\Actions\SaasClientAction;
+use App\Models\Profile;
 use App\Models\SaasClient;
 use App\Models\User;
 use App\Notifications\SaasClientConfirmEmailNotification;
@@ -99,6 +100,19 @@ class SaasClientsController extends Controller
 
             DB::commit();
             $saasClient->users()->attach($user);
+
+            $arrBusinessSectorToProfile = [
+                'bar' => 3, // dono de estabelecimento
+                'boate' => 3, // dono de estabelecimento
+                'produtor_de_festas' => 4, // cerimonialista
+                'cerimonialista' => 5, // cerimonialista
+                'outros' => 3, // dono de estabelecimento
+            ];
+            if (isset($data['business_sector']) && isset($arrBusinessSectorToProfile[$data['business_sector']])) {
+                $profileId = $arrBusinessSectorToProfile[$data['business_sector']];
+                $user->addProfile(Profile::find($profileId), $saasClient->id);
+            }
+
             $saasClient->notify(new SaasClientConfirmEmailNotification(codeEmailValidation: $data['code_email_validation']));
             return new ApiSuccessResponse(
                 data: [

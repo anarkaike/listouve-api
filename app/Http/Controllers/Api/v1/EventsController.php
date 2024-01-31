@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Services\Upload;
-use Illuminate\Support\Facades\Auth;
 use App\Actions\Bi\EventBiAction;
 use App\Models\Event;
 use App\Exceptions\{

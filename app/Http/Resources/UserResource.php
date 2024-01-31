@@ -20,6 +20,8 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'url_photo' => $this->url_photo,
             'status' => $this->status,
+            'token_auto_register' => $this->token_auto_register,
+            'token_auto_register_at' => $this->token_auto_register_at,
             'saas_clients' => $this->saas_clients,
             'saas_client_id' => $this->saas_client_id,
             'saas_client_ids' => $this->saas_client_ids,

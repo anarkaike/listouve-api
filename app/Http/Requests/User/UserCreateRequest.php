@@ -26,6 +26,7 @@ class UserCreateRequest extends BaseFormRequest
             'url_photo_up' => ['nullable', 'file'],
             'status' => ['nullable', new Enum(UserStatusEnum::class)],
             'profiles' => ['nullable'],
+            'auto_register' => ['nullable', 'boolean'],
         ];
     }
 }

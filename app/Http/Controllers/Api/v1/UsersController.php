@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Models\Profile;
 use App\Models\SaasClient;
 use App\Models\User;
+use App\Notifications\LinkAutoRegisterNotification;
 use App\Actions\{
     Bi\UserBiAction,
 };
@@ -48,7 +49,15 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         try {
-            $users = User::all();
+            $builder = User::select('users.*')->join(table: 'saas_client_users', first: 'users.id', operator: '=', second: 'saas_client_users.user_id')
+                ->where(column: 'saas_client_users.saas_client_id', operator: '=', value: $this->getSaasClientId());
+
+            if (is_array($request->get(key: 'profile_ids'))) {
+                $builder
+                    ->join(table: 'user_profiles', first: 'user_profiles.user_id', operator: '=', second: 'users.id')
+                    ->whereIn('user_profiles.profile_id', $request->get(key: 'profile_ids'));
+            }
+            $users = $builder->get();
 
             return new ApiSuccessResponse(
                 data: UserCollection::make($users),
@@ -79,16 +88,16 @@ class UsersController extends Controller
     }
 
     private function updateSaasClientsOfUser($request, $user) {
-        $saasClientsId = $request->get('saas_client_id', null);
-        $currentSaasClients = $user->saasClients()->pluck('saas_clients.id')->toArray();
+        $saasClientsId = $request->get('saas_client_id', $this->getSaasClientId());
         if ($saasClientsId) {
             $user->addSaasClient(SaasClient::where('id', $saasClientsId)->get()[0]);
         }
-        $saasClientsToRemove = array_diff($currentSaasClients, [$saasClientsId]);
-        if (!$saasClientsId || count($saasClientsToRemove) > 0) {
-            foreach ($saasClientsToRemove as $saasClientId)
-                $user->removeSaasClient(SaasClient::where('id', $saasClientId)->get()[0]);
-        }
+//        $currentSaasClients = $user->saasClients()->pluck('saas_clients.id')->toArray();
+//        $saasClientsToRemove = array_diff($currentSaasClients, [$saasClientsId]);
+//        if (!$saasClientsId || count($saasClientsToRemove) > 0) {
+//            foreach ($saasClientsToRemove as $saasClientId)
+//                $user->removeSaasClient(SaasClient::where('id', $saasClientId)->get()[0]);
+//        }
     }
 
     public function store(UserCreateRequest $request)
@@ -96,10 +105,18 @@ class UsersController extends Controller
         try {
             $data = $request->validationData();
             $data['url_photo'] = $this->upload(paramName: 'url_photo', request: $request);
+            if (isset($data['auto_register']) && $data['auto_register']) {
+                $data['token_auto_register'] = md5(date('YmdHis').rand(0,99999));
+                $data['token_auto_register_at'] = date('Y-m-d H:i:s');
+            }
 
             $user = User::create(attributes: $data);
             $this->updateSaasClientsOfUser($request, $user);
             $this->updateProfilesOfUser($request, $user);
+
+            if (isset($data['auto_register']) && $data['auto_register']) {
+                $user->notify(new LinkAutoRegisterNotification());
+            }
 
             return new ApiSuccessResponse(
                 data: new UserResource(User::where('id', $user->id)->get()[0]),

@@ -27,6 +27,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'token_auto_register',
+        'token_auto_register_at',
         'phone',
         'url_photo',
         'status',
