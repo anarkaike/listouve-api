@@ -6,7 +6,7 @@ use App\Http\Responses\ApiErrorResponse;
 use App\Exceptions\BaseException;
 
 
-class UserNotFountException extends BaseException
+class UserNotFoundException extends BaseException
 {
     public function __construct(string $message = null, int $code = 400, \Throwable $previous = null)
     {
